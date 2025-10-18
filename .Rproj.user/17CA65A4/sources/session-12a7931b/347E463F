@@ -3,7 +3,7 @@
     "path": "C:/Users/m_tai/Documents/repos/prob_inf/aula01.qmd",
     "project_path": "aula01.qmd",
     "type": "quarto_markdown",
-    "hash": "4141310707",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1760806599815.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "70,185",
-        "scrollLine": "67"
+        "cursorPosition": "213,0",
+        "scrollLine": "207"
     },
     "folds": "",
-    "lastKnownWriteTime": 1760807792,
+    "lastKnownWriteTime": 1760808479,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1760807793011,
+    "last_content_update": 1760808479,
     "read_only": false,
     "read_only_alternatives": []
 }

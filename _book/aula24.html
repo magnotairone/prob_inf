@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -198,6 +233,11 @@ window.Quarto = {
   <li><a href="#o-framework-da-inferência-do-problema-à-modelagem" id="toc-o-framework-da-inferência-do-problema-à-modelagem" class="nav-link active" data-scroll-target="#o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">2.1</span> O Framework da Inferência: Do Problema à Modelagem</a></li>
   <li><a href="#estimação-pontual-o-melhor-chute-a-partir-dos-dados" id="toc-estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="nav-link" data-scroll-target="#estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">2.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</a></li>
   <li><a href="#o-motor-da-inferência-a-função-de-verossimilhança" id="toc-o-motor-da-inferência-a-função-de-verossimilhança" class="nav-link" data-scroll-target="#o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">2.3</span> O Motor da Inferência: A Função de Verossimilhança</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">2.4</span> Implementação Prática em R</a>
+  <ul class="collapse">
+  <li><a href="#o-problema-e-a-função" id="toc-o-problema-e-a-função" class="nav-link" data-scroll-target="#o-problema-e-a-função"><span class="header-section-number">2.4.1</span> 1. O Problema e a Função</a></li>
+  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r"><span class="header-section-number">2.4.2</span> 2. Implementação em R</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -313,10 +353,93 @@ window.Quarto = {
 <p><strong>d) <span class="math inline">\(X \sim N(\mu, \sigma^2)\)</span>, <span class="math inline">\(\theta = (\mu, \sigma^2)\)</span>, <span class="math inline">\(\mu \in \mathbb{R}, \sigma^2 &gt; 0\)</span></strong> <span class="math display">\[ L(\theta) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x_i - \mu)^2}{2\sigma^2}} = \frac{1}{(2\pi\sigma^2)^{n/2}} e^{-\frac{1}{2\sigma^2} \sum_{i=1}^{n} (x_i - \mu)^2} \]</span> <span class="math display">\[ = \frac{1}{(2\pi)^{n/2}} \frac{1}{(\sigma^2)^{n/2}} \exp\left\{-\frac{1}{2\sigma^2} \sum_{i=1}^{n} (x_i^2 - 2x_i\mu + \mu^2)\right\} \]</span> <span class="math display">\[ = \frac{1}{(2\pi)^{n/2}} \frac{1}{(\sigma^2)^{n/2}} \exp\left\{-\frac{1}{2\sigma^2} \sum_{i=1}^{n} x_i^2 + \frac{\mu}{\sigma^2} \sum_{i=1}^{n} x_i - \frac{n\mu^2}{2\sigma^2}\right\}, \quad \mu \in \mathbb{R}, \sigma^2 &gt; 0. \]</span> <span class="math inline">\(\rightarrow L(\theta)\)</span> envolve a realização de <span class="math inline">\(T_n = (\sum_{i=1}^{n} X_i^2, \sum_{i=1}^{n} X_i)\)</span>.</p>
 </div>
 <blockquote class="blockquote">
-<p><strong>Conexão com Machine Learning:</strong> O processo de “treinar” um modelo de Machine Learning (como uma Regressão Logística ou mesmo uma rede neural para classificação) é, em sua essência, um processo de otimização para encontrar os parâmetros do modelo (<span class="math inline">\(\theta\)</span>) que <strong>maximizam a função de verossimilhança</strong> (ou a log-verossimilhança) para os dados de treinamento. O framework que construímos aqui é a base teórica para a maior parte do aprendizado de máquina supervisionado.</p>
+<p><strong>Conexão com Aprendizagem Estatística:</strong> O processo de “treinar” um modelo de Aprendizagem Estatística (como uma Regressão Logística ou mesmo uma rede neural para classificação) é, em sua essência, um processo de otimização para encontrar os parâmetros do modelo (<span class="math inline">\(\theta\)</span>) que <strong>maximizam a função de verossimilhança</strong> (ou a log-verossimilhança) para os dados de treinamento. O framework que construímos aqui é a base teórica para a maior parte do aprendizado de máquina supervisionado.</p>
 </blockquote>
+</section>
+<section id="implementação-prática-em-r" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">2.4</span> Implementação Prática em R</h2>
+<!-- TODO: verificar este exemplo se faz sentido-->
+<p>Na aula, afirmamos que a nossa estimativa intuitiva para a taxa de cliques (6%) era justificada pelo <strong>Princípio da Máxima Verossimilhança</strong>. Ou seja, de todas as “verdades” possíveis (<span class="math inline">\(\theta_B\)</span>), o valor <span class="math inline">\(0.06\)</span> é o que torna os dados que <em>realmente observamos</em> (<span class="math inline">\(k=30\)</span> cliques em <span class="math inline">\(n=500\)</span> tentativas) os mais prováveis.</p>
+<p>Vamos provar isso visualmente. Em vez de usar cálculo para encontrar o máximo da função, vamos simplesmente “testar” milhares de valores de <span class="math inline">\(\theta_B\)</span> e plotar a pontuação de verossimilhança que cada um recebe.</p>
+<section id="o-problema-e-a-função" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="o-problema-e-a-função"><span class="header-section-number">2.4.1</span> 1. O Problema e a Função</h3>
+<p>Conforme o <strong>Exemplo (a)</strong>, a função de verossimilhança para um processo Bernoulli é:</p>
+<p><span class="math display">\[L(\theta) = \theta^{k} (1-\theta)^{n - k}\]</span></p>
+<p>Onde: * <span class="math inline">\(n = 500\)</span> (visualizações da Versão B) * <span class="math inline">\(k = 30\)</span> (cliques na Versão B)</p>
+<p><strong>Nota Importante:</strong> <span class="math inline">\(L(\theta)\)</span> é um número <em>absurdamente</em> pequeno (ex: <span class="math inline">\(0.06^{30} \times (1-0.06)^{470}\)</span>). Computadores têm dificuldade com números tão próximos de zero. Por isso, na prática, nós <strong>sempre</strong> trabalhamos com a <strong>Log-Verossimilhança</strong> (ou “log-likelihood”).</p>
+<p><span class="math display">\[\ell(\theta) = \log(L(\theta)) = k \cdot \log(\theta) + (n - k) \cdot \log(1-\theta)\]</span></p>
+<p>Encontrar o <span class="math inline">\(\theta\)</span> que maximiza <span class="math inline">\(L(\theta)\)</span> é o mesmo que encontrar o <span class="math inline">\(\theta\)</span> que maximiza <span class="math inline">\(\ell(\theta)\)</span>, mas os números são muito mais estáveis.</p>
+</section>
+<section id="implementação-em-r" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">2.4.2</span> 2. Implementação em R</h3>
+<p>Não precisamos implementar essa função manualmente. O R já a possui: é a função de densidade da distribuição Binomial, <code>dbinom()</code>. Pedindo o logarítmico dela (<code>log = TRUE</code>), obtemos exatamente a log-verossimilhança.</p>
+<p>Vamos: 1. Definir nossos dados observados. 2. Criar um “grid” de hipóteses para <span class="math inline">\(\theta_B\)</span> (ex: de 0.01 a 0.15). 3. Calcular a log-verossimilhança para cada hipótese. 4. Plotar e encontrar o pico.</p>
+<div class="cell" title="Visualizando a Função de Log-Verossimilhança">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># Para criar os gráficos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Nossos dados observados para a Versão B</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>n_B <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>cliques_B <span class="ot">&lt;-</span> <span class="dv">30</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>estimativa_observada <span class="ot">&lt;-</span> cliques_B <span class="sc">/</span> n_B</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Criar um "grid" de hipóteses para a verdadeira taxa de cliques (theta_B)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Vamos testar 1000 valores possíveis entre 1% e 15%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>hipoteses_theta <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.01</span>, <span class="at">to =</span> <span class="fl">0.15</span>, <span class="at">by =</span> <span class="fl">0.0001</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Calcular a log-verossimilhança para cada hipótese</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos dbinom() para calcular a "pontuação" de cada hipótese,</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># dado que observamos 'cliques_B' em 'n_B' tentativas.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># log = TRUE nos dá a log-verossimilhança.</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>log_like <span class="ot">&lt;-</span> <span class="fu">dbinom</span>(<span class="at">x =</span> cliques_B, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                   <span class="at">size =</span> n_B, </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                   <span class="at">prob =</span> hipoteses_theta, </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                   <span class="at">log =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Preparar os dados para plotar</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>df_like <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">theta =</span> hipoteses_theta,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">log_likelihood =</span> log_like</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Encontrar o valor de theta que maximiza a log-verossimilhança</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>theta_max <span class="ot">&lt;-</span> hipoteses_theta[<span class="fu">which.max</span>(log_like)]</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Estimativa Observada (nosso 'chute'):"</span>, estimativa_observada))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Estimativa Observada (nosso 'chute'): 0.06"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">paste</span>(<span class="st">"Estimativa de Máxima Verossimilhança (pico do gráfico):"</span>, theta_max))</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Estimativa de Máxima Verossimilhança (pico do gráfico): 0.06"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 6. Plotar!</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df_like, <span class="fu">aes</span>(<span class="at">x =</span> theta, <span class="at">y =</span> log_likelihood)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Adiciona uma linha vertical no pico encontrado</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> theta_max, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"red"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>             <span class="at">linetype =</span> <span class="st">"dashed"</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"O Princípio da Máxima Verossimilhança na Prática"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="fu">paste</span>(<span class="st">"O pico da curva (vermelho) está em"</span>, <span class="fu">round</span>(theta_max, <span class="dv">2</span>), <span class="st">"que é exatamente a nossa estimativa observada."</span>),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Hipótese sobre a 'Verdadeira' Taxa de Cliques (theta_B)"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Log-Verossimilhança (Pontuação da Hipótese)"</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula24_files/figure-html/visualizando-verossimilhanca-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Como o gráfico demonstra, a função de log-verossimilhança atinge seu valor máximo exatamente em <span class="math inline">\(\theta = 0.06\)</span>.</p>
+<p>Isso confirma nossa intuição: o “melhor chute” para a realidade desconhecida (<span class="math inline">\(\theta_B\)</span>) é, de fato, a média que observamos nos nossos dados. O que fizemos aqui foi validar nosso estimador intuitivo <span class="math inline">\(\hat{\theta} = \bar{X}_n\)</span> usando o rigoroso framework da Máxima Verossimilhança.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

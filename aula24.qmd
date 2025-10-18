@@ -116,7 +116,98 @@ $$ = \frac{1}{(2\pi)^{n/2}} \frac{1}{(\sigma^2)^{n/2}} \exp\left\{-\frac{1}{2\si
 $\rightarrow L(\theta)$ envolve a realização de $T_n = (\sum_{i=1}^{n} X_i^2, \sum_{i=1}^{n} X_i)$.
 :::
 
-> **Conexão com Machine Learning:**
-> O processo de "treinar" um modelo de Machine Learning (como uma Regressão Logística ou mesmo uma rede neural para classificação) é, em sua essência, um processo de otimização para encontrar os parâmetros do modelo ($\theta$) que **maximizam a função de verossimilhança** (ou a log-verossimilhança) para os dados de treinamento. O framework que construímos aqui é a base teórica para a maior parte do aprendizado de máquina supervisionado.
+> **Conexão com Aprendizagem Estatística:**
+> O processo de "treinar" um modelo de Aprendizagem Estatística (como uma Regressão Logística ou mesmo uma rede neural para classificação) é, em sua essência, um processo de otimização para encontrar os parâmetros do modelo ($\theta$) que **maximizam a função de verossimilhança** (ou a log-verossimilhança) para os dados de treinamento. O framework que construímos aqui é a base teórica para a maior parte do aprendizado de máquina supervisionado.
 
+## Implementação Prática em R
+<!-- TODO: verificar este exemplo se faz sentido-->
 
+Na aula, afirmamos que a nossa estimativa intuitiva para a taxa de cliques (6%) era justificada pelo **Princípio da Máxima Verossimilhança**. Ou seja, de todas as "verdades" possíveis ($\theta_B$), o valor $0.06$ é o que torna os dados que *realmente observamos* ($k=30$ cliques em $n=500$ tentativas) os mais prováveis.
+
+Vamos provar isso visualmente. Em vez de usar cálculo para encontrar o máximo da função, vamos simplesmente "testar" milhares de valores de $\theta_B$ e plotar a pontuação de verossimilhança que cada um recebe.
+
+### 1. O Problema e a Função
+
+Conforme o **Exemplo (a)**, a função de verossimilhança para um processo Bernoulli é:
+
+$$L(\theta) = \theta^{k} (1-\theta)^{n - k}$$
+
+Onde:
+* $n = 500$ (visualizações da Versão B)
+* $k = 30$ (cliques na Versão B)
+
+**Nota Importante:** $L(\theta)$ é um número *absurdamente* pequeno (ex: $0.06^{30} \times (1-0.06)^{470}$). Computadores têm dificuldade com números tão próximos de zero. Por isso, na prática, nós **sempre** trabalhamos com a **Log-Verossimilhança** (ou "log-likelihood").
+
+$$\ell(\theta) = \log(L(\theta)) = k \cdot \log(\theta) + (n - k) \cdot \log(1-\theta)$$
+
+Encontrar o $\theta$ que maximiza $L(\theta)$ é o mesmo que encontrar o $\theta$ que maximiza $\ell(\theta)$, mas os números são muito mais estáveis.
+
+### 2. Implementação em R
+
+Não precisamos implementar essa função manualmente. O R já a possui: é a função de densidade da distribuição Binomial, `dbinom()`. Pedindo o logarítmico dela (`log = TRUE`), obtemos exatamente a log-verossimilhança.
+
+Vamos:
+1.  Definir nossos dados observados.
+2.  Criar um "grid" de hipóteses para $\theta_B$ (ex: de 0.01 a 0.15).
+3.  Calcular a log-verossimilhança para cada hipótese.
+4.  Plotar e encontrar o pico.
+
+```{r}
+#| label: visualizando-verossimilhanca
+#| echo: true
+#| title: "Visualizando a Função de Log-Verossimilhança"
+#| message: false
+#| warning: false
+
+library(ggplot2) # Para criar os gráficos
+
+# 1. Nossos dados observados para a Versão B
+n_B <- 500
+cliques_B <- 30
+estimativa_observada <- cliques_B / n_B
+
+# 2. Criar um "grid" de hipóteses para a verdadeira taxa de cliques (theta_B)
+# Vamos testar 1000 valores possíveis entre 1% e 15%
+hipoteses_theta <- seq(from = 0.01, to = 0.15, by = 0.0001)
+
+# 3. Calcular a log-verossimilhança para cada hipótese
+# Usamos dbinom() para calcular a "pontuação" de cada hipótese,
+# dado que observamos 'cliques_B' em 'n_B' tentativas.
+# log = TRUE nos dá a log-verossimilhança.
+log_like <- dbinom(x = cliques_B, 
+                   size = n_B, 
+                   prob = hipoteses_theta, 
+                   log = TRUE)
+
+# 4. Preparar os dados para plotar
+df_like <- data.frame(
+  theta = hipoteses_theta,
+  log_likelihood = log_like
+)
+
+# 5. Encontrar o valor de theta que maximiza a log-verossimilhança
+theta_max <- hipoteses_theta[which.max(log_like)]
+
+print(paste("Estimativa Observada (nosso 'chute'):", estimativa_observada))
+print(paste("Estimativa de Máxima Verossimilhança (pico do gráfico):", theta_max))
+
+# 6. Plotar!
+ggplot(df_like, aes(x = theta, y = log_likelihood)) +
+  geom_line(color = "blue", size = 1) +
+  # Adiciona uma linha vertical no pico encontrado
+  geom_vline(xintercept = theta_max, 
+             color = "red", 
+             linetype = "dashed", 
+             size = 1) +
+  labs(
+    title = "O Princípio da Máxima Verossimilhança na Prática",
+    subtitle = paste("O pico da curva (vermelho) está em", round(theta_max, 2), "que é exatamente a nossa estimativa observada."),
+    x = "Hipótese sobre a 'Verdadeira' Taxa de Cliques (theta_B)",
+    y = "Log-Verossimilhança (Pontuação da Hipótese)"
+  ) +
+  theme_minimal()
+```
+
+Como o gráfico demonstra, a função de log-verossimilhança atinge seu valor máximo exatamente em $\theta = 0.06$.
+
+Isso confirma nossa intuição: o "melhor chute" para a realidade desconhecida ($\theta_B$) é, de fato, a média que observamos nos nossos dados. O que fizemos aqui foi validar nosso estimador intuitivo $\hat{\theta} = \bar{X}_n$ usando o rigoroso framework da Máxima Verossimilhança.

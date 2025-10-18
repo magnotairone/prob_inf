@@ -1,4 +1,4 @@
-## 24 Introdução: O Dilema do Teste A/B
+# 24 Introdução: O Dilema do Teste A/B
 
 Imagine que você é um Cientista de Dados em uma empresa de e-commerce. O time de design propõe um novo botão de "Comprar" (Versão B), com uma cor diferente, alegando que ele aumentará a taxa de cliques em relação ao botão atual (Versão A).
 
@@ -126,13 +126,12 @@ Na aula, afirmamos que a nossa estimativa intuitiva para a taxa de cliques (6%) 
 
 Vamos provar isso visualmente. Em vez de usar cálculo para encontrar o máximo da função, vamos simplesmente "testar" milhares de valores de $\theta_B$ e plotar a pontuação de verossimilhança que cada um recebe.
 
-### 1. O Problema e a Função
-
 Conforme o **Exemplo (a)**, a função de verossimilhança para um processo Bernoulli é:
 
 $$L(\theta) = \theta^{k} (1-\theta)^{n - k}$$
 
 Onde:
+
 * $n = 500$ (visualizações da Versão B)
 * $k = 30$ (cliques na Versão B)
 
@@ -141,8 +140,6 @@ Onde:
 $$\ell(\theta) = \log(L(\theta)) = k \cdot \log(\theta) + (n - k) \cdot \log(1-\theta)$$
 
 Encontrar o $\theta$ que maximiza $L(\theta)$ é o mesmo que encontrar o $\theta$ que maximiza $\ell(\theta)$, mas os números são muito mais estáveis.
-
-### 2. Implementação em R
 
 Não precisamos implementar essa função manualmente. O R já a possui: é a função de densidade da distribuição Binomial, `dbinom()`. Pedindo o logarítmico dela (`log = TRUE`), obtemos exatamente a log-verossimilhança.
 

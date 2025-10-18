@@ -2,3 +2,10 @@
 
 Notas de aula de um curso de Probabilidade e Inferência para Ciência de Dados.
 Baseado nas notas de aula do curso MAE5702 do professor Felipe de Queiroz, a quem agradeço pela gentil disponibilização do material.
+
+```{r}
+#| echo: false
+#| include: false
+library(tidyverse)
+```
+

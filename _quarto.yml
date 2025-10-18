@@ -15,6 +15,8 @@ book:
       chapters:
         - aula01.qmd
         - aula02.qmd
+        - aula03.qmd
+        - aula04.qmd
     
     - part: 020_inferencia.qmd
       chapters:
@@ -39,6 +41,6 @@ crossref:
   def-prefix: "Definição"
   exm-prefix: "Exemplo"
   prp-prefix: "Proposição"
-
+  thm-prefix: "Teorema"
 
 

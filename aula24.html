@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -239,7 +239,11 @@ window.Quarto = {
   <li><a href="#o-framework-da-inferência-do-problema-à-modelagem" id="toc-o-framework-da-inferência-do-problema-à-modelagem" class="nav-link active" data-scroll-target="#o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">3.1</span> O Framework da Inferência: Do Problema à Modelagem</a></li>
   <li><a href="#estimação-pontual-o-melhor-chute-a-partir-dos-dados" id="toc-estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="nav-link" data-scroll-target="#estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">3.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</a></li>
   <li><a href="#o-motor-da-inferência-a-função-de-verossimilhança" id="toc-o-motor-da-inferência-a-função-de-verossimilhança" class="nav-link" data-scroll-target="#o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">3.3</span> O Motor da Inferência: A Função de Verossimilhança</a></li>
-  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">3.4</span> Implementação Prática em R</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">3.4</span> Implementação Prática em R</a>
+  <ul class="collapse">
+  <li><a href="#o-problema-e-a-função" id="toc-o-problema-e-a-função" class="nav-link" data-scroll-target="#o-problema-e-a-função"><span class="header-section-number">3.4.1</span> 1. O Problema e a Função</a></li>
+  <li><a href="#implementação-em-r" id="toc-implementação-em-r" class="nav-link" data-scroll-target="#implementação-em-r"><span class="header-section-number">3.4.2</span> 2. Implementação em R</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -363,16 +367,17 @@ window.Quarto = {
 <!-- TODO: verificar este exemplo se faz sentido-->
 <p>Na aula, afirmamos que a nossa estimativa intuitiva para a taxa de cliques (6%) era justificada pelo <strong>Princípio da Máxima Verossimilhança</strong>. Ou seja, de todas as “verdades” possíveis (<span class="math inline">\(\theta_B\)</span>), o valor <span class="math inline">\(0.06\)</span> é o que torna os dados que <em>realmente observamos</em> (<span class="math inline">\(k=30\)</span> cliques em <span class="math inline">\(n=500\)</span> tentativas) os mais prováveis.</p>
 <p>Vamos provar isso visualmente. Em vez de usar cálculo para encontrar o máximo da função, vamos simplesmente “testar” milhares de valores de <span class="math inline">\(\theta_B\)</span> e plotar a pontuação de verossimilhança que cada um recebe.</p>
+<section id="o-problema-e-a-função" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="o-problema-e-a-função"><span class="header-section-number">3.4.1</span> 1. O Problema e a Função</h3>
 <p>Conforme o <strong>Exemplo (a)</strong>, a função de verossimilhança para um processo Bernoulli é:</p>
 <p><span class="math display">\[L(\theta) = \theta^{k} (1-\theta)^{n - k}\]</span></p>
-<p>Onde:</p>
-<ul>
-<li><span class="math inline">\(n = 500\)</span> (visualizações da Versão B)</li>
-<li><span class="math inline">\(k = 30\)</span> (cliques na Versão B)</li>
-</ul>
+<p>Onde: * <span class="math inline">\(n = 500\)</span> (visualizações da Versão B) * <span class="math inline">\(k = 30\)</span> (cliques na Versão B)</p>
 <p><strong>Nota Importante:</strong> <span class="math inline">\(L(\theta)\)</span> é um número <em>absurdamente</em> pequeno (ex: <span class="math inline">\(0.06^{30} \times (1-0.06)^{470}\)</span>). Computadores têm dificuldade com números tão próximos de zero. Por isso, na prática, nós <strong>sempre</strong> trabalhamos com a <strong>Log-Verossimilhança</strong> (ou “log-likelihood”).</p>
 <p><span class="math display">\[\ell(\theta) = \log(L(\theta)) = k \cdot \log(\theta) + (n - k) \cdot \log(1-\theta)\]</span></p>
 <p>Encontrar o <span class="math inline">\(\theta\)</span> que maximiza <span class="math inline">\(L(\theta)\)</span> é o mesmo que encontrar o <span class="math inline">\(\theta\)</span> que maximiza <span class="math inline">\(\ell(\theta)\)</span>, mas os números são muito mais estáveis.</p>
+</section>
+<section id="implementação-em-r" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="implementação-em-r"><span class="header-section-number">3.4.2</span> 2. Implementação em R</h3>
 <p>Não precisamos implementar essa função manualmente. O R já a possui: é a função de densidade da distribuição Binomial, <code>dbinom()</code>. Pedindo o logarítmico dela (<code>log = TRUE</code>), obtemos exatamente a log-verossimilhança.</p>
 <p>Vamos: 1. Definir nossos dados observados. 2. Criar um “grid” de hipóteses para <span class="math inline">\(\theta_B\)</span> (ex: de 0.01 a 0.15). 3. Calcular a log-verossimilhança para cada hipótese. 4. Plotar e encontrar o pico.</p>
 <div class="cell" title="Visualizando a Função de Log-Verossimilhança">
@@ -440,6 +445,7 @@ window.Quarto = {
 <p>Isso confirma nossa intuição: o “melhor chute” para a realidade desconhecida (<span class="math inline">\(\theta_B\)</span>) é, de fato, a média que observamos nos nossos dados. O que fizemos aqui foi validar nosso estimador intuitivo <span class="math inline">\(\hat{\theta} = \bar{X}_n\)</span> usando o rigoroso framework da Máxima Verossimilhança.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

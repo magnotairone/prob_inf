@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -238,6 +238,11 @@ window.Quarto = {
   <ul>
   <li><a href="#um-espaço-de-probabilidade" id="toc-um-espaço-de-probabilidade" class="nav-link active" data-scroll-target="#um-espaço-de-probabilidade"><span class="header-section-number">2.1</span> Um Espaço de Probabilidade</a></li>
   <li><a href="#sigma-algebra-gerada" id="toc-sigma-algebra-gerada" class="nav-link" data-scroll-target="#sigma-algebra-gerada"><span class="header-section-number">2.2</span> <span class="math inline">\(\sigma\)</span>-algebra Gerada</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">2.3</span> Implementação Prática em R</a>
+  <ul class="collapse">
+  <li><a href="#espaço-amostral-finito-segmentação-de-clientes" id="toc-espaço-amostral-finito-segmentação-de-clientes" class="nav-link" data-scroll-target="#espaço-amostral-finito-segmentação-de-clientes"><span class="header-section-number">2.3.1</span> Espaço Amostral Finito: Segmentação de Clientes</a></li>
+  <li><a href="#eventos-como-subconjuntos-de-um-data-frame" id="toc-eventos-como-subconjuntos-de-um-data-frame" class="nav-link" data-scroll-target="#eventos-como-subconjuntos-de-um-data-frame"><span class="header-section-number">2.3.2</span> Eventos como Subconjuntos de um Data Frame</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -294,6 +299,17 @@ window.Quarto = {
 <li>Uma classe de subconjuntos de <span class="math inline">\(\Omega\)</span>, denotada aqui por <span class="math inline">\(\mathcal{F}\)</span>, chamados de <strong>eventos aleatórios</strong>. São os conjuntos de <span class="math inline">\(\mathcal{F}\)</span> que gostaríamos de “medir” (atribuir probabilidade).</li>
 <li>Uma função <span class="math inline">\(\mathbb{P}\)</span> que associa a cada evento aleatório em <span class="math inline">\(\mathcal{F}\)</span> um número real, chamada <strong>probabilidade</strong> ou <strong>medida de probabilidade</strong>.</li>
 </ol>
+<blockquote class="blockquote">
+<p><strong>Perspectiva de Data Science: O Data Frame como Espaço Amostral</strong></p>
+<p>Como podemos traduzir esses conceitos para o nosso dia a dia?</p>
+<ul>
+<li><strong><span class="math inline">\(\Omega\)</span> (Espaço Amostral):</strong> Pense em <span class="math inline">\(\Omega\)</span> como o seu <strong>data frame ou tabela inteira</strong> (<code>df</code>). É o universo de todas as observações possíveis que seu experimento (coleta de dados) poderia gerar.</li>
+<li><strong><span class="math inline">\(\omega\)</span> (Resultado):</strong> Um <span class="math inline">\(\omega\)</span> (um elemento de <span class="math inline">\(\Omega\)</span>) é uma <strong>única linha</strong> do seu data frame. Pode ser um usuário (<code>user_id = 123</code>), uma transação (<code>transaction_id = 9A8B</code>), ou uma sessão de site.</li>
+<li><strong><span class="math inline">\(A\)</span> (Evento):</strong> Um evento <span class="math inline">\(A\)</span> (um subconjunto de <span class="math inline">\(\Omega\)</span>) é o resultado de uma <strong>consulta (<code>query</code>) ou filtro (<code>subset</code>)</strong> que você aplica ao seu data frame.</li>
+</ul>
+<p>Por exemplo: * <code>df[df$segmento == "VIP", ]</code> é o evento <span class="math inline">\(A = \text{"Clientes VIP"}\)</span>. * <code>df[df$clicou == 1 &amp; df$pais == "BR", ]</code> é o evento <span class="math inline">\(B \cap C\)</span>, onde <span class="math inline">\(B = \text{"Clicou"}\)</span> e <span class="math inline">\(C = \text{"Brasil"}\)</span>.</p>
+<p>A Teoria da Probabilidade nos dá as regras formais para calcular o “tamanho” (a probabilidade) desses subconjuntos.</p>
+</blockquote>
 <p>Gostaríamos, em princípio, de atribuir probabilidade a qualquer subconjunto de <span class="math inline">\(\Omega\)</span>, isto é, considerar <span class="math inline">\(\mathcal{F}=\mathcal{P}(\Omega)\)</span> (conjunto das partes de <span class="math inline">\(\Omega\)</span>).</p>
 <p>Se <span class="math inline">\(\Omega\)</span> for finito ou infinito enumerável, isso é possível. Se <span class="math inline">\(\Omega\)</span> for não enumerável, por ex. <span class="math inline">\(\Omega=\mathbb{R}^{2}\)</span>, existem subconjuntos de <span class="math inline">\(\Omega\)</span> aos quais não é possível “medir” (veja, por ex. Rolla &amp; Lima, Problema da Agulha de Buffon, p.&nbsp;27).</p>
 <p>Ideia: Restringir <span class="math inline">\(\mathcal{F}\)</span>.</p>
@@ -306,6 +322,25 @@ window.Quarto = {
 <li>Se <span class="math inline">\(A_{1}, A_{2}, ... \in \mathcal{F} \Rightarrow \bigcup_{n=1}^{\infty} A_{n} \in \mathcal{F}\)</span>.</li>
 </ol>
 </div>
+<blockquote class="blockquote">
+<p><strong>Perspectiva de Data Science: A <span class="math inline">\(\sigma\)</span>-álgebra como o <em>Schema</em> dos Dados</strong></p>
+<p>O conceito de <span class="math inline">\(\sigma\)</span>-álgebra (<span class="math inline">\(\mathcal{F}\)</span>) é um dos mais abstratos, mas tem uma analogia prática: pense em <span class="math inline">\(\mathcal{F}\)</span> como as <strong>“perguntas que o seu <em>schema</em> de dados permite fazer”</strong>.</p>
+<p>O <span class="math inline">\(\mathcal{F}\)</span> define quais eventos são “mensuráveis”. Em Data Science, isso é definido pelas <em>features</em> (colunas) que você coletou.</p>
+<ul>
+<li>Se seu data frame <span class="math inline">\(\Omega\)</span> tem colunas <code>idade</code> e <code>genero</code>, sua <span class="math inline">\(\sigma\)</span>-álgebra <span class="math inline">\(\mathcal{F}\)</span> permite “medir” (filtrar, agrupar, calcular probabilidades) eventos como “clientes com mais de 30 anos” (<span class="math inline">\(A\)</span>) ou “clientes do gênero feminino” (<span class="math inline">\(B\)</span>).</li>
+<li>As propriedades da <span class="math inline">\(\sigma\)</span>-álgebra garantem que você também pode medir combinações:
+<ul>
+<li><ol start="2" type="i">
+<li><code>NOT</code> <span class="math inline">\(A\)</span>: “clientes com 30 anos ou menos” (<span class="math inline">\(A^c\)</span>).</li>
+</ol></li>
+<li><ol start="3" type="i">
+<li><span class="math inline">\(A \cup B\)</span>: “clientes com mais de 30 anos <strong>OU</strong> femininos”.</li>
+</ol></li>
+<li>(Prop. 1.1) <span class="math inline">\(A \cap B\)</span>: “clientes femininos com mais de 30 anos”.</li>
+</ul></li>
+</ul>
+<p>Se uma <em>feature</em> não foi coletada (ex: <code>renda</code>), eventos como “clientes com renda &gt; 10k” <strong>não estão</strong> em <span class="math inline">\(\mathcal{F}\)</span>. Não podemos medir sua probabilidade porque essa informação não existe no nosso espaço. A <span class="math inline">\(\sigma\)</span>-álgebra é, portanto, o conjunto de todas as <em>queries</em> que podemos construir a partir das colunas disponíveis.</p>
+</blockquote>
 <div id="exm-sigma-partes" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 2.3 (Exemplo 1.3)</strong></span> <span class="math inline">\(\Omega \neq \emptyset\)</span> qualquer. <span class="math inline">\(\mathcal{F}=\mathcal{P}(\Omega)=\{A:A\subseteq\Omega\}\)</span> é <span class="math inline">\(\sigma\)</span>-algebra (maior <span class="math inline">\(\sigma\)</span>-algebra).</p>
 <p>De fato, <span class="math inline">\(\mathcal{P}(\Omega)\)</span> é uma <span class="math inline">\(\sigma\)</span>-álgebra (maior <span class="math inline">\(\sigma\)</span>-álgebra):</p>
@@ -364,6 +399,8 @@ window.Quarto = {
 <p>A <span class="math inline">\(\sigma(\mathcal{C})\)</span> é chamada de <strong><span class="math inline">\(\sigma\)</span>-álgebra de Borel</strong> em <span class="math inline">\(\mathbb{R}\)</span>.</p>
 <p>Notação: <span class="math inline">\(\sigma(\mathcal{C}) = \mathcal{B}(\mathbb{R}) = \mathcal{B}\)</span>.</p>
 <p>Se <span class="math inline">\(B \in \mathcal{B}(\mathbb{R})\)</span>, dizemos que B é um <strong>Boreliano</strong>. (será o domínio da função de probabilidade).</p>
+</div>
+</section>
 <section id="implementação-prática-em-r" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">2.3</span> Implementação Prática em R</h2>
 <p>Nesta seção, ilustramos os conceitos de Espaço Amostral (<span class="math inline">\(\Omega\)</span>) e Eventos (<span class="math inline">\(\mathcal{F}\)</span>) usando R. Em ciência de dados, frequentemente lidamos com <span class="math inline">\(\Omega\)</span> como o conjunto de todas as observações (linhas) em um <em>dataset</em>.</p>
@@ -476,11 +513,9 @@ window.Quarto = {
 </div>
 </div>
 <p>Este exercício mostra como as operações teóricas de <span class="math inline">\(\sigma\)</span>-álgebra (complemento, união, interseção) são mapeadas diretamente para as operações de filtro (E/OU/NÃO) que usamos diariamente em R (e SQL) para análise de dados.</p>
-</section>
-</section>
-</div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

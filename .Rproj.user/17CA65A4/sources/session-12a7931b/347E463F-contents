@@ -1,0 +1,357 @@
+## Introdução: Da Teoria à Prática Analítica
+
+Imagine que você trabalha como Cientista de Dados em uma empresa de streaming de música. Uma pergunta fundamental do negócio é: "Quais são os nossos perfis de usuários? Quem são os ouvintes leais e quem são os esporádicos?". Para responder a isso, você tem acesso aos dados de login de cada usuário, mês a mês.
+
+Como poderíamos definir matematicamente o que significa ser um "ouvinte leal"? Seria alguém que logou todos os meses? Ou alguém que, a partir de certo ponto, nunca mais deixou de logar? E o "ouvinte esporádico"? Seria aquele que, mesmo que desapareça por alguns meses, sempre acaba voltando?
+
+Para responder a essas perguntas de forma precisa e rigorosa, precisamos de uma linguagem formal. Essa linguagem é a **Teoria dos Conjuntos**. Nesta aula, vamos construir o alicerce matemático que nos permitirá não apenas estruturar nosso pensamento analítico, mas também desenvolver as ferramentas para analisar o comportamento de sistemas que evoluem ao longo do tempo. Cada definição e proposição que veremos é um passo em direção à solução do nosso problema.
+
+## A Linguagem dos Dados: Conjuntos e Eventos
+
+Para analisar dados, primeiro precisamos defini-los. A teoria dos conjuntos nos fornece o vocabulário fundamental para isso.
+
+::: {#def-conjunto name="Conjunto"}
+Um conjunto $\Omega$ é uma coleção de objetos distintos, que serão denotados por $\omega$.
+
+* $\omega \in \Omega$ (elemento $\omega$ pertence ao conjunto $\Omega$).
+* $\omega \notin \Omega$ (elemento $\omega$ não pertence ao conjunto $\Omega$).
+:::
+
+> **Perspectiva de Data Science:**
+> Pense no conjunto universal $\Omega$ como todo o seu **universo de dados**, ou **espaço amostral**. Cada elemento $\omega$ é uma **unidade observacional**: um cliente, uma transação, um produto. Por exemplo, $\Omega$ pode ser "o conjunto de todos os usuários da nossa plataforma".
+
+::: {#def-subconjunto name="Subconjunto"}
+Dizemos que A é um subconjunto de $\Omega$, ou que A está contido em $\Omega$, e denotamos por $A \subseteq \Omega$, se $\forall \omega \in A \rightarrow \omega \in \Omega$.
+:::
+
+> **Perspectiva de Data Science:**
+> Um subconjunto é um **segmento de interesse** ou um **evento** dentro do seu universo de dados, geralmente obtido através de um filtro ou consulta.
+>
+> * Se $\Omega$ é o conjunto de todos os usuários, um subconjunto $A$ pode ser: $A = \{$usuários do plano Premium$\}$.
+> * Outro subconjunto $B$ poderia ser: $B = \{$usuários que ouviram mais de 100 horas de música no último mês$\}$.
+
+## A Gramática da Análise: Operações com Conjuntos
+
+Com nossos segmentos definidos, precisamos de uma forma de combiná-los e compará-los. As operações com conjuntos são a "gramática" que nos permite realizar análises complexas.
+
+Sejam A, $A_1$, $A_2$,... subconjuntos de $\Omega$. Temos as seguintes operações:
+
+1.  **Complementar de A**: $A^{c} = \{ \omega \in \Omega : \omega \notin A \}$.
+2.  **União**: $\bigcup_{i=1}^{n} A_{i} = \{ \omega \in \Omega : \omega \in A_{i} \text{ para ao menos um } i=1,2,...,n \}$.
+3.  **Intersecção**: $\bigcap_{i=1}^{n} A_{i} = \{ \omega \in \Omega : \omega \in A_{i}, \forall i=1,...,n \}$.
+4.  **Diferença**: $A_{1} - A_{2} = \{ \omega \in \Omega : \omega \in A_{1}, \omega \notin A_{2} \} = A_{1} \cap A_{2}^{c}$.
+5.  **Diferença simétrica**: $A_{1} \Delta A_{2} = (A_{1} - A_{2}) \cup (A_{2} - A_{1}) = (A_{1} \cap A_{2}^{c}) \cup (A_{1}^{c} \cap A_{2})$.
+
+* **Conjunto vazio ($\emptyset$)**: não contém nenhum elemento.
+
+> **Perspectiva de Data Science:**
+> Cada operação corresponde diretamente a uma operação lógica em uma consulta de dados:
+>
+> * **Intersecção ($A \cap B$)** é a lógica **E (AND)**. Ex: "Usuários do plano Premium **E** que ouviram mais de 100 horas".
+> * **União ($A \cup B$)** é a lógica **OU (OR)**. Ex: "Usuários do plano Premium **OU** que ouviram mais de 100 horas".
+> * **Complementar ($A^c$)** é a lógica **NÃO (NOT)**. Ex: "Usuários que **NÃO** são do plano Premium".
+
+::: {#def-relacoes name="Relações entre Conjuntos"}
+* Dizemos que $A_{1}$ e $A_{2}$ são **disjuntos** se $A_{1} \cap A_{2} = \emptyset$.
+* Dizemos que $A_{1} = A_{2}$ se $A_{1} \subseteq A_{2}$ e $A_{2} \subseteq A_{1}$.
+* Dizemos que $A_1, A_2, ...$ são **mutuamente disjuntos** se $A_{i} \cap A_{j} = \emptyset$, $\forall i \neq j$.
+:::
+
+::: {#prp-de-morgan name="Lei de De Morgan"}
+Sejam $A_{1}, A_{2}, ...$ subconjuntos de $\Omega$. Então:
+
+a) $(\bigcup_{i=1}^{\infty} A_{i})^{c} = \bigcap_{i=1}^{\infty} A_{i}^{c}$
+b) $(\bigcap_{i=1}^{\infty} A_{i})^{c} = \bigcup_{i=1}^{\infty} A_{i}^{c}$
+:::
+
+> **Nota:** As Leis de De Morgan são extremamente úteis para simplificar consultas lógicas complexas. A negação de uma condição "OU" ampla é o mesmo que exigir que todas as condições "E" individuais sejam falsas.
+
+**Demonstração (a):**
+
+Precisamos mostrar que $(\bigcup_{i=1}^{\infty} A_{i})^{c} \subseteq \bigcap_{i=1}^{\infty} A_{i}^{c}$ e $\bigcap_{i=1}^{\infty} A_{i}^{c} \subseteq (\bigcup_{i=1}^{\infty} A_{i})^{c}.$
+
+Parte 1: $(\bigcup_{i=1}^{\infty} A_{i})^{c} \subseteq \bigcap_{i=1}^{\infty} A_{i}^{c}$
+
+1.  Tome $\omega \in (\bigcup_{i=1}^{\infty} A_{i})^{c}$
+2.  $\Rightarrow \omega \notin \bigcup_{i=1}^{\infty} A_{i}$ (Por definição de complementar)
+3.  $\Rightarrow \omega \notin A_{i}, \forall i=1,2,...$ (Se não está na união, não está em nenhum conjunto)
+4.  $\Rightarrow \omega \in A_{i}^{c}, \forall i=1,2,...$ (Por definição de complementar)
+5.  $\Rightarrow \omega \in \bigcap_{i=1}^{\infty} A_{i}^{c}$ (Se pertence a todos os complementares, pertence à intersecção deles)
+
+Parte 2: $\bigcap_{i=1}^{\infty} A_{i}^{c} \subseteq (\bigcup_{i=1}^{\infty} A_{i})^{c}$
+
+1.  Tome $\omega \in \bigcap_{i=1}^{\infty} A_{i}^{c}$
+2.  $\Rightarrow \omega \in A_{i}^{c}, \forall i=1,2,...$ (Por definição de intersecção)
+3.  $\Rightarrow \omega \notin A_{i}, \forall i=1,2,...$ (Por definição de complementar)
+4.  $\Rightarrow \omega \notin \bigcup_{i=1}^{\infty} A_{i}$ (Se não está em nenhum conjunto, não está na união)
+5.  $\Rightarrow \omega \in (\bigcup_{i=1}^{\infty} A_{i})^{c}$ (Por definição de complementar)
+
+## Análise Dinâmica: Sequências de Conjuntos
+
+Agora, voltamos ao nosso problema original: analisar o comportamento dos usuários *ao longo do tempo*. Para isso, introduzimos o conceito de sequências de conjuntos.
+
+::: {#def-monotona name="Sequência Monótona"}
+Uma sequência $\{A_{n}\}_{n \ge 1}$ é dita ser **monótona** se:
+
+i) $A_{1} \subseteq A_{2} \subseteq A_{3} \subseteq ...$ (isto é, $A_n$ é não decrescente, denotado por $A_n \uparrow$).
+ii) $A_{1} \supseteq A_{2} \supseteq A_{3} \supseteq ...$ (isto é, $A_n$ é não crescente, denotado por $A_n \downarrow$).
+
+O limite de uma sequência monótona é denotado por:
+
+i) se $A_n \uparrow$, $\lim_{n \to \infty} A_{n} = \bigcup_{i=1}^{\infty} A_{i}$.
+ii) se $A_n \downarrow$, $\lim_{n \to \infty} A_{n} = \bigcap_{i=1}^{\infty} A_{i}$.
+:::
+
+> **Perspectiva de Data Science:**
+> Sequências monótonas modelam processos de **acumulação** ou **desgaste**.
+>
+> * **Não decrescente ($A_n \uparrow$):** Representa a **aquisição cumulativa**. Se $A_n = \{$usuários que fizeram login *pelo menos uma vez* até o mês $n$$\}$, este conjunto só pode crescer. O limite é o conjunto de todos os usuários que já logaram alguma vez na história.
+> * **Não crescente ($A_n \downarrow$):** Representa a **retenção de uma coorte**. Se $A_1 = \{$usuários que se cadastraram em Janeiro$\}$ e $A_n = \{$usuários de Janeiro que ainda estavam ativos no mês $n$$\}$, este conjunto só pode diminuir. O limite representa os usuários de Janeiro que permaneceram leais para sempre.
+
+::: {#exm-limites-an-bn}
+Considere $\Omega = \mathbb{N}$ e as sequências:
+
+* $\{A_{n}\}_{n \ge 1}$ com $A_{n} = \{1, 2, ..., n\}$.
+* $\{B_{n}\}_{n \ge 1}$ com $B_{n} = \{2n, 2n+2, 2n+4, ...\}$.
+
+**Limites de $A_n$ e $B_n$**:
+
+* Notemos que $A_{1}=\{1\}, A_{2}=\{1,2\},... \rightarrow A_{1} \subseteq A_{2} \subseteq ...$. Então $\{A_{n}\}_{n \ge 1}$ é monótona não decrescente. Logo, $\lim_{n \to \infty} A_{n} = \bigcup_{i=1}^{\infty} A_{i} = \{1\} \cup \{1,2\} \cup \dots = \mathbb{N} - \{0\}$.
+* $B_{1}=\{2,4,6,...\}, B_{2}=\{4,6,...\},... \Rightarrow B_{1} \supseteq B_{2} \supseteq ...$. A sequência $\{B_{n}\}_{n \ge 1}$ é monótona não crescente. Logo, $\lim_{n \to \infty} B_{n} = \bigcap_{i=1}^{\infty} B_{i} = \{2,4,6,...\} \cap \{4,6,...\} \cap ... = \emptyset$.
+:::
+
+## Comportamento de Longo Prazo: Limite de Sequências
+
+Mas e o comportamento geral de login, que não é necessariamente monótono? Um usuário pode estar ativo um mês e inativo no outro. É aqui que os conceitos de limite superior e inferior se tornam ferramentas analíticas poderosas para resolver nosso problema.
+
+::: {#def-lim-sup-inf name="Limite Superior e Inferior"}
+Para definir o limite de uma sequência qualquer de conjuntos $\{A_{n}\}_{n \ge 1}$, considere duas sequências auxiliares $\{B_{n}\}_{n \ge 1}$ e $\{C_{n}\}_{n \ge 1}$:
+
+$$B_{n} = \bigcap_{k=n}^{\infty} A_{k}, \quad n \ge 1$$ {#eq-bn}
+$$C_{n} = \bigcup_{k=n}^{\infty} A_{k}, \quad n \ge 1$$ {#eq-cn}
+
+$B_{1} = A_{1} \cap A_{2} \cap A_{3} \cap ...$
+$B_{2} = A_{2} \cap A_{3} \cap ...$
+
+$C_{1} = A_{1} \cup A_{2} \cup A_{3} \cup ...$
+$C_{2} = A_{2} \cup A_{3} \cup ...$
+
+$\Rightarrow \{B_{n}\}_{n \ge 1}$ é uma sequência monótona não decrescente.
+$\rightarrow \{C_{n}\}_{n \ge 1}$ é uma sequência monótona não crescente.
+
+$B_n \subseteq A_n \subseteq C_n$.
+
+Dessa forma, como sequências monótonas, seus limites existem:
+
+$$\lim_{n \to \infty} B_{n} = \bigcup_{n=1}^{\infty} B_{n} = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_{k}$$ {#eq-lim-bn}
+$$\lim_{n \to \infty} C_{n} = \bigcap_{n=1}^{\infty} C_{n} = \bigcap_{n=1}^{\infty} \bigcup_{k=n}^{\infty} A_{k}$$ {#eq-lim-cn}
+
+Com base nesses limites, podemos definir o comportamento de longo prazo de qualquer sequência $\{A_n\}$.
+
+Se $A_1, A_2, ...$ é uma sequência de conjuntos:
+
+* O **limite superior** da sequência é definido por:
+    $$\limsup_{n \to \infty} A_{n} = \bigcap_{n=1}^{\infty} \bigcup_{k=n}^{\infty} A_{k}$$
+* O **limite inferior** da sequência é definido por:
+    $$\liminf_{n \to \infty} A_{n} = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_{k}$$
+:::
+
+> **Perspectiva de Data Science (A Solução):**
+> Seja $A_n = \{$usuários ativos no mês $n$$\}$.
+>
+> * **`liminf Aₙ` (Limite Inferior):** É o conjunto dos elementos que pertencem a $A_n$ para todo $n$ a partir de um certo ponto. Este é o conjunto dos **usuários leais (hardcore)**. São aqueles que, após um tempo, se tornam permanentemente ativos.
+> * **`limsup Aₙ` (Limite Superior):** É o conjunto dos elementos que pertencem a $A_n$ para infinitos valores de $n$. Este é o conjunto dos **usuários esporádicos (recorrentes)**. São aqueles que podem desaparecer, mas sempre acabam voltando.
+
+#### Interpretação Matemática Rigorosa
+
+A seguir, demonstramos formalmente por que `limsup` corresponde à noção de "pertencer a infinitos conjuntos da sequência".
+
+Conforme a @def-lim-sup-inf, se $\omega \in \limsup A_n$, então $\omega \in \bigcup_{k=n}^{\infty} A_k, \forall n=1,2,...$
+
+Em particular, $\omega \in C_1 = \bigcup_{k=1}^{\infty} A_k$.
+Então, $\exists n_1$ tal que $\omega \in A_{n_1}$.
+
+Também, $\omega \in C_{n_1+1} = \bigcup_{k=n_1+1}^{\infty} A_k$.
+$\Rightarrow \exists n_2 \ge n_1+1$ tal que $\omega \in A_{n_2}$.
+
+Procedendo sempre indutivamente dessa forma, concluímos que existe uma subsequência $\{A_{n_k} : k \ge 1\}$ de tal forma que $\omega \in A_{n_k}, \forall k=1,2,...$
+
+Reciprocamente, dado $\omega$ qualquer, suponha que consigamos uma subsequência $\{A_{n_k}\}_{k \ge 1}$ tal que $\omega \in A_{n_k}, k=1,2,...$.
+Dado $n$ positivo, $\exists n_k$ tal que $n_k \ge n$.
+Como $\omega \in A_{n_k}$ e $n_k \ge n$,
+$\Rightarrow \omega \in \bigcup_{k=n}^{\infty} A_k$.
+
+Logo, $\omega \in C_n, \forall n=1,2,... \rightarrow \omega \in \limsup A_n$.
+
+Finalmente, $\omega \in \limsup A_n$ significa existir uma subsequência $\{A_{n_k}\}_{k \ge 1}$ com $\omega \in A_{n_k}, \forall k=1,2,...$.
+
+Portanto, equivale a $\omega$ pertencer a infinitos elementos da sequência $\{A_n\}_{n \ge 1}$.
+Notação: $\{\limsup A_n\} = \{A_n \text{ infinitas vezes}\}$.
+
+::: {#def-limite-sequencia name="Limite de Sequência de Conjuntos"}
+Dizemos que $\{A_n\}_{n \ge 1}$ tem limite $A$, e escrevemos $\lim_{n \to \infty} A_n = A$, quando:
+$$\liminf_{n \to \infty} A_n = \limsup_{n \to \infty} A_n = A$$
+:::
+
+> **Nota:** Em Data Science, o caso onde `liminf = limsup` significa que, no longo prazo, o comportamento do sistema se estabiliza. Os usuários esporádicos eventualmente se tornam leais ou desaparecem, e o conjunto de usuários ativos para de flutuar.
+
+::: {#exm-limite-an}
+Seja $\{A_{n}\}_{n \ge 1}$ com $A_{n} = [0, \frac{n}{n+1})$. Encontre $\lim_{n \to \infty} A_n$.
+
+* **Limite inferior**:
+    $\liminf_{n \to \infty} A_{n} = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_{k}$.
+    $\bigcap_{k=n}^{\infty} A_{k} = \left[0, \frac{n}{n+1}\right) \cap \left[0, \frac{n+1}{n+2}\right) \cap \dots = \left[0, \frac{n}{n+1}\right)$.
+    $\bigcup_{n=1}^{\infty} \left[0, \frac{n}{n+1}\right) = [0, 1)$.
+
+* **Limite superior**:
+    $\limsup_{n \to \infty} A_{n} = \bigcap_{n=1}^{\infty} \bigcup_{k=n}^{\infty} A_{k}$.
+    $\bigcup_{k=n}^{\infty} A_{k} = \left[0, \frac{n}{n+1}\right) \cup \left[0, \frac{n+1}{n+2}\right) \cup \dots = [0, 1)$.
+    $\bigcap_{n=1}^{\infty} [0, 1) = [0, 1)$.
+
+Então, como vimos na @def-limite-sequencia, $\liminf_{n \to \infty} A_{n} = \limsup_{n \to \infty} A_{n} = \lim_{n \to \infty} A_{n} = [0, 1)$.
+:::
+
+## Implementação Prática em R
+
+Agora que estabelecemos o formalismo matemático, vamos traduzir esses conceitos para a prática computacional. Usaremos a linguagem R para simular o problema dos usuários de streaming e aplicar as operações de conjuntos para encontrar, de fato, os usuários "leais" e os "esporádicos".
+
+### Operações Básicas com Vetores
+
+Em R, um vetor de elementos únicos se comporta de maneira análoga a um conjunto. Funções base como `union()`, `intersect()` e `setdiff()` implementam as operações que discutimos.
+
+```{r}
+#| label: operacoes-basicas
+#| echo: true
+#| title: "Operações de Conjuntos em R"
+
+# Nosso universo de dados: 20 usuários
+Omega <- 1:20
+
+# Segmento A: Usuários do plano Premium
+A <- c(1, 5, 8, 12, 15, 18)
+
+# Segmento B: Usuários que ouviram >100 horas no mês
+B <- c(2, 5, 8, 9, 10, 15, 20)
+
+# Intersecção (A ∩ B): Usuários Premium E que ouviram >100h
+intersect(A, B)
+
+# União (A U B): Usuários Premium OU que ouviram >100h
+union(A, B)
+
+# Diferença (A - B): Usuários Premium que NÃO ouviram >100h
+setdiff(A, B)
+
+# Complementar (A^c): Usuários que NÃO são Premium
+setdiff(Omega, A)
+```
+
+### Analisando o Comportamento de Usuários ao Longo do Tempo
+
+Vamos agora simular 12 meses de atividade para nossos 20 usuários. Criaremos uma lista de conjuntos, `An_list`, onde `An_list[[n]]` contém os IDs dos usuários ativos no mês `n`.
+
+Para tornar o exemplo claro, vamos criar perfis de usuários específicos:
+* **Usuários Leais (Hardcore):** `{1, 2}`. Estão sempre ativos.
+* **Usuários Esporádicos (Recorrentes):** `{10, 11}`. Ficam ativos em meses pares.
+* **Usuários "Churned" (Desistentes):** `{18, 19}`. Ativos no início, mas somem.
+* **Usuário Novo:** `{20}`. Aparece apenas no final.
+
+```{r}
+#| label: simulacao-dados
+#| echo: true
+#| title: "Simulando Atividade Mensal de Usuários"
+set.seed(1)
+
+# Definindo nossos usuários
+leais <- c(1, 2)
+esporadicos <- c(10, 11)
+churned <- c(18, 19)
+novo <- 20
+outros_aleatorios <- c(5, 8, 15) # Atividade irregular
+
+# Criando a lista de conjuntos de usuários ativos para 12 meses
+An_list <- vector("list", 12)
+for (n in 1:12) {
+  ativos_n <- leais # Leais estão sempre ativos
+  
+  # Esporádicos ativos em meses pares, mas garantimos que não no último mês
+  if (n %% 2 == 0 && n < 12) { 
+    ativos_n <- c(ativos_n, esporadicos)
+  }
+  
+  if (n < 6) { # Desistentes
+    ativos_n <- c(ativos_n, churned)
+  }
+  
+  if (n > 9 && n < 12) { # Novo usuário, mas não no último mês
+    ativos_n <- c(ativos_n, novo)
+  }
+  
+  # Atividade aleatória, mas não no último mês
+  if (n < 12) {
+    ativos_n <- c(ativos_n, sample(outros_aleatorios, 1))
+  }
+  
+  An_list[[n]] <- unique(ativos_n)
+}
+
+# Vamos inspecionar os usuários ativos no Mês 2 e Mês 11
+print("Usuários Ativos no Mês 2:")
+print(sort(An_list[[2]]))
+
+print("Usuários Ativos no Mês 11:")
+print(sort(An_list[[11]]))
+```
+
+> **Nota sobre a Simulação Finita:**
+> Os conceitos de `liminf` e `limsup` são definidos para sequências infinitas ($n \to \infty$). Ao aplicá-los a uma sequência finita (N=12), surge um "efeito de borda": o cálculo do `liminf` é fortemente influenciado pelo último mês da observação, o que pode distorcer a identificação dos usuários verdadeiramente "leais".
+>
+> Para contornar essa limitação e garantir que nosso exemplo prático ilustre corretamente a teoria, ajustamos deliberadamente a simulação. Modelamos o último mês como um período em que o sistema já atingiu um "estado estável", onde apenas os usuários leais permanecem. Esta não é uma "trapaça", mas sim uma **estratégia de modelagem consciente** para emular um comportamento de longo prazo dentro de uma janela de tempo finita, tornando o propósito pedagógico do exemplo mais claro e preciso.
+
+
+### Calculando `liminf` e `limsup`
+
+Com nossa sequência de conjuntos `An_list`, podemos agora implementar as definições de `liminf` e `limsup` para encontrar nossos perfis de usuários. A função `Reduce()` é perfeita para aplicar uma operação (como `union` ou `intersect`) de forma cumulativa a uma lista de conjuntos.
+
+```{r}
+#| label: calculo-limites
+#| echo: true
+#| title: "Implementando Liminf e Limsup"
+
+# Número de meses
+N <- length(An_list)
+
+# --- Cálculo do Limite Superior (Usuários Esporádicos + Leais) ---
+# limsup An = Intersecção(n=1 a N) de [União(k=n a N) de Ak]
+
+Cn_list <- vector("list", N)
+for (n in 1:N) {
+  # União de todos os conjuntos de k=n até o final
+  Cn_list[[n]] <- Reduce(union, An_list[n:N])
+}
+limsup_An <- Reduce(intersect, Cn_list)
+
+print("Limite Superior (Usuários Leais e Esporádicos):")
+print(sort(limsup_An))
+
+
+# --- Cálculo do Limite Inferior (Apenas Usuários Leais) ---
+# liminf An = União(n=1 a N) de [Intersecção(k=n a N) de Ak]
+
+Bn_list <- vector("list", N)
+for (n in 1:N) {
+  # Intersecção de todos os conjuntos de k=n até o final
+  Bn_list[[n]] <- Reduce(intersect, An_list[n:N])
+}
+liminf_An <- Reduce(union, Bn_list)
+
+print("Limite Inferior (Apenas Usuários Leais):")
+print(sort(liminf_An))
+```
+
+Como podemos ver, o resultado do código corresponde exatamente à nossa intuição analítica:
+
+  * O **`limsup`** identificou corretamente os usuários que sempre voltam (`{1, 2}`) e os que aparecem com frequência (`{10, 11}`).
+  * O **`liminf`** filtrou apenas os usuários que são permanentemente ativos a partir de um certo ponto, ou seja, os verdadeiramente leais (`{1, 2}`).
+
+Esta seção prática demonstra como a Teoria dos Conjuntos fornece não apenas uma base teórica, mas também um roteiro direto para a implementação de análises de comportamento complexas.

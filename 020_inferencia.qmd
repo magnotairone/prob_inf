@@ -1,0 +1,3 @@
+# Módulo Inferência Estatística {#sec-inf-intro .unnumbered}
+
+TODO: descrever essa parte

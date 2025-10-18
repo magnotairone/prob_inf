@@ -14,6 +14,7 @@ book:
     - part: 010_probabilidade.qmd
       chapters:
         - aula01.qmd
+        - aula02.qmd
     
     - part: 020_inferencia.qmd
       chapters:
@@ -29,10 +30,7 @@ format:
       - cosmo
       - brand
     number-sections: true
-  pdf:
-    documentclass: scrreprt
-    number-sections: true
-    
+
 crossref:
   chapters: true
   fig-prefix: "Figura"

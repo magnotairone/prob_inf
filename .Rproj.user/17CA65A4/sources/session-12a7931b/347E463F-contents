@@ -1,4 +1,4 @@
-## Introdução: Da Teoria à Prática Analítica
+# Introdução: Da Teoria à Prática Analítica
 
 Imagine que você trabalha como Cientista de Dados em uma empresa de streaming de música. Uma pergunta fundamental do negócio é: "Quais são os nossos perfis de usuários? Quem são os ouvintes leais e quem são os esporádicos?". Para responder a isso, você tem acesso aos dados de login de cada usuário, mês a mês.
 

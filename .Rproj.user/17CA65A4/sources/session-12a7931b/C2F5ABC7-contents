@@ -4,6 +4,9 @@ quarto::quarto_render()
 
 quarto::quarto_preview()
 
+# para publicar no github
+# no terminal: quarto publish
+
 
 # Listar tarefas a fazer --------------------------------------------------
 

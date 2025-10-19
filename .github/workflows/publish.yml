@@ -14,29 +14,32 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up R and Install Packages
+      # Etapa 1: Instalar o R
+      - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'latest'
           
-          # 1. Diz à ação para usar o cache
-          use-r-cache: true 
-          
-          # 2. Lista os pacotes para instalar
+      # Etapa 2: Instalar e Cachear pacotes do R
+      - name: Set up R package dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
           packages: |
-              rmarkdown
-              knitr
-              tidyverse
-              kableExtra
+            rmarkdown
+            knitr
+            tidyverse
+            kableExtra
             
+      # Etapa 3: Instalar o Quarto
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
 
+      # Etapa 4: Renderizar o livro (MÉTODO CORRIGIDO)
       - name: Render Quarto Book
-        uses: quarto-dev/quarto-actions/render@v2
-        with:
-          to: html
+        run: quarto render --to html
+        shell: bash
 
+      # Etapa 5: Fazer o Deploy
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

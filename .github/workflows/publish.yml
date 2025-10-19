@@ -23,11 +23,11 @@ jobs:
           use-r-cache: true 
           
           # 2. Lista os pacotes para instalar
-          packages:
-            - rmarkdown
-            - knitr
-            - tidyverse
-            - kableExtra
+          packages:|
+              rmarkdown
+              knitr
+              tidyverse
+              kableExtra
             
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2

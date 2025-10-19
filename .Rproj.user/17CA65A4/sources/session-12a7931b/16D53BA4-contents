@@ -1,6 +1,14 @@
 # Exercícios
 
-<!-- TODO: fazer refinamentos DS -->
+Nesta seção, vamos resolver exercícios que parecem puramente teóricos (e são!). Em vez de calcular a probabilidade de "cliques" ou "segmentos", vamos provar propriedades fundamentais da própria função $\mathbb{P}$.
+
+Por que um cientista de dados faria isso? Porque essas propriedades são as **garantias** e **testes de sanidade** que rodam "por baixo dos panos" em toda análise. Elas são a justificativa teórica que nos permite:
+
+* Confiar que, se um modelo é 99,99% preciso em *n* cenários, ele continua sendo confiável.
+* Entender o que acontece quando combinamos *features* (interseções) ou *segmentos* (uniões).
+* Usar a lógica (SE/ENTÃO) para criar regras de negócio a partir dos dados.
+
+Vamos ver como.
 
 1.  Seja $(\Omega, \mathcal{F}, \mathbb{P})$ um espaço de probabilidade e $\{A_n\}_{n \ge 1} \in \mathcal{F}$. Mostre que:
 

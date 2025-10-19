@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>6&nbsp; 24 Introdução: O Dilema do Teste A/B – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>7&nbsp; 24 Introdução: O Dilema do Teste A/B – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./020_inferencia.html">Módulo Inferência Estatística</a></li><li class="breadcrumb-item"><a href="./aula24.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./020_inferencia.html">Módulo Inferência Estatística</a></li><li class="breadcrumb-item"><a href="./aula24.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -219,6 +219,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -233,7 +239,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula24.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
   </div>
 </li>
       </ul>
@@ -254,19 +260,19 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#o-framework-da-inferência-do-problema-à-modelagem" id="toc-o-framework-da-inferência-do-problema-à-modelagem" class="nav-link active" data-scroll-target="#o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">6.1</span> O Framework da Inferência: Do Problema à Modelagem</a></li>
-  <li><a href="#estimação-pontual-o-melhor-chute-a-partir-dos-dados" id="toc-estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="nav-link" data-scroll-target="#estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">6.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</a></li>
-  <li><a href="#o-motor-da-inferência-a-função-de-verossimilhança" id="toc-o-motor-da-inferência-a-função-de-verossimilhança" class="nav-link" data-scroll-target="#o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">6.3</span> O Motor da Inferência: A Função de Verossimilhança</a></li>
-  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">6.4</span> Implementação Prática em R</a></li>
+  <li><a href="#o-framework-da-inferência-do-problema-à-modelagem" id="toc-o-framework-da-inferência-do-problema-à-modelagem" class="nav-link active" data-scroll-target="#o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">7.1</span> O Framework da Inferência: Do Problema à Modelagem</a></li>
+  <li><a href="#estimação-pontual-o-melhor-chute-a-partir-dos-dados" id="toc-estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="nav-link" data-scroll-target="#estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">7.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</a></li>
+  <li><a href="#o-motor-da-inferência-a-função-de-verossimilhança" id="toc-o-motor-da-inferência-a-função-de-verossimilhança" class="nav-link" data-scroll-target="#o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">7.3</span> O Motor da Inferência: A Função de Verossimilhança</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">7.4</span> Implementação Prática em R</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./020_inferencia.html">Módulo Inferência Estatística</a></li><li class="breadcrumb-item"><a href="./aula24.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./020_inferencia.html">Módulo Inferência Estatística</a></li><li class="breadcrumb-item"><a href="./aula24.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></h1>
 </div>
 
 
@@ -291,8 +297,8 @@ window.Quarto = {
 </ul>
 <p>A Versão B parece melhor. Mas a pergunta central que define a sua carreira como cientista é: <strong>essa diferença de 1% é real e significativa, ou pode ser apenas fruto do acaso?</strong> Se mostrarmos os botões para outros 500 usuários, talvez os resultados se invertam.</p>
 <p>Para responder a essa pergunta com confiança, precisamos de um framework rigoroso para “aprender” sobre a realidade a partir de dados limitados e ruidosos. Esta aula irá construir esse framework, peça por peça, usando a inferência estatística.</p>
-<section id="o-framework-da-inferência-do-problema-à-modelagem" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">6.1</span> O Framework da Inferência: Do Problema à Modelagem</h2>
+<section id="o-framework-da-inferência-do-problema-à-modelagem" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="o-framework-da-inferência-do-problema-à-modelagem"><span class="header-section-number">7.1</span> O Framework da Inferência: Do Problema à Modelagem</h2>
 <p>O primeiro passo é traduzir nosso problema prático para uma linguagem matemática formal.</p>
 <ul>
 <li><p><strong>Dados (observações):</strong> Os dados são valores observados de variáveis aleatórias que seguem uma distribuição de probabilidade conjunta P, que pertence a uma classe (conhecida) <span class="math inline">\(\mathcal{P}\)</span>. Frequentemente, <span class="math inline">\(\mathcal{P}\)</span> é indexada por um parâmetro <span class="math inline">\(\theta \in \Theta\)</span>. <span class="math display">\[ \mathcal{P} = \{ P_{\theta}, \theta \in \Theta \} \]</span></p></li>
@@ -310,8 +316,8 @@ window.Quarto = {
 </ul>
 </blockquote>
 </section>
-<section id="estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">6.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</h2>
+<section id="estimação-pontual-o-melhor-chute-a-partir-dos-dados" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="estimação-pontual-o-melhor-chute-a-partir-dos-dados"><span class="header-section-number">7.2</span> Estimação Pontual: O Melhor Chute a partir dos Dados</h2>
 <p>Nosso primeiro objetivo é usar os dados para dar um “chute” único e bem fundamentado sobre o valor do nosso parâmetro <span class="math inline">\(\theta\)</span>.</p>
 <p><strong>Ingredientes:</strong></p>
 <ol type="1">
@@ -320,7 +326,7 @@ window.Quarto = {
 </ol>
 <p><strong>Ideia:</strong> especificar um valor plausível para <span class="math inline">\(g(\theta)\)</span>.</p>
 <div id="def-estatistica-estimador" class="theorem definition">
-<p><span class="theorem-title"><strong>Definição 6.1 (Estatística e Estimador)</strong></span> Qualquer função da amostra <span class="math inline">\(\underline{X}\)</span> que não depende de quantidades desconhecidas é uma <strong>estatística</strong>. Uma estatística usada para estimar <span class="math inline">\(g(\theta)\)</span> é chamada de <strong>estimador</strong>.</p>
+<p><span class="theorem-title"><strong>Definição 7.1 (Estatística e Estimador)</strong></span> Qualquer função da amostra <span class="math inline">\(\underline{X}\)</span> que não depende de quantidades desconhecidas é uma <strong>estatística</strong>. Uma estatística usada para estimar <span class="math inline">\(g(\theta)\)</span> é chamada de <strong>estimador</strong>.</p>
 <p><strong>Notação:</strong></p>
 <ul>
 <li>Estatística: <span class="math inline">\(T = T(X_1, ..., X_n)\)</span></li>
@@ -337,7 +343,7 @@ window.Quarto = {
 </ul>
 </blockquote>
 <div id="exm-vida-lampada" class="theorem example">
-<p><span class="theorem-title"><strong>Exemplo 6.1 (Tempo de Vida de Lâmpadas)</strong></span> Seja X = tempo de vida de lâmpadas de certa marca. Assuma que <span class="math inline">\(X \sim \text{exp}(\theta)\)</span>, <span class="math inline">\(\theta &gt; 0\)</span>. Suponha que <span class="math inline">\((X_1, ..., X_n)\)</span> é uma a.a. de X.</p>
+<p><span class="theorem-title"><strong>Exemplo 7.1 (Tempo de Vida de Lâmpadas)</strong></span> Seja X = tempo de vida de lâmpadas de certa marca. Assuma que <span class="math inline">\(X \sim \text{exp}(\theta)\)</span>, <span class="math inline">\(\theta &gt; 0\)</span>. Suponha que <span class="math inline">\((X_1, ..., X_n)\)</span> é uma a.a. de X.</p>
 <p>Aqui, temos que <span class="math inline">\(\mathcal{P} = \{f_{\theta}, \theta &gt; 0\}\)</span>, com <span class="math inline">\(f_{\theta}(x) = \theta e^{-\theta x} \mathbb{I}_{(0, \infty)}(x)\)</span>.</p>
 <p><strong>Exemplos de estatísticas:</strong></p>
 <ul>
@@ -353,17 +359,17 @@ window.Quarto = {
 </ul>
 </div>
 </section>
-<section id="o-motor-da-inferência-a-função-de-verossimilhança" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">6.3</span> O Motor da Inferência: A Função de Verossimilhança</h2>
+<section id="o-motor-da-inferência-a-função-de-verossimilhança" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="o-motor-da-inferência-a-função-de-verossimilhança"><span class="header-section-number">7.3</span> O Motor da Inferência: A Função de Verossimilhança</h2>
 <p>Temos um algoritmo intuitivo para estimar <span class="math inline">\(\theta\)</span> (a média amostral), mas como podemos justificar que ele é um bom algoritmo? E se houvesse outros? A resposta está em um dos conceitos mais importantes da estatística e do Machine Learning: a <strong>verossimilhança</strong>.</p>
 <p>A verossimilhança responde à seguinte pergunta: <strong>“Dado os dados que observei, qual valor do parâmetro <span class="math inline">\(\theta\)</span> torna minhas observações mais prováveis (ou menos surpreendentes)?”</strong></p>
 <p>Ela funciona como uma função de pontuação (score) para diferentes hipóteses sobre a “verdade” <span class="math inline">\(\theta\)</span>.</p>
 <div id="def-verossimilhanca" class="theorem definition">
-<p><span class="theorem-title"><strong>Definição 6.2 (Função de Verossimilhança)</strong></span> A função de verossimilhança de <span class="math inline">\(\theta \in \Theta\)</span>, com base na amostra observada <span class="math inline">\(\underline{x} = (x_1, ..., x_n)\)</span>, é dada por <span class="math display">\[ L(\theta) = L(\theta; \underline{x}) = f_{X_1, ..., X_n}(x_1, ..., x_n; \theta), \quad \theta \in \Theta \]</span></p>
+<p><span class="theorem-title"><strong>Definição 7.2 (Função de Verossimilhança)</strong></span> A função de verossimilhança de <span class="math inline">\(\theta \in \Theta\)</span>, com base na amostra observada <span class="math inline">\(\underline{x} = (x_1, ..., x_n)\)</span>, é dada por <span class="math display">\[ L(\theta) = L(\theta; \underline{x}) = f_{X_1, ..., X_n}(x_1, ..., x_n; \theta), \quad \theta \in \Theta \]</span></p>
 <p><strong>Nota:</strong> se <span class="math inline">\(\underline{X}\)</span> é uma a.a. de X, então <span class="math inline">\(L(\theta) = \prod_{i=1}^{n} f_X(x_i; \theta)\)</span> (i.i.d.’s)</p>
 </div>
 <div id="exm-funcoes-verossimilhanca" class="theorem example">
-<p><span class="theorem-title"><strong>Exemplo 6.2 (Funções de Verossimilhança)</strong></span> Obtenha a função de verossimilhança em cada caso assumindo uma a.a. <span class="math inline">\(\underline{X} = (X_1, ..., X_n)\)</span> de X.</p>
+<p><span class="theorem-title"><strong>Exemplo 7.2 (Funções de Verossimilhança)</strong></span> Obtenha a função de verossimilhança em cada caso assumindo uma a.a. <span class="math inline">\(\underline{X} = (X_1, ..., X_n)\)</span> de X.</p>
 <p><strong>a) <span class="math inline">\(X \sim \text{Bernoulli}(\theta)\)</span></strong> <span class="math display">\[ L(\theta) = \prod_{i=1}^{n} \theta^{x_i} (1-\theta)^{1-x_i} = \theta^{\sum_{i=1}^{n} x_i} (1-\theta)^{n - \sum_{i=1}^{n} x_i}, \quad \theta \in (0,1). \]</span> <span class="math inline">\(\rightarrow L(\theta)\)</span> depende da realização de <span class="math inline">\(T = \sum_{i=1}^{n} X_i\)</span>.</p>
 <blockquote class="blockquote">
 <p><strong>Conexão com o Teste A/B:</strong> Esta é exatamente a função de verossimilhança para o nosso problema! Para o botão B, observamos <span class="math inline">\(\sum x_i = 30\)</span> e <span class="math inline">\(n=500\)</span>. A função se torna <span class="math inline">\(L(\theta_B) = \theta_B^{30}(1-\theta_B)^{470}\)</span>. Agora podemos “testar” diferentes valores de <span class="math inline">\(\theta_B\)</span> e ver qual deles maximiza essa função. O valor que a maximiza é, de fato, <span class="math inline">\(30/500 = 0.06\)</span>, justificando nosso estimador intuitivo. Este é o <strong>Princípio da Máxima Verossimilhança</strong>.</p>
@@ -376,8 +382,8 @@ window.Quarto = {
 <p><strong>Conexão com Aprendizagem Estatística:</strong> O processo de “treinar” um modelo de Aprendizagem Estatística (como uma Regressão Logística ou mesmo uma rede neural para classificação) é, em sua essência, um processo de otimização para encontrar os parâmetros do modelo (<span class="math inline">\(\theta\)</span>) que <strong>maximizam a função de verossimilhança</strong> (ou a log-verossimilhança) para os dados de treinamento. O framework que construímos aqui é a base teórica para a maior parte do aprendizado de máquina supervisionado.</p>
 </blockquote>
 </section>
-<section id="implementação-prática-em-r" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">6.4</span> Implementação Prática em R</h2>
+<section id="implementação-prática-em-r" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">7.4</span> Implementação Prática em R</h2>
 <!-- TODO: verificar este exemplo se faz sentido-->
 <p>Na aula, afirmamos que a nossa estimativa intuitiva para a taxa de cliques (6%) era justificada pelo <strong>Princípio da Máxima Verossimilhança</strong>. Ou seja, de todas as “verdades” possíveis (<span class="math inline">\(\theta_B\)</span>), o valor <span class="math inline">\(0.06\)</span> é o que torna os dados que <em>realmente observamos</em> (<span class="math inline">\(k=30\)</span> cliques em <span class="math inline">\(n=500\)</span> tentativas) os mais prováveis.</p>
 <p>Vamos provar isso visualmente. Em vez de usar cálculo para encontrar o máximo da função, vamos simplesmente “testar” milhares de valores de <span class="math inline">\(\theta_B\)</span> e plotar a pontuação de verossimilhança que cada um recebe.</p>

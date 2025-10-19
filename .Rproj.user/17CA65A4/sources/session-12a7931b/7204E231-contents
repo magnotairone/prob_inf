@@ -18,6 +18,7 @@ book:
         - aula03.qmd
         - aula04.qmd
         - aula05.qmd
+        - aula06.qmd
     
     - part: 020_inferencia.qmd
       chapters:

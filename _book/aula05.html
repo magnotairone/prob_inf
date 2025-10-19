@@ -30,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./020_inferencia.html" rel="next">
+<link href="./aula06.html" rel="next">
 <link href="./aula04.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -184,6 +184,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -198,7 +204,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula24.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
   </div>
 </li>
       </ul>
@@ -239,7 +245,14 @@ window.Quarto = {
 </header>
 
 
-<!-- TODO: fazer refinamentos DS -->
+<p>Nesta seção, vamos resolver exercícios que parecem puramente teóricos (e são!). Em vez de calcular a probabilidade de “cliques” ou “segmentos”, vamos provar propriedades fundamentais da própria função <span class="math inline">\(\mathbb{P}\)</span>.</p>
+<p>Por que um cientista de dados faria isso? Porque essas propriedades são as <strong>garantias</strong> e <strong>testes de sanidade</strong> que rodam “por baixo dos panos” em toda análise. Elas são a justificativa teórica que nos permite:</p>
+<ul>
+<li>Confiar que, se um modelo é 99,99% preciso em <em>n</em> cenários, ele continua sendo confiável.</li>
+<li>Entender o que acontece quando combinamos <em>features</em> (interseções) ou <em>segmentos</em> (uniões).</li>
+<li>Usar a lógica (SE/ENTÃO) para criar regras de negócio a partir dos dados.</li>
+</ul>
+<p>Vamos ver como.</p>
 <ol type="1">
 <li><p>Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade e <span class="math inline">\(\{A_n\}_{n \ge 1} \in \mathcal{F}\)</span>. Mostre que:</p>
 <ol type="a">
@@ -701,8 +714,8 @@ window.Quarto = {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./020_inferencia.html" class="pagination-link" aria-label="Módulo Inferência Estatística">
-        <span class="nav-page-text">Módulo Inferência Estatística</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./aula06.html" class="pagination-link" aria-label="Variáveis Aleatórias">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

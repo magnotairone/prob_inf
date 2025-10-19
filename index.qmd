@@ -3,9 +3,13 @@
 Notas de aula de um curso de Probabilidade e Inferência para Ciência de Dados.
 Baseado nas notas de aula do curso MAE5702 do professor Felipe de Queiroz, a quem agradeço pela gentil disponibilização do material.
 
-```{r}
+```{r setup}
 #| echo: false
 #| include: false
 library(tidyverse)
+library(ggplot2)
+
+ggplot2::theme_set(theme_minimal())
+
 ```
 

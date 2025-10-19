@@ -29,6 +29,7 @@ jobs:
             knitr
             tidyverse
             kableExtra
+            patchwork
             
       # Etapa 3: Instalar o Quarto
       - name: Set up Quarto

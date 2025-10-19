@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Função de Distribuição Acumulada (FDA)
 
 Na aula anterior, definimos uma variável aleatória (v.a.) $X$ como uma *feature* ou métrica (ex: `session_duration`).
@@ -135,6 +140,147 @@ No entanto $\mathbb{P}(X = -X) = \mathbb{P}(2X = 0) = \mathbb{P}(X = 0) = 0$.
 
 **Notação:** O símbolo "$\sim$" significa "tem como distribuição" ou "está distribuído como".
 
+
+## Tipos de Variáveis Aleatórias
+
+A FDA nos permite classificar as variáveis aleatórias. Na prática, isso se traduz diretamente nos tipos de dados que analisamos: dados de **contagem** (discretos), dados de **medição** (contínuos) e dados **censurados** (mistos).
+
+::: {#def-tipos-va name="Definição 2.3"}
+a) A v.a. X é dita ser **discreta** se toma valores em um conjunto finito ou infinito enumerável, isto é, se existe um conjunto $\{x_1, x_2, \dots\} \subset \mathbb{R}$ tal que
+$$ X(\omega) \in \{x_1, x_2, \dots\}, \forall \omega \in \Omega. $$
+A função
+$$ p(x_i) = \mathbb{P}(X = x_i), \quad i=1, 2, \dots $$
+é chamada **função de probabilidade (f.p.)** de X.
+
+b) A v.a. X é dita ser **(absolutamente) contínua** se existe uma função $f(x) \ge 0$ tal que
+$$ F_X(x) = \int_{-\infty}^{x} f(t) dt, \quad \forall x \in \mathbb{R} $$
+Neste caso, dizemos que $f$ é a **função densidade de probabilidade (f.d.p.)** de X.
+:::
+
+
+> **Perspectiva de Data Science: FP vs. FDP (Gráfico de Barras vs. Densidade)**
+>
+> * **a) Discreta (FP):** Pense em `feature` como `click_count`, `star_rating` (1, 2, 3, 4, 5) ou `num_purchases`.
+>     * A **função de probabilidade (f.p.)** $p(x_i)$ é o que você vê em um **gráfico de barras** (`geom_col`) após normalizar (ex: `prop.table(count(df, click_count))`).
+>     * $p(x_i)$ *é* uma probabilidade (ex: $p(3) = \mathbb{P}(X=3) = 0.15$ ou "15% dos usuários clicaram 3 vezes").
+>
+> * **b) Contínua (FDP):** Pense em `feature` como `session_duration`, `transaction_amount` ou `score_de_risco`.
+>     * A **função densidade de probabilidade (f.d.p.)** $f(x)$ é a curva suave que você vê em um **gráfico de densidade** (`geom_density`).
+>     * $f(x)$ *não é* uma probabilidade! É uma "densidade". A probabilidade é a **área sob a curva**. A probabilidade de *exatamente* $X=120.53s$ é zero. A probabilidade de $X \in [120, 121]$ é a integral (área) de $f(x)$ entre 120 e 121.
+
+
+**Notas:**
+
+1)  Se X é discreta, então $\{X\leq x\}=\bigcup_{i: x_i \le x}\{X=x_i\},$ logo
+    $$ F_X(x) = \mathbb{P}(X \le x) = \mathbb{P}(\bigcup_{i: x_i \le x} \{X = x_i\}) = \sum_{i: x_i \le x} p(x_i).$$
+2)  De forma geral, uma **f.p.** é qualquer função $p(\cdot)$ tal que $p(x) \ge 0, \forall x \in \mathbb{R}$ e $\sum_{x \in K} p(x) = 1$ (onde K é o conjunto de valores possíveis de X).
+3)  Se X é absolutamente contínua, então $F_X$ é contínua.
+    Tecnicamente, a integral na Definição 2.3.b) é de Lebesgue e X tem densidade se, e só se, $F_X$ é absolutamente contínua (isto é, $F_X$ é a integral de sua densidade). Neste caso,
+    $$ f(x) = F_X'(x) $$
+    em quase todo ponto (exceto num conjunto de medida de Lebesgue nula, isto é, comprimento zero).
+4)  Uma função $f(\cdot)$ é uma **f.d.p.** se:
+    * $f(x) \ge 0, \forall x \in \mathbb{R}$
+    * $\int_{-\infty}^{\infty} f(x) dx = 1$
+5)  A f.d.p. não é única. Por exemplo, seja
+    $$ F_X(x) = \begin{cases} 0, & x < 0 \\ x, & 0 \le x < 1 \\ 1, & x \ge 1 \end{cases} $$
+    Podemos obter um candidato para $f(\cdot)$ fazendo $f_X^1(x) = \frac{d}{dx} F(x) = 1, x \in (0, 1)$ e 0 caso contrário.
+    Também poderíamos ter $f_X^2(x) = 1$ para $x \in [0, 1/2] \cup (1/2, 1]$ (i.e., mudando um ponto).
+
+::: {#exm-va-mista name="Exemplo 2.8 (Variável Aleatória Mista)"}
+Seja X tal que $X \sim U(0, 1)$, isto é, X tem função de dist.
+$$ F_X(x) = \begin{cases} 0, & x < 0 \\ x, & 0 \le x < 1 \\ 1, & x \ge 1 \end{cases} $$
+Defina $Y = \min(X, 1/2)$. Obtenha a f.d.a. de Y.
+$$ Y(\omega) = \begin{cases} X(\omega), & 0 \le X(\omega) < 1/2 \\ 1/2, & 1/2 \le X(\omega) \le 1 \end{cases} $$
+$F_Y(y) = \mathbb{P}(Y \le y), y \in \mathbb{R}$.
+
+* Para $y < 0$, temos que $F_Y(y) = 0$.
+* Para $0 \le y < 1/2$, temos
+    $$ F_Y(y) = \mathbb{P}(Y \le y) = \mathbb{P}(\{\omega \in \Omega : Y(\omega) \le y\}) $$
+    $$ = \mathbb{P}(\{\omega \in \Omega : X(\omega) \le y\}) = F_X(y) = y $$
+* Para $y \ge 1/2$, $F_Y(y) = 1$.
+
+Em resumo,
+$$ F_Y(y) = \begin{cases} 0, & y < 0 \\ y, & 0 \le y < 1/2 \\ 1, & y \ge 1/2 \end{cases} $$
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+
+df_segmentos <- data.frame(
+  x = c(-1, 0, 1/2),      # Coordenada x inicial
+  y = c(0, 0, 1),        # Coordenada y inicial
+  xend = c(0, 1/2, 1.5),  # Coordenada x final
+  yend = c(0, 1/2, 1)    # Coordenada y final
+)
+
+# Ponto aberto (○) no final da rampa
+df_aberto <- data.frame(x = 1/2, y = 1/2)
+
+# Ponto fechado (●) no início do salto
+df_fechado <- data.frame(x = 1/2, y = 1)
+
+ggplot() +
+  geom_segment(data = df_segmentos, 
+               aes(x = x, y = y, xend = xend, yend = yend), 
+               color = "black",
+               linewidth = 0.7) + # Aumenta a espessura da linha
+  geom_point(data = df_fechado, aes(x = x, y = y), 
+             shape = 19, color = "black", size = 3) +
+  geom_point(data = df_aberto, aes(x = x, y = y), 
+             shape = 21, color = "black", fill = "white", size = 3, stroke = 1) +
+  labs(
+    title = "Função de Distribuição Acumulada (FDA Mista)",
+    x = "y",
+    y = expression(F[Y](y))
+  ) +
+  
+  scale_y_continuous(
+    breaks = c(0, 1/2, 1),
+    labels = c("0", "1/2", "1"),
+    limits = c(-0.1, 1.1) # Adiciona um pouco de espaço
+  ) +
+  
+  scale_x_continuous(
+    breaks = c(0, 1/2),
+    labels = c("0", "1/2"),
+    limits = c(-1, 1.5) # Adiciona um pouco de espaço
+  ) +
+  
+  theme_classic()
+```
+
+Note que $F_Y(y)$ é contínua em $(-\infty, 1/2)$ e $[1/2, \infty)$ e descontínua em $y = 1/2$.
+:::
+
+::: {#def-va-singular name="Definição 2.4"}
+Uma v.a. X é dita ser **singular** se $F_X'(x) = 0, \forall x \in \mathbb{R}$, exceto para um conj. de medida de Lebesgue nula e $F_X$ é contínua.
+:::
+
+::: {#exm-cantor name="Exemplo 2.9 (Função de Cantor)"}
+Ver exemplo 7 - James (2003) p. 41.
+:::
+
+::: {#prp-prob-conjuntos-borel name="Proposição 2.2"}
+a) Se X é uma v.a. discreta tomando valores em $\{x_1, x_2, \dots\}$ então
+$$ \mathbb{P}_X(B) = \sum_{i: x_i \in B} p(x_i), \quad \forall B \in \mathcal{B} $$
+
+b) Se X é abs. contínua com densidade $f$ então
+$$ \mathbb{P}_X(B) = \int_{B} f(x) dx, \quad \forall B \in \mathcal{B} $$
+:::
+
+> **Perspectiva de Data Science: Como Calcular Probabilidades**
+>
+> Esta proposição é o "como fazer":
+>
+> * **a) Discreta:** Para saber $\mathbb{P}(\text{star\_rating} > 3)$, você **soma** as probabilidades das barras: $\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)$.
+> * **b) Contínua:** Para saber $\mathbb{P}(\text{duration} \in [60, 120])$, você **integra** (calcula a área sob a curva) $f(x)$ de 60 a 120. Na prática, $\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)$.
+
+
+
+
 ## Implementação Prática em R
 
 Na prática, não conhecemos a $F_X$ teórica; nós a estimamos a partir dos dados. Isso é chamado de **Função de Distribuição Acumulada Empírica (eFDA)**.
@@ -143,6 +289,7 @@ Na prática, não conhecemos a $F_X$ teórica; nós a estimamos a partir dos dad
 #| warning: false
 #| message: false
 library(tidyverse)
+library(patchwork)
 
 # Usando os dados da aula anterior
 set.seed(42)
@@ -205,4 +352,79 @@ ggplot(Omega_data, aes(x = X_session_duration)) +
     x = "x (Duração da Sessão)",
     y = "F_X(x) - Probabilidade Acumulada P(X <= x)"
   )
+```
+
+### Visualizando os 3 Tipos de V.A.s {.unnumbered}
+
+Vamos comparar as Funções de Probabilidade/Densidade (FP/FDP) com as Funções de Distribuição (FDA) para nossos 3 tipos de v.a.s.
+
+#### V.A. Discreta (`Y_click_count`) {.unnumbered}
+
+```{r plot-va-discreta, fig.cap="FP e FDA de uma V.A. Discreta (Contagem de Cliques)"}
+# Função de Probabilidade (FP) - Gráfico de Barras
+p1 <- Omega_data |>
+  count(Y_click_count) |>
+  mutate(prob = n / sum(n)) |>
+  ggplot(aes(x = factor(Y_click_count), y = prob)) +
+  geom_col(fill = "blue", alpha = 0.8) +
+  labs(title = "V.A. Discreta: Função de Probabilidade (FP)",
+       x = "Y (Contagem de Cliques)",
+       y = "p(y) = P(Y=y)") +
+  theme_minimal()
+
+# Função de Distribuição (FDA) - Gráfico de Degraus
+p2 <- ggplot(Omega_data, aes(x = Y_click_count)) +
+  stat_ecdf(geom = "step", color = "blue", linewidth = 1) +
+  labs(title = "V.A. Discreta: FDA (eCDF)",
+       x = "y (Contagem de Cliques)",
+       y = expression(F[Y](y))) +
+  theme_minimal()
+
+# Combinar gráficos
+p1 + p2
+```
+
+#### V.A. Contínua (`X_session_duration`) {.unnumbered}
+
+```{r plot-va-continua, fig.cap="FDP e FDA de uma V.A. Contínua (Duração da Sessão)"}
+# Função Densidade de Probabilidade (FDP) - Gráfico de Densidade
+p3 <- ggplot(Omega_data, aes(x = X_session_duration)) +
+  geom_density(fill = "green", color = "darkgreen", alpha = 0.7) +
+  labs(title = "V.A. Contínua: Função Densidade (FDP)",
+       x = "X (Duração da Sessão)",
+       y = "f(x) (Densidade)") +
+  theme_minimal()
+
+# Função de Distribuição (FDA) - Curva Suave
+p4 <- ggplot(Omega_data, aes(x = X_session_duration)) +
+  stat_ecdf(geom = "line", color = "green", linewidth = 1) +
+  labs(title = "V.A. Contínua: FDA (eCDF)",
+       x = "x (Duração da Sessão)",
+       y = expression(F[X](x))) +
+  theme_minimal()
+
+# Combinar gráficos
+p3 + p4
+```
+
+#### V.A. Mista (`W_duration_censored`) {.unnumbered}
+
+```{r plot-va-mista, fig.cap="FDP/FDA de uma V.A. Mista (Duração Censurada)", warning=FALSE}
+# "Densidade" - Histograma (note o pico!)
+p5 <- ggplot(Omega_data, aes(x = W_duration_censored)) +
+  geom_histogram(aes(y = after_stat(density)), bins = 30, fill = "purple", alpha = 0.8) +
+  labs(title = "V.A. Mista: Histograma (Note o 'pico' da censura)",
+       x = "W (Duração Censurada em 180s)",
+       y = "Densidade") +
+  theme_minimal()
+
+p6 <- ggplot(Omega_data, aes(x = W_duration_censored)) +
+  stat_ecdf(geom = "step", color = "purple", linewidth = 1) +
+  labs(title = "V.A. Mista: FDA (Note o 'Salto')",
+       x = "w (Duração Censurada em 180s)",
+       y = expression(F[W](w))) +
+  theme_minimal()
+
+# Combinar gráficos
+p5 + p6
 ```

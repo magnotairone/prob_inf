@@ -299,6 +299,14 @@ Omega_data <- tibble(
   Y_click_count = rpois(1000, 1.5),
   Z_is_vip = sample(c(0, 1), 1000, replace = TRUE, prob = c(0.9, 0.1))
 )
+
+# Criando a V.A. Mista (Dados Censurados)
+# Vamos "censurar" ou "capar" a duração em 180s (timeout)
+# W = min(X, 180)
+Omega_data <- Omega_data |>
+  mutate(
+    W_duration_censored = pmin(X_session_duration, 180)
+  )
 ```
 
 ### Calculando um Ponto na eFDA {.unnumbered}

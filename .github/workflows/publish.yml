@@ -30,6 +30,7 @@ jobs:
             tidyverse
             kableExtra
             patchwork
+            ggExtra
             
       # Etapa 3: Instalar o Quarto
       - name: Set up Quarto

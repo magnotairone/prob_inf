@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>References – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>5&nbsp; Exercícios – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./aula24.html" rel="prev">
+<link href="./020_inferencia.html" rel="next">
+<link href="./aula04.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -89,6 +71,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -101,7 +112,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -169,7 +180,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aula05.html" class="sidebar-item-text sidebar-link">
+  <a href="./aula05.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span></a>
   </div>
 </li>
@@ -194,7 +205,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -209,9 +220,9 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula05.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></h1>
 </div>
 
 
@@ -228,9 +239,56 @@ div.csl-indent {
 </header>
 
 
-<div id="refs" role="list" style="display: none">
-
-</div>
+<ol type="1">
+<li><p>Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade e <span class="math inline">\(\{A_n\}_{n \ge 1} \in \mathcal{F}\)</span>. Mostre que:</p>
+<ol type="a">
+<li>Se <span class="math inline">\(\mathbb{P}(A_n) = 0, \forall n=1, 2, \dots\)</span>, então <span class="math inline">\(\mathbb{P}(\bigcup_{n=1}^{\infty} A_n) = 0\)</span>.</li>
+</ol>
+<p><strong>Solução:</strong> Pela Propriedade 4 (Subaditividade), sabemos que <span class="math inline">\(\mathbb{P}(\bigcup_{n=1}^{\infty} A_n) \le \sum_{n=1}^{\infty} \mathbb{P}(A_n)\)</span>. Substituindo os valores dados: <span class="math display">\[ \mathbb{P}(\bigcup_{n=1}^{\infty} A_n) \le \sum_{n=1}^{\infty} 0 = 0 \]</span> Como a probabilidade não pode ser negativa (Axioma 2), Logo, <span class="math inline">\(\mathbb{P}(\bigcup_{n=1}^{\infty} A_n) = 0\)</span>.</p>
+<ol start="2" type="a">
+<li>Se <span class="math inline">\(\mathbb{P}(A_n) = 1, \forall n=1, 2, \dots\)</span>, então <span class="math inline">\(\mathbb{P}(\bigcap_{n=1}^{\infty} A_n) = 1\)</span>.</li>
+</ol>
+<p><strong>Solução:</strong> Usando a Lei de De Morgan e a Propriedade 2: <span class="math display">\[ \mathbb{P}(\bigcap_{n=1}^{\infty} A_n) = 1 - \mathbb{P}((\bigcap_{n=1}^{\infty} A_n)^c) = 1 - \mathbb{P}(\bigcup_{n=1}^{\infty} A_n^c) \]</span> Se <span class="math inline">\(\mathbb{P}(A_n) = 1\)</span>, então <span class="math inline">\(\mathbb{P}(A_n^c) = 1 - \mathbb{P}(A_n) = 0, \forall n\)</span>. Pelo item (a), se <span class="math inline">\(\mathbb{P}(A_n^c) = 0, \forall n\)</span>, então <span class="math inline">\(\mathbb{P}(\bigcup_{n=1}^{\infty} A_n^c) = 0\)</span>. Substituindo na equação: <span class="math display">\[ \mathbb{P}(\bigcap_{n=1}^{\infty} A_n) = 1 - 0 = 1 \]</span></p></li>
+<li><p>Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade e <span class="math inline">\(\{A_n\}_{n \ge 1} \in \mathcal{F}, \{B_n\}_{n \ge 1} \in \mathcal{F}\)</span>. com <span class="math inline">\(\lim_{n \to \infty} \mathbb{P}(A_n) = 1\)</span> e <span class="math inline">\(\lim_{n \to \infty} \mathbb{P}(B_n) = p\)</span>. Mostre que <span class="math inline">\(\lim_{n \to \infty} \mathbb{P}(A_n \cap B_n) = p\)</span>.</p>
+<p><strong>Solução:</strong> Sabemos que <span class="math inline">\(A_n \subseteq A_n \cup B_n \Rightarrow \mathbb{P}(A_n) \le \mathbb{P}(A_n \cup B_n)\)</span>. Como <span class="math inline">\(\mathbb{P}(A_n \cup B_n) \le 1\)</span>, temos: <span class="math display">\[ \mathbb{P}(A_n) \le \mathbb{P}(A_n \cup B_n) \le 1 \]</span></p>
+<p><span class="math display">\[ 1=\lim_{n \to \infty} \mathbb{P}(A_n) \le \lim_{n \to \infty} \mathbb{P}(A_n \cup B_n) \le 1 \]</span> <span class="math display">\[ \Rightarrow \lim_{n \to \infty} \mathbb{P}(A_n \cup B_n) = 1 \]</span> Usando a fórmula da união (Propriedade 5): <span class="math display">\[ \mathbb{P}(A_n \cup B_n) = \mathbb{P}(A_n) + \mathbb{P}(B_n) - \mathbb{P}(A_n \cap B_n) \]</span> Aplicando o limite em todos os termos: <span class="math display">\[ \lim_{n \to \infty} \mathbb{P}(A_n \cup B_n) = \lim_{n \to \infty} \mathbb{P}(A_n) + \lim_{n \to \infty} \mathbb{P}(B_n) - \lim_{n \to \infty} \mathbb{P}(A_n \cap B_n) \]</span> Substituindo os valores conhecidos: <span class="math display">\[ 1 = 1 + p - \lim_{n \to \infty} \mathbb{P}(A_n \cap B_n) \]</span> <span class="math display">\[ 0 = p - \lim_{n \to \infty} \mathbb{P}(A_n \cap B_n) \]</span> Logo, <span class="math inline">\(\lim_{n \to \infty} \mathbb{P}(A_n \cap B_n) = p\)</span>.</p></li>
+<li><p>Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade, <span class="math inline">\(A \in \mathcal{F}, B \in \mathcal{F}\)</span> tal que <span class="math inline">\(\mathbb{P}(A) &lt; 1\)</span>, <span class="math inline">\(\mathbb{P}(B) &gt; 0\)</span> e <span class="math inline">\(\mathbb{P}(A|B) = 1\)</span>. Então <span class="math inline">\(\mathbb{P}(B^c|A^c) = 1\)</span>.</p>
+<p><strong>Solução:</strong> <span class="math display">\[
+\begin{align*}
+\mathbb{P}(B^c|A^c) &amp;= 1 - \mathbb{P}(B|A^c) \\
+                   &amp;= 1 - \frac{\mathbb{P}(B \cap A^c)}{\mathbb{P}(A^c)} \\
+                   &amp;= 1 - \frac{\mathbb{P}(A^c|B) \mathbb{P}(B)}{\mathbb{P}(A^c)} \\
+                   &amp;= 1 - \frac{(1 - \mathbb{P}(A|B)) \mathbb{P}(B)}{\mathbb{P}(A^c)} \\
+\end{align*}
+\]</span> Dado que <span class="math inline">\(\mathbb{P}(A|B) = 1\)</span>: <span class="math display">\[
+\begin{align*}
+\mathbb{P}(B^c|A^c) &amp;= 1 - \frac{(1 - 1) \mathbb{P}(B)}{\mathbb{P}(A^c)} \\
+                   &amp;= 1 - \frac{0 \cdot \mathbb{P}(B)}{\mathbb{P}(A^c)} \\
+                   &amp;= 1 - 0 = 1
+\end{align*}
+\]</span> (Note que <span class="math inline">\(\mathbb{P}(A^c) = 1 - \mathbb{P}(A) &gt; 0\)</span>, pois <span class="math inline">\(\mathbb{P}(A) &lt; 1\)</span>, então a divisão é válida).</p></li>
+<li><p>Uma moeda com probabilidade <span class="math inline">\(p\)</span> de cara em cada lançamento é lançada infinitas vezes, de maneira independente. Sejam <span class="math inline">\(A_n\)</span>: ocorre pelo menos uma cara nos <span class="math inline">\(n\)</span> primeiros lançamentos, <span class="math inline">\(n \ge 1\)</span>. <span class="math inline">\(A\)</span>: ocorre pelo menos uma cara.</p>
+<ol type="a">
+<li>Mostre que <span class="math inline">\(A_n \uparrow A\)</span>.</li>
+<li>Mostre que <span class="math inline">\(\mathbb{P}(A) = \begin{cases} 1, \text{ se } 0 &lt; p \le 1 \\ 0, \text{ se } p = 0 \end{cases}\)</span>.</li>
+</ol>
+<p><strong>Solução (a):</strong> <span class="math inline">\(A_n \subseteq A_{n+1}, n \ge 1. \rightarrow \{A_n\}_{n \ge 1}\)</span> é uma seq. monótona não decrescente.</p>
+<p>Logo, <span class="math inline">\(\lim_{n \to \infty} A_n = \bigcup_{n=1}^{\infty} A_n\)</span>.</p>
+<p><span class="math inline">\(\omega \in \bigcup_{n=1}^{\infty} A_n \Rightarrow \exists n \text{ tal que } \omega \in A_n \Rightarrow \omega \in A\)</span>. Também, <span class="math inline">\(\omega \in A \Rightarrow \exists n \text{ tal que } \omega \in A_n \Rightarrow \omega \in \bigcup_{n=1}^{\infty} A_n\)</span>.</p>
+<p><strong>Solução (b):</strong> (em que <span class="math inline">\(E_i\)</span>: ocorreu cara no lançamento <span class="math inline">\(i\)</span>) <span class="math display">\[
+\begin{align*}
+\mathbb{P}(A) &amp;= \mathbb{P}(\bigcup_{n=1}^{\infty} A_n) = \mathbb{P}(\lim_{n \to \infty} A_n) = \lim_{n \to \infty} \mathbb{P}(A_n) = \lim_{n \to \infty} [1 - \mathbb{P}(A_n^c)] \\
+              &amp;= \lim_{n \to \infty} [1 - \mathbb{P}(E_1^c \cap E_2^c \cap \dots \cap E_n^c)] \\
+              &amp;= \lim_{n \to \infty} [1 - \prod_{i=1}^n \mathbb{P}(E_i^c)] \quad \text{(indep.)} \\
+              &amp;= \lim_{n \to \infty} (1 - (1-p)^n) = \begin{cases} 1, &amp; \text{ se } 0 &lt; p \le 1 \\ 0, &amp; \text{ se } p = 0 \end{cases}
+\end{align*}
+\]</span></p>
+<p>Em que <span class="math inline">\(E_i:\)</span> ocorreu cara no lançamento <span class="math inline">\(i.\)</span></p></li>
+<li><p><span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> espaço de probabilidade com <span class="math inline">\(A, B, A_1, A_2, \dots \in \mathcal{F}\)</span>. Suponha <span class="math inline">\(A_n \uparrow A\)</span> e que B é independente de <span class="math inline">\(A_n, \forall n \ge 1\)</span>. Prove que A e B são independentes.</p>
+<p><strong>Solução:</strong> <span class="math display">\[
+\mathbb{P}(A|B) = \mathbb{P}(\bigcup_{n=1}^{\infty} A_n | B) = \lim_{n \to \infty} \mathbb{P}(A_n|B) = \lim_{n \to \infty} \mathbb{P}(A_n) = \mathbb{P}(\bigcup_{n=1}^{\infty} A_n) = \mathbb{P}(A)
+\]</span> Logo, A e B são independentes.</p></li>
+</ol>
 
 
 
@@ -637,11 +695,14 @@ div.csl-indent {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./aula24.html" class="pagination-link" aria-label="24 Introdução: O Dilema do Teste A/B">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span>
+      <a href="./aula04.html" class="pagination-link" aria-label="Probabilidade Condicional">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilidade Condicional</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./020_inferencia.html" class="pagination-link" aria-label="Módulo Inferência Estatística">
+        <span class="nav-page-text">Módulo Inferência Estatística</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

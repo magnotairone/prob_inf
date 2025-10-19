@@ -1,0 +1,85 @@
+# Principais Modelos Probabilisticos
+
+## Principais Modelos Discretos
+
+::: {#def-uniforme-discreta name="Modelo 1: Uniforme Discreto"}
+Uma v.a. X segue o modelo uniforme discreto com valores $\{x_1, x_2, \dots, x_k\}$ se
+$$ \mathbb{P}(X = x_i) = \frac{1}{k}, \quad i=1, 2, \dots, k.$$
+Notação: $X \sim U_d[x_1, x_2, \dots, x_k]$.
+:::
+
+::: {#def-bernoulli name="Modelo 2: Bernoulli"}
+Uma v.a. X segue o modelo Bernoulli se
+$$ \mathbb{P}(X = x) = p^x (1-p)^{1-x}, \quad x=0, 1,$$ 
+$p \in (0, 1)$.
+Notação: $X \sim \text{Bernoulli}(p)$.
+
+Experimentos do tipo sucesso ($x=1$) e fracasso ($x=0$), ensaios de Bernoulli.
+:::
+
+::: {#def-binomial name="Modelo 3: Binomial"}
+Uma v.a. X segue o modelo binomial com parâmetros $n \in \mathbb{N}$ e $p \in (0, 1)$ se
+$$ \mathbb{P}(X = x) = \binom{n}{x} p^x (1-p)^{n-x}, \quad x=0, 1, \dots, n.$$
+Notação: $X \sim B(n, p)$.
+
+**Comentário:**
+A v.a. $X$ pode ser definida como o número de sucessos (ocorrência de 1) em $n$ ensaios de Bernoulli independentes, cada um com probabilidade de sucesso $p$.
+:::
+
+::: {#def-geometrica name="Modelo 4: Geométrico 1"}
+Uma v.a. X segue o modelo Geométrico (tipo 1) com parâmetro $p \in (0, 1)$ se
+$$ \mathbb{P}(X = x) = p (1-p)^x, \quad x=0, 1, 2, \dots $$
+Notação: $X \sim \mathrm{Geo}_1(p)$.
+
+**Comentários:**
+
+1) $X =$ número de fracassos que antecedem o primeiro sucesso em experimentos de Bernoulli independentes.
+2) Também poderíamos contar o número de tentativas. Neste caso, $X \sim \mathrm{Geo}_2(p)$ e
+$$ \mathbb{P}(X = x) = p (1-p)^{x-1}, \quad x=1, 2, \dots $$
+:::
+
+::: {#def-poisson name="Modelo 5: Poisson"}
+Uma v.a. X segue o modelo de Poisson de parâmetro $\lambda > 0$ se
+$$ \mathbb{P}(X = x) = \frac{e^{-\lambda} \lambda^x}{x!}, \quad x=0, 1, 2, \dots $$
+Notação: $X \sim \text{Pois}(\lambda)$.
+
+**Comentários:**
+
+1) X pode modelar o número de ocorrências em um determinado intervalo de tempo.
+2) $\lambda$ representa a taxa de ocorrências por unidade de medida.
+:::
+
+## Principais Modelos Contínuos
+
+::: {#def-uniforme-continua name="Modelo 1: Uniforme Contínuo"}
+X segue o modelo uniforme contínuo em $[a, b] \subset \mathbb{R}$ se todos os subintervalos de $[a, b]$ com mesmo comprimento tiverem a mesma probabilidade. A f.d.p. de X é:
+$$ f_X(x) = \frac{1}{b-a} I_{[a, b]}(x) $$
+Notação: $X \sim U(a, b)$.
+:::
+
+::: {#def-exponencial name="Modelo 2: Exponencial"}
+Uma v.a. X segue o modelo exponencial de parâmetro $\lambda > 0$ se:
+$$ f_X(x) = \lambda e^{-\lambda x} I_{(0, \infty)}(x) $$
+Notação: $X \sim \text{exp}(\lambda)$.
+:::
+
+::: {#def-normal name="Modelo 3: Normal"}
+Uma v.a. X segue o modelo normal com parâmetros $\mu \in \mathbb{R}$ e $\sigma^2 > 0$ se:
+$$ f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left\{-\frac{1}{2\sigma^2}(x-\mu)^2\right\}, \quad x \in \mathbb{R} $$
+Notação: $X \sim N(\mu, \sigma^2)$.
+
+**Comentários:**
+1) $f(x)$ é simétrica em torno de $\mu$.
+2) Notação para f.d.a. de $Z \sim N(0, 1): F_Z(z) = \Phi(z)$.
+:::
+
+::: {#def-gama name="Modelo 4: Gama"}
+$X \sim \text{Gama}(\alpha, \beta)$, com $\alpha, \beta > 0$.
+$$ f_X(x) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} e^{-\beta x} I_{(0, \infty)}(x) $$
+Onde $\Gamma(\alpha)$ é a função Gama.
+:::
+
+::: {#def-beta name="Modelo 5: Beta"}
+$X \sim \text{Beta}(\alpha, \beta)$, com $\alpha, \beta > 0$.
+$$ f_X(x) = \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} x^{\alpha-1} (1-x)^{\beta-1} I_{(0, 1)}(x) $$
+:::

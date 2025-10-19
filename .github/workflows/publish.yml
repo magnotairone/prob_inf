@@ -23,7 +23,7 @@ jobs:
           use-r-cache: true 
           
           # 2. Lista os pacotes para instalar
-          packages:|
+          packages: |
               rmarkdown
               knitr
               tidyverse

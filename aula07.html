@@ -65,7 +65,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./020_inferencia.html" rel="next">
+<link href="./aula08.html" rel="next">
 <link href="./aula06.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -231,6 +231,18 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Principais Modelos Probabilisticos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vetores Aleatórios</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -245,7 +257,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula24.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
   </div>
 </li>
       </ul>
@@ -266,10 +278,12 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link active" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">7.1</span> Implementação Prática em R</a>
+  <li><a href="#tipos-de-variáveis-aleatórias" id="toc-tipos-de-variáveis-aleatórias" class="nav-link active" data-scroll-target="#tipos-de-variáveis-aleatórias"><span class="header-section-number">7.1</span> Tipos de Variáveis Aleatórias</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">7.2</span> Implementação Prática em R</a>
   <ul class="collapse">
   <li><a href="#calculando-um-ponto-na-efda" id="toc-calculando-um-ponto-na-efda" class="nav-link" data-scroll-target="#calculando-um-ponto-na-efda">Calculando um Ponto na eFDA</a></li>
   <li><a href="#plotando-a-efda-completa" id="toc-plotando-a-efda-completa" class="nav-link" data-scroll-target="#plotando-a-efda-completa">Plotando a eFDA Completa</a></li>
+  <li><a href="#visualizando-os-3-tipos-de-v.a.s" id="toc-visualizando-os-3-tipos-de-v.a.s" class="nav-link" data-scroll-target="#visualizando-os-3-tipos-de-v.a.s">Visualizando os 3 Tipos de V.A.s</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -360,20 +374,107 @@ F_X(x) = \mathbb{P}(X \le x) =
 <p><strong>Comentário:</strong> Toda função F satisfazendo P1, P2, P3 é a função de distribuição de alguma variável aleatória.</p>
 <p><strong>Observação:</strong> Uma função de distribuição pode corresponder a várias v.a.s no mesmo espaço de probabilidade. Por exemplo, se <span class="math inline">\(X \sim N(0, 1) \rightarrow -X \sim N(0, 1)\)</span> e <span class="math inline">\(F_X = F_{-X}\)</span>. No entanto <span class="math inline">\(\mathbb{P}(X = -X) = \mathbb{P}(2X = 0) = \mathbb{P}(X = 0) = 0\)</span>.</p>
 <p><strong>Notação:</strong> O símbolo “<span class="math inline">\(\sim\)</span>” significa “tem como distribuição” ou “está distribuído como”.</p>
-<section id="implementação-prática-em-r" class="level2" data-number="7.1">
-<h2 data-number="7.1" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">7.1</span> Implementação Prática em R</h2>
+<section id="tipos-de-variáveis-aleatórias" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="tipos-de-variáveis-aleatórias"><span class="header-section-number">7.1</span> Tipos de Variáveis Aleatórias</h2>
+<p>A FDA nos permite classificar as variáveis aleatórias. Na prática, isso se traduz diretamente nos tipos de dados que analisamos: dados de <strong>contagem</strong> (discretos), dados de <strong>medição</strong> (contínuos) e dados <strong>censurados</strong> (mistos).</p>
+<div id="def-tipos-va" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 7.2 (Definição 2.3)</strong></span> &nbsp;</p>
+<ol type="a">
+<li><p>A v.a. X é dita ser <strong>discreta</strong> se toma valores em um conjunto finito ou infinito enumerável, isto é, se existe um conjunto <span class="math inline">\(\{x_1, x_2, \dots\} \subset \mathbb{R}\)</span> tal que <span class="math display">\[ X(\omega) \in \{x_1, x_2, \dots\}, \forall \omega \in \Omega. \]</span> A função <span class="math display">\[ p(x_i) = \mathbb{P}(X = x_i), \quad i=1, 2, \dots \]</span> é chamada <strong>função de probabilidade (f.p.)</strong> de X.</p></li>
+<li><p>A v.a. X é dita ser <strong>(absolutamente) contínua</strong> se existe uma função <span class="math inline">\(f(x) \ge 0\)</span> tal que <span class="math display">\[ F_X(x) = \int_{-\infty}^{x} f(t) dt, \quad \forall x \in \mathbb{R} \]</span> Neste caso, dizemos que <span class="math inline">\(f\)</span> é a <strong>função densidade de probabilidade (f.d.p.)</strong> de X.</p></li>
+</ol>
+</div>
+<blockquote class="blockquote">
+<p><strong>Perspectiva de Data Science: FP vs.&nbsp;FDP (Gráfico de Barras vs.&nbsp;Densidade)</strong></p>
+<ul>
+<li><strong>a) Discreta (FP):</strong> Pense em <code>feature</code> como <code>click_count</code>, <code>star_rating</code> (1, 2, 3, 4, 5) ou <code>num_purchases</code>.
+<ul>
+<li>A <strong>função de probabilidade (f.p.)</strong> <span class="math inline">\(p(x_i)\)</span> é o que você vê em um <strong>gráfico de barras</strong> (<code>geom_col</code>) após normalizar (ex: <code>prop.table(count(df, click_count))</code>).</li>
+<li><span class="math inline">\(p(x_i)\)</span> <em>é</em> uma probabilidade (ex: <span class="math inline">\(p(3) = \mathbb{P}(X=3) = 0.15\)</span> ou “15% dos usuários clicaram 3 vezes”).</li>
+</ul></li>
+<li><strong>b) Contínua (FDP):</strong> Pense em <code>feature</code> como <code>session_duration</code>, <code>transaction_amount</code> ou <code>score_de_risco</code>.
+<ul>
+<li>A <strong>função densidade de probabilidade (f.d.p.)</strong> <span class="math inline">\(f(x)\)</span> é a curva suave que você vê em um <strong>gráfico de densidade</strong> (<code>geom_density</code>).</li>
+<li><span class="math inline">\(f(x)\)</span> <em>não é</em> uma probabilidade! É uma “densidade”. A probabilidade é a <strong>área sob a curva</strong>. A probabilidade de <em>exatamente</em> <span class="math inline">\(X=120.53s\)</span> é zero. A probabilidade de <span class="math inline">\(X \in [120, 121]\)</span> é a integral (área) de <span class="math inline">\(f(x)\)</span> entre 120 e 121.</li>
+</ul></li>
+</ul>
+</blockquote>
+<p><strong>Notas:</strong></p>
+<ol type="1">
+<li>Se X é discreta, então <span class="math inline">\(\{X\leq x\}=\bigcup_{i: x_i \le x}\{X=x_i\},\)</span> logo <span class="math display">\[ F_X(x) = \mathbb{P}(X \le x) = \mathbb{P}(\bigcup_{i: x_i \le x} \{X = x_i\}) = \sum_{i: x_i \le x} p(x_i).\]</span></li>
+<li>De forma geral, uma <strong>f.p.</strong> é qualquer função <span class="math inline">\(p(\cdot)\)</span> tal que <span class="math inline">\(p(x) \ge 0, \forall x \in \mathbb{R}\)</span> e <span class="math inline">\(\sum_{x \in K} p(x) = 1\)</span> (onde K é o conjunto de valores possíveis de X).</li>
+<li>Se X é absolutamente contínua, então <span class="math inline">\(F_X\)</span> é contínua. Tecnicamente, a integral na Definição 2.3.b) é de Lebesgue e X tem densidade se, e só se, <span class="math inline">\(F_X\)</span> é absolutamente contínua (isto é, <span class="math inline">\(F_X\)</span> é a integral de sua densidade). Neste caso, <span class="math display">\[ f(x) = F_X'(x) \]</span> em quase todo ponto (exceto num conjunto de medida de Lebesgue nula, isto é, comprimento zero).</li>
+<li>Uma função <span class="math inline">\(f(\cdot)\)</span> é uma <strong>f.d.p.</strong> se:
+<ul>
+<li><span class="math inline">\(f(x) \ge 0, \forall x \in \mathbb{R}\)</span></li>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f(x) dx = 1\)</span></li>
+</ul></li>
+<li>A f.d.p. não é única. Por exemplo, seja <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; 0 \\ x, &amp; 0 \le x &lt; 1 \\ 1, &amp; x \ge 1 \end{cases} \]</span> Podemos obter um candidato para <span class="math inline">\(f(\cdot)\)</span> fazendo <span class="math inline">\(f_X^1(x) = \frac{d}{dx} F(x) = 1, x \in (0, 1)\)</span> e 0 caso contrário. Também poderíamos ter <span class="math inline">\(f_X^2(x) = 1\)</span> para <span class="math inline">\(x \in [0, 1/2] \cup (1/2, 1]\)</span> (i.e., mudando um ponto).</li>
+</ol>
+<div id="exm-va-mista" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 7.2 (Exemplo 2.8 (Variável Aleatória Mista))</strong></span> Seja X tal que <span class="math inline">\(X \sim U(0, 1)\)</span>, isto é, X tem função de dist. <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; 0 \\ x, &amp; 0 \le x &lt; 1 \\ 1, &amp; x \ge 1 \end{cases} \]</span> Defina <span class="math inline">\(Y = \min(X, 1/2)\)</span>. Obtenha a f.d.a. de Y. <span class="math display">\[ Y(\omega) = \begin{cases} X(\omega), &amp; 0 \le X(\omega) &lt; 1/2 \\ 1/2, &amp; 1/2 \le X(\omega) \le 1 \end{cases} \]</span> <span class="math inline">\(F_Y(y) = \mathbb{P}(Y \le y), y \in \mathbb{R}\)</span>.</p>
+<ul>
+<li>Para <span class="math inline">\(y &lt; 0\)</span>, temos que <span class="math inline">\(F_Y(y) = 0\)</span>.</li>
+<li>Para <span class="math inline">\(0 \le y &lt; 1/2\)</span>, temos <span class="math display">\[ F_Y(y) = \mathbb{P}(Y \le y) = \mathbb{P}(\{\omega \in \Omega : Y(\omega) \le y\}) \]</span> <span class="math display">\[ = \mathbb{P}(\{\omega \in \Omega : X(\omega) \le y\}) = F_X(y) = y \]</span></li>
+<li>Para <span class="math inline">\(y \ge 1/2\)</span>, <span class="math inline">\(F_Y(y) = 1\)</span>.</li>
+</ul>
+<p>Em resumo, <span class="math display">\[ F_Y(y) = \begin{cases} 0, &amp; y &lt; 0 \\ y, &amp; 0 \le y &lt; 1/2 \\ 1, &amp; y \ge 1/2 \end{cases} \]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula07_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note que <span class="math inline">\(F_Y(y)\)</span> é contínua em <span class="math inline">\((-\infty, 1/2)\)</span> e <span class="math inline">\([1/2, \infty)\)</span> e descontínua em <span class="math inline">\(y = 1/2\)</span>.</p>
+</div>
+<div id="def-va-singular" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 7.3 (Definição 2.4)</strong></span> Uma v.a. X é dita ser <strong>singular</strong> se <span class="math inline">\(F_X'(x) = 0, \forall x \in \mathbb{R}\)</span>, exceto para um conj. de medida de Lebesgue nula e <span class="math inline">\(F_X\)</span> é contínua.</p>
+</div>
+<div id="exm-cantor" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 7.3 (Exemplo 2.9 (Função de Cantor))</strong></span> Ver exemplo 7 - James (2003) p.&nbsp;41.</p>
+</div>
+<div id="prp-prob-conjuntos-borel" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposição 7.2 (Proposição 2.2)</strong></span> &nbsp;</p>
+<ol type="a">
+<li><p>Se X é uma v.a. discreta tomando valores em <span class="math inline">\(\{x_1, x_2, \dots\}\)</span> então <span class="math display">\[ \mathbb{P}_X(B) = \sum_{i: x_i \in B} p(x_i), \quad \forall B \in \mathcal{B} \]</span></p></li>
+<li><p>Se X é abs. contínua com densidade <span class="math inline">\(f\)</span> então <span class="math display">\[ \mathbb{P}_X(B) = \int_{B} f(x) dx, \quad \forall B \in \mathcal{B} \]</span></p></li>
+</ol>
+</div>
+<blockquote class="blockquote">
+<p><strong>Perspectiva de Data Science: Como Calcular Probabilidades</strong></p>
+<p>Esta proposição é o “como fazer”:</p>
+<ul>
+<li><strong>a) Discreta:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{star\_rating} &gt; 3)\)</span>, você <strong>soma</strong> as probabilidades das barras: <span class="math inline">\(\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)\)</span>.</li>
+<li><strong>b) Contínua:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{duration} \in [60, 120])\)</span>, você <strong>integra</strong> (calcula a área sob a curva) <span class="math inline">\(f(x)\)</span> de 60 a 120. Na prática, <span class="math inline">\(\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)\)</span>.</li>
+</ul>
+</blockquote>
+</section>
+<section id="implementação-prática-em-r" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">7.2</span> Implementação Prática em R</h2>
 <p>Na prática, não conhecemos a <span class="math inline">\(F_X\)</span> teórica; nós a estimamos a partir dos dados. Isso é chamado de <strong>Função de Distribuição Acumulada Empírica (eFDA)</strong>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando os dados da aula anterior</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">user_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">X_session_duration =</span> <span class="fu">abs</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">120</span>, <span class="dv">40</span>)), </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y_click_count =</span> <span class="fu">rpois</span>(<span class="dv">1000</span>, <span class="fl">1.5</span>),</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Z_is_vip =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando os dados da aula anterior</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">user_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">X_session_duration =</span> <span class="fu">abs</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">120</span>, <span class="dv">40</span>)), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y_click_count =</span> <span class="fu">rpois</span>(<span class="dv">1000</span>, <span class="fl">1.5</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Z_is_vip =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando a V.A. Mista (Dados Censurados)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Vamos "censurar" ou "capar" a duração em 180s (timeout)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># W = min(X, 180)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">W_duration_censored =</span> <span class="fu">pmin</span>(X_session_duration, <span class="dv">180</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="calculando-um-ponto-na-efda" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="calculando-um-ponto-na-efda">Calculando um Ponto na eFDA</h3>
@@ -427,13 +528,112 @@ F_X(x) = \mathbb{P}(X \le x) =
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="aula07_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="aula07_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizando-os-3-tipos-de-v.a.s" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="visualizando-os-3-tipos-de-v.a.s">Visualizando os 3 Tipos de V.A.s</h3>
+<p>Vamos comparar as Funções de Probabilidade/Densidade (FP/FDP) com as Funções de Distribuição (FDA) para nossos 3 tipos de v.a.s.</p>
+<section id="v.a.-discreta-y_click_count" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-discreta-y_click_count">V.A. Discreta (<code>Y_click_count</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Probabilidade (FP) - Gráfico de Barras</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Y_click_count) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prob =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Y_click_count), <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Discreta: Função de Probabilidade (FP)"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Y (Contagem de Cliques)"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"p(y) = P(Y=y)"</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Distribuição (FDA) - Gráfico de Degraus</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> Y_click_count)) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"step"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Discreta: FDA (eCDF)"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"y (Contagem de Cliques)"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[Y](y))) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-discreta-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FP e FDA de uma V.A. Discreta (Contagem de Cliques)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="v.a.-contínua-x_session_duration" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-contínua-x_session_duration">V.A. Contínua (<code>X_session_duration</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função Densidade de Probabilidade (FDP) - Gráfico de Densidade</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Contínua: Função Densidade (FDP)"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X (Duração da Sessão)"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"f(x) (Densidade)"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Distribuição (FDA) - Curva Suave</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"line"</span>, <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Contínua: FDA (eCDF)"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x (Duração da Sessão)"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[X](x))) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>p3 <span class="sc">+</span> p4</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-continua-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FDP e FDA de uma V.A. Contínua (Duração da Sessão)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="v.a.-mista-w_duration_censored" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-mista-w_duration_censored">V.A. Mista (<code>W_duration_censored</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># "Densidade" - Histograma (note o pico!)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> W_duration_censored)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"purple"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Mista: Histograma (Note o 'pico' da censura)"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"W (Duração Censurada em 180s)"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Densidade"</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> W_duration_censored)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"step"</span>, <span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Mista: FDA (Note o 'Salto')"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"w (Duração Censurada em 180s)"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[W](w))) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>p5 <span class="sc">+</span> p6</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-mista-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FDP/FDA de uma V.A. Mista (Duração Censurada)</figcaption>
 </figure>
 </div>
 </div>
 </div>
 
 
+</section>
 </section>
 </section>
 
@@ -845,8 +1045,8 @@ F_X(x) = \mathbb{P}(X \le x) =
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./020_inferencia.html" class="pagination-link" aria-label="Módulo Inferência Estatística">
-        <span class="nav-page-text">Módulo Inferência Estatística</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./aula08.html" class="pagination-link" aria-label="Principais Modelos Probabilisticos">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Principais Modelos Probabilisticos</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

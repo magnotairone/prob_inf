@@ -1,0 +1,208 @@
+# Função de Distribuição Acumulada (FDA)
+
+Na aula anterior, definimos uma variável aleatória (v.a.) $X$ como uma *feature* ou métrica (ex: `session_duration`).
+
+Na prática, especialmente com *features* contínuas, a pergunta "Qual a probabilidade da sessão durar *exatamente* 120.53 segundos?" não é útil (a resposta é zero!).
+
+As perguntas de negócio que realmente importam são sobre **limites** (*thresholds*):
+
+* "Qual a chance da transação ser *menor ou igual a* R$ 100?"
+* "Qual a proporção de clientes com *score de risco abaixo de* 0.2?"
+* "Qual a probabilidade do tempo de resposta do servidor ser *maior que* 3 segundos?" (uma quebra de SLA).
+
+A **Função de Distribuição Acumulada (FDA)**, ou *Cumulative Distribution Function (CDF)*, é a ferramenta matemática que responde a todas essas perguntas.
+
+::: {#def-funcao-distribuicao name="Definição 2.2 (Função de Probabilidade)"}
+A **função de distribuição (acumulada)**, f.d.a., de uma v.a. X, representada por $F_X$ (ou simplesmente por F), é definida por:
+$$ F_X(x) = \mathbb{P}(X \le x), \quad x \in \mathbb{R} $$
+:::
+
+> **Perspectiva de Data Science: A FDA é o Fundamento dos *p-values* e Quantis**
+>
+>
+> * **Análise de Risco:** $F_X(0.2) = 0.15$ significa "15% dos seus clientes têm score de risco abaixo de 0.2".
+> * **Percentis/Quantis:** A FDA é a função que *invertemos* para encontrar quantis. "Qual o 95º percentil do tempo de resposta?" é o mesmo que "Encontre o valor $x$ tal que $F_X(x) = 0.95$".
+> * **Testes de Hipótese:** Um **p-value** é o resultado de uma FDA. Por exemplo, $p = F_Z(-1.96)$ (em um teste de cauda esquerda) nos dá a probabilidade acumulada de ver um resultado tão extremo ou *menor*.
+
+
+::: {#exm-fda-cliques name="Exemplo 2.7"}
+Um usuário vê dois anúncios (`Ad_1`, `Ad_2`). Suponha que a chance de clicar em cada um é de 50% ($p=0.5$) e os eventos são independentes. Seja $X = n^{o}$ de anúncios clicados. Obtenha $F_X$.
+
+Temos $\Omega = \{(0,0), (0,1), (1,0), (1,1)\}$ (0=não-clique, 1=clique) e a v.a. assume os valores $X=0, 1, 2$.
+
+* $\mathbb{P}(X=0) = \mathbb{P}(\{(0,0)\}) = 0.5 \times 0.5 = 1/4$
+* $\mathbb{P}(X=1) = \mathbb{P}(\{(0,1), (1,0)\}) = 2 \times (0.5 \times 0.5) = 1/2$
+* $\mathbb{P}(X=2) = \mathbb{P}(\{(1,1)\}) = 0.5 \times 0.5 = 1/4$
+
+A FDA $F_X(x) = \mathbb{P}(X \le x)$ acumula essas probabilidades:
+
+$$
+F_X(x) = \mathbb{P}(X \le x) =
+\begin{cases}
+    \mathbb{P}(\emptyset) = 0, & \text{se } x < 0 \\
+    \mathbb{P}(X=0) = 1/4, & \text{se } 0 \le x < 1 \\
+    \mathbb{P}(X=0) + \mathbb{P}(X=1) = 1/4 + 1/2 = 3/4, & \text{se } 1 \le x < 2 \\
+    \mathbb{P}(\Omega) = \mathbb{P}(X=0) + \mathbb{P}(X=1) + \mathbb{P}(X=2) = 1, & \text{se } x \ge 2
+\end{cases}
+$$
+
+O gráfico desta f.d.a. esta na figura abaixo.
+
+```{r}
+#| echo: FALSE
+#| message: false
+#| warning: false
+
+library(ggplot2)
+
+df_segmentos <- data.frame(
+  x = c(-1, 0, 1, 2),    # Coordenada x inicial
+  xend = c(0, 1, 2, 3),  # Coordenada x final
+  y = c(0, 1/4, 3/4, 1) # Coordenada y (constante)
+)
+
+# Estes são os pontos (x, y) onde o degrau *começa*
+df_fechado <- data.frame(
+  x = c(0, 1, 2),
+  y = c(1/4, 3/4, 1)
+)
+
+# Estes são os pontos (x, y) onde o degrau anterior *termina*
+df_aberto <- data.frame(
+  x = c(0, 1, 2),
+  y = c(0, 1/4, 3/4)
+)
+
+ggplot() +
+  geom_hline(yintercept = 0, color = "gray", linetype = "dashed") +
+  geom_vline(xintercept = 0, color = "gray", linetype = "dashed") +
+  geom_segment(data = df_segmentos, 
+        	 	  aes(x = x, y = y, xend = xend, yend = y), 
+        		  color = "black") +
+
+  geom_point(data = df_fechado, aes(x = x, y = y), 
+    		  shape = 19, color = "black", size = 3) +
+  
+  geom_point(data = df_aberto, aes(x = x, y = y), 
+    		  shape = 21, color = "black", fill = "white", size = 3, stroke = 1) +
+  labs(
+    title = "Função de Distribuição Acumulada (FDA)",
+    x = expression(x),
+    y = expression(F[X](x))
+  ) +
+  scale_y_continuous(
+    breaks = c(0, 1/4, 3/4, 1),
+    labels = c("0", "1/4", "3/4", "1"),
+    limits = c(-0.1, 1.1) # Adiciona um pouco de espaço
+  ) +
+  scale_x_continuous(
+    breaks = c(0, 1, 2),
+    limits = c(-1, 3) # Adiciona um pouco de espaço
+  ) +
+  theme_classic()
+```
+
+:::
+
+::: {#prp-propriedades-fda name="Proposição 2.1"}
+Se X é uma v.a., sua função de distribuição goza das seguintes propriedades:
+
+- P1. $x \le y \rightarrow F(x) \le F(y)$ (i.e. F é não decrescente).
+- P2. Se $x_n \downarrow x$, então $F(x_n) \downarrow F(x)$ (i.e. F é contínua à direita).
+- P3. Se $x_n \downarrow -\infty$, então $F(x_n) \downarrow 0.$
+    Se $x_n \uparrow \infty$, então $F(x_n) \uparrow 1.$
+
+**Demonstração:**
+
+P1: Seja $x \le y \rightarrow \{X \le x\} \subseteq \{X \le y\}$.
+$\Rightarrow \mathbb{P}(X \le x) \le \mathbb{P}(X \le y)$ (pela Propriedade 3 da probabilidade).
+$\rightarrow F(x) \le F(y)$.
+
+P2: Seja $x_n \downarrow x$, então $\{X \le x_n\} \downarrow \{X \le x\}$.
+Pela Continuidade da Probabilidade (@thm-continuidade):
+$\mathbb{P}(\{X \le x_n\}) \downarrow \mathbb{P}(\{X \le x\})$.
+$\Rightarrow F(x_n) \downarrow F(x)$.
+
+P3: Se $x_n \downarrow -\infty$, então $\{X \le x_n\} \downarrow \emptyset \rightarrow F(x_n) \downarrow 0$.
+Se $x_n \uparrow \infty$, então $\{X \le x_n\} \uparrow \Omega \rightarrow F(x_n) \uparrow 1$.
+:::
+
+**Comentário:** Toda função F satisfazendo P1, P2, P3 é a função de distribuição de alguma variável aleatória.
+
+**Observação:** Uma função de distribuição pode corresponder a várias v.a.s no mesmo espaço de probabilidade.
+Por exemplo, se $X \sim N(0, 1) \rightarrow -X \sim N(0, 1)$ e $F_X = F_{-X}$.
+No entanto $\mathbb{P}(X = -X) = \mathbb{P}(2X = 0) = \mathbb{P}(X = 0) = 0$.
+
+**Notação:** O símbolo "$\sim$" significa "tem como distribuição" ou "está distribuído como".
+
+## Implementação Prática em R
+
+Na prática, não conhecemos a $F_X$ teórica; nós a estimamos a partir dos dados. Isso é chamado de **Função de Distribuição Acumulada Empírica (eFDA)**.
+
+```{r}
+#| warning: false
+#| message: false
+library(tidyverse)
+
+# Usando os dados da aula anterior
+set.seed(42)
+Omega_data <- tibble(
+  user_id = 1:1000,
+  X_session_duration = abs(rnorm(1000, 120, 40)), 
+  Y_click_count = rpois(1000, 1.5),
+  Z_is_vip = sample(c(0, 1), 1000, replace = TRUE, prob = c(0.9, 0.1))
+)
+```
+
+### Calculando um Ponto na eFDA {.unnumbered}
+
+A definição $F_X(x) = \mathbb{P}(X \le x)$ se traduz em R para:
+`mean(X <= x)`
+
+Isso calcula a **proporção** de observações no *dataset* que são menores ou iguais a $x$.
+
+```{r}
+# Qual a P(Duração da Sessão <= 100 segundos)?
+x_threshold <- 100
+
+# Usamos mean() que age como P(A) = count(A) / count(Omega)
+prob_acumulada <- Omega_data  |>
+  summarise(
+    F_X_de_100 = mean(X_session_duration <= x_threshold)
+  )  |>
+  pull(F_X_de_100)
+
+cat("Estimativa de F_X(100):", prob_acumulada, "\n")
+```
+
+Isso significa que `r scales::percent(prob_acumulada)` das sessões duram 100s ou menos.
+
+### Plotando a eFDA Completa {.unnumbered}
+
+O `ggplot2` tem uma função dedicada para plotar a eFDA: `stat_ecdf()`. Ela faz o cálculo acima para *todos* os valores de $x$ e desenha a curva.
+
+```{r}
+# O valor que acabamos de calcular
+x_val <- 100
+y_val <- prob_acumulada
+
+ggplot(Omega_data, aes(x = X_session_duration)) +
+  # Plota a eFDA
+  stat_ecdf(geom = "step", color = "blue", linewidth = 1) +
+  
+  # Linhas de anotação para o nosso ponto
+  geom_hline(yintercept = y_val, color = "red", linetype = "dashed") +
+  geom_vline(xintercept = x_val, color = "red", linetype = "dashed") +
+  
+  # Anotação
+  annotate("text", x = 150, y = y_val - 0.1, 
+           label = paste0("P(X <= 100) = ", round(y_val, 2)), 
+           color = "red") +
+  
+  labs(
+    title = "Função de Distribuição Acumulada Empírica (eFDA)",
+    subtitle = "Esta é a 'versão prática' da F_X(x) teórica",
+    x = "x (Duração da Sessão)",
+    y = "F_X(x) - Probabilidade Acumulada P(X <= x)"
+  )
+```

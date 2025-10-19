@@ -1,0 +1,49 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Renderizar e Publicar Livro Quarto
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      # Etapa 1: Instalar o R
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'latest'
+          
+      # Etapa 2: Instalar e Cachear pacotes do R
+      - name: Set up R package dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            rmarkdown
+            knitr
+            tidyverse
+            kableExtra
+            patchwork
+            ggExtra
+            
+      # Etapa 3: Instalar o Quarto
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      # Etapa 4: Renderizar o livro (MÉTODO CORRIGIDO)
+      - name: Render Quarto Book
+        run: quarto render --to html
+        shell: bash
+
+      # Etapa 5: Fazer o Deploy
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: _book

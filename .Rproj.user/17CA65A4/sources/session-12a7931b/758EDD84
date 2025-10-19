@@ -1,26 +1,27 @@
 {
-    "id": "02E7AD8A",
-    "path": "C:/Users/m_tai/Documents/repos/prob_inf/index.qmd",
-    "project_path": "index.qmd",
+    "id": "758EDD84",
+    "path": "C:/Users/m_tai/Documents/repos/prob_inf/aula09.qmd",
+    "project_path": "aula09.qmd",
     "type": "quarto_markdown",
     "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1760807032222.0,
+    "created": 1760905399888.0,
     "source_on_save": false,
-    "relative_order": 4,
+    "relative_order": 3,
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "5,11",
-        "scrollLine": "0"
+        "cursorPosition": "308,0",
+        "scrollLine": "304",
+        "docOutlineVisible": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1760886908,
+    "lastKnownWriteTime": 1760907045,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1760886908589,
+    "last_content_update": 1760907045122,
     "read_only": false,
     "read_only_alternatives": []
 }

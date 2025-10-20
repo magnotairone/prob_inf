@@ -1,5 +1,0 @@
-"0","# Combinar os 4 gráficos
-((g1 + g2) / (g3 + g4)) + theme_minimal()
-"
-"2","Erro: objeto 'g1' não encontrado
-"

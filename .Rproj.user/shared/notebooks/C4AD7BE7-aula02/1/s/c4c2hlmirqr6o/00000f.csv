@@ -1,6 +1,0 @@
-"0","# Evento A: ""Alta Prioridade""
-A <- c(1, 2, 3, 4)
-# Evento B (complementar de A): ""Baixa Prioridade""
-"
-"1",""
-"0","B <- c(5, 6)"

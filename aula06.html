@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -194,7 +194,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -351,16 +351,24 @@ window.Quarto = {
 <li>Em Teoria da Medida, <span class="math inline">\(\{X \le x\} \in \mathcal{F}, \forall x \in \mathbb{R}\)</span>, significa que X é uma <strong>função mensurável</strong> a <span class="math inline">\(\mathcal{F}\)</span>.</li>
 <li>Note que <span class="math inline">\(\{X \le x\}\)</span> é a imagem inversa de <span class="math inline">\(X\)</span> no intervalo <span class="math inline">\((-\infty, x]\)</span>, isto é, <span class="math inline">\(X^{-1}((-\infty, x])\)</span>.</li>
 </ol>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: A V.A. como “Feature” e a <span class="math inline">\(\sigma\)</span>-álgebra como “Schema”</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A V.A. como 'Feature' e a $\sigma$-álgebra como 'Schema'">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A V.A. como ‘Feature’ e a <span class="math inline">\(\sigma\)</span>-álgebra como ‘Schema’
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Esta definição é a garantia teórica para nossas <em>queries</em> diárias.</p>
 <ul>
 <li><strong><span class="math inline">\(X\)</span> é a <em>Feature</em></strong>: Pense em <span class="math inline">\(X\)</span> como a coluna <code>session_duration</code> em seu <em>data frame</em>.</li>
-<li><strong><span class="math inline">\(\Omega\)</span> é a Fonte de Dados Bruta</strong>: Pense em <span class="math inline">\(\Omega\)</span> como a coleção de todos os logs JSON brutos do servidor. <span class="math inline">\(X(\omega)\)</span> é a função (o <em>parser</em>) que extrai o valor <code>session_duration</code> de um log <span class="math inline">\(\omega\)</span>.</li>
-<li><strong>A Condição de Mensurabilidade</strong>: A condição <span class="math inline">\(\{X \le x\} \in \mathcal{F}\)</span> significa: “O conjunto de todos os logs brutos (<span class="math inline">\(\omega\)</span>) que resultaram em uma <code>session_duration</code> menor ou igual a <span class="math inline">\(x\)</span> <em>deve ser algo que nosso schema de dados (<span class="math inline">\(\mathcal{F}\)</span>) nos permite identificar</em>.”</li>
+<li><strong><span class="math inline">\(\Omega\)</span> é a Fonte de Dados Bruta</strong>: Pense em <span class="math inline">\(\Omega\)</span> como a coleção de todos os logs JSON brutos do servidor. <span class="math inline">\(X(\omega)\)</span> é a função (o <em>parser</em>) que extrai o valor <code>session_duration</code> de um log <span class="math inline">\(\omega\)</span>. &gt; * <strong>A Condição de Mensurabilidade</strong>: A condição <span class="math inline">\(\{X \le x\} \in \mathcal{F}\)</span> significa: “O conjunto de todos os logs brutos (<span class="math inline">\(\omega\)</span>) que resultaram em uma <code>session_duration</code> menor ou igual a <span class="math inline">\(x\)</span> <em>deve ser algo que nosso schema de dados (<span class="math inline">\(\mathcal{F}\)</span>) nos permite identificar</em>.”</li>
 </ul>
-<p>Se nosso <em>schema</em> (<span class="math inline">\(\mathcal{F}\)</span>) não nos permite filtrar por “duração”, então a função <span class="math inline">\(X = \text{session_duration}\)</span> <strong>não é</strong> uma variável aleatória válida em nosso sistema, pois não podemos calcular <span class="math inline">\(\mathbb{P}(X \le 30)\)</span>.</p>
-</blockquote>
+<p>Se nosso <em>schema</em> (<span class="math inline">\(\mathcal{F}\)</span>) não nos permite filtrar por “duração”, então a função <span class="math inline">\(X = \text{session\_duration}\)</span> <strong>não é</strong> uma variável aleatória válida em nosso sistema, pois não podemos calcular <span class="math inline">\(\mathbb{P}(X \le 30)\)</span>.</p>
+</div>
+</div>
 <div id="exm-va-constante" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 6.4 (Exemplo 2.3 (Variável Aleatória Constante))</strong></span> Seja <span class="math inline">\(X(\omega) = 5, \forall \omega \in \Omega\)</span>. Verifique que X é v.a. Temos que <span class="math display">\[ \{X \le x\} = \{\omega \in \Omega : X(\omega) \le x\} = \begin{cases} \emptyset, &amp; x &lt; 5 \\ \Omega, &amp; x \ge 5 \end{cases} \]</span> Como <span class="math inline">\(\emptyset\)</span> e <span class="math inline">\(\Omega\)</span> estão em <span class="math inline">\(\mathcal{F}\)</span>, então X é v.a.</p>
 </div>
@@ -370,11 +378,20 @@ window.Quarto = {
 <div id="exm-funcao-indicadora" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 6.5 (Exemplo 2.4 (Função Indicadora))</strong></span> Seja <span class="math inline">\(A \subseteq \Omega\)</span>. Defina <span class="math display">\[ I_A(\omega) = \begin{cases} 1, &amp; \omega \in A \\ 0, &amp; \omega \notin A \end{cases} \]</span> (função indicadora). Se <span class="math inline">\(A \in \mathcal{F}\)</span> e <span class="math inline">\(X = I_A(\omega)\)</span>, mostre que X é v.a. <span class="math display">\[ \{X \le x\} = \{\omega \in \Omega : X(\omega) \le x\} = \begin{cases} \emptyset, &amp; x \in (-\infty, 0) \\ A^c, &amp; x \in [0, 1) \\ \Omega, &amp; x \in [1, +\infty) \end{cases} \]</span> Como <span class="math inline">\(A \in \mathcal{F}\)</span>, então <span class="math inline">\(A^c \in \mathcal{F}\)</span>. Como <span class="math inline">\(\emptyset, A^c, \Omega \in \mathcal{F}\)</span>, X é v.a.</p>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: A Função Indicadora é a <em>Dummy Variable</em></strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A Função Indicadora é a *Dummy Variable*">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A Função Indicadora é a <em>Dummy Variable</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>A função indicadora é uma das v.a.s mais importantes. É como transformamos eventos categóricos (VIP/Não-VIP, Clicou/Não-Clicou, Fraude/Não-Fraude) em números (1/0).</p>
 <p><span class="math inline">\(X = I_A\)</span> é a <strong>“dummy variable”</strong> ou a coluna <strong>“one-hot encoded”</strong> (<code>is_vip</code>) que usamos para treinar modelos de regressão logística, árvores de decisão e redes neurais. Esta prova mostra que, desde que o evento original (<span class="math inline">\(A\)</span>) seja mensurável em nosso <em>schema</em>, a <em>dummy variable</em> correspondente é uma v.a. válida.</p>
-</blockquote>
+</div>
+</div>
 <div id="exm-nao-va" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 6.6 (Exemplo 2.5)</strong></span> Seja <span class="math inline">\(\Omega = \{1, 2, 3, 4\}\)</span>, <span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega, \{1, 2\}, \{3, 4\}\}\)</span> e <span class="math inline">\(B = \{1, 3\}\)</span>. Seja <span class="math inline">\(Y(\omega) = I_B(\omega) = \begin{cases} 1, &amp; \omega \in \{1, 3\} \\ 0, &amp; \omega \in \{2, 4\} \end{cases}\)</span>. Verifique se Y é v.a.</p>
 <p>Para <span class="math inline">\(x \in [0, 1)\)</span>: <span class="math inline">\(\{Y \le x\} = \{\omega \in \Omega : Y(\omega) \le x\} = \begin{cases} \emptyset, &amp; y &lt; 0 \\ B^c, &amp;y \in [0,1)] \\ \Omega, &amp; y \geq 1 \end{cases}\)</span></p>
@@ -397,8 +414,16 @@ window.Quarto = {
 <li>A medida de probabilidade <span class="math inline">\(\mathbb{P}_X\)</span> é chamada <strong>distribuição de X</strong>.</li>
 <li>Verifique que <span class="math inline">\(\mathbb{P}_X\)</span> é, de fato, uma probabilidade.</li>
 </ol>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: O Histograma é a Distribuição Induzida <span class="math inline">\(\mathbb{P}_X\)</span></strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: O Histograma é a Distribuição Induzida $\mathbb{P}_X$">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: O Histograma é a Distribuição Induzida <span class="math inline">\(\mathbb{P}_X\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Este é o passo mais importante da Análise Exploratória de Dados (EDA).</p>
 <ul>
 <li><strong>Nós jogamos <span class="math inline">\(\Omega\)</span> fora:</strong> Não nos importamos mais com os <em>milhões</em> de logs brutos (<span class="math inline">\(\Omega\)</span>).</li>
@@ -406,7 +431,8 @@ window.Quarto = {
 </ul>
 <p>Quando você plota um <strong>histograma</strong> da <code>session_duration</code>, você está plotando uma estimativa empírica da <strong>distribuição induzida <span class="math inline">\(\mathbb{P}_X\)</span></strong>.</p>
 <p>O histograma da <code>session_duration</code> (<span class="math inline">\(X\)</span>) vive no espaço <span class="math inline">\((\mathbb{R}, \mathcal{B}, \mathbb{P}_X)\)</span>. Ele não vive mais no espaço de logs brutos (<span class="math inline">\(\Omega, \mathcal{F}, \mathbb{P}\)</span>). A v.a. <span class="math inline">\(X\)</span> nos permitiu “transportar” a probabilidade de um espaço complexo (logs) para um espaço simples (<span class="math inline">\(\mathbb{R}\)</span>) onde podemos fazer estatística.</p>
-</blockquote>
+</div>
+</div>
 <div id="exm-feature-selection" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 6.8 (Exemplo 2.6)</strong></span> Um experimento coleta 3 <em>features</em> de um usuário: <span class="math inline">\(F_1, F_2, F_3\)</span> (ex: <code>device_type</code>, <code>country</code>, <code>time_of_day</code>). <span class="math inline">\(\Omega = \{1, \dots, 6\} \times \{1, \dots, 10\} \times \{1, \dots, 24\}\)</span> (um espaço amostral com <span class="math inline">\(6 \times 10 \times 24 = 1440\)</span> resultados possíveis). <span class="math inline">\(\mathcal{F} = \mathcal{P}(\Omega)\)</span> e <span class="math inline">\(\mathbb{P}\)</span> é uniforme por simplicidade.</p>
 <p>Estamos interessados <em>apenas</em> na <em>feature</em> <span class="math inline">\(X = F_1\)</span> (<code>device_type</code>, com 6 tipos). <span class="math inline">\(X: \Omega \rightarrow \mathbb{R}\)</span> com <span class="math inline">\(X(\omega) = \omega_1\)</span>, em que <span class="math inline">\(\omega = (\omega_1, \omega_2, \omega_3) \in \Omega\)</span>. Suponha que queiramos calcular <span class="math inline">\(\mathbb{P}(1.5 \le X \le 3.4)\)</span> (ou seja, <span class="math inline">\(\mathbb{P}(X=2 \text{ ou } X=3)\)</span>).</p>
@@ -545,7 +571,8 @@ window.Quarto = {
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Jogamos Ω (os logs) fora e focamos no espaço induzido (os números em ℝ)"</span>,</span>
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"X_session_duration (Nossa V.A. Contínua)"</span>,</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Densidade (Probabilidade Induzida)"</span></span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

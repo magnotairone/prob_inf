@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -192,7 +192,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -328,14 +328,23 @@ window.Quarto = {
 <div id="def-funcao-distribuicao" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 7.1 (Definição 2.2 (Função de Probabilidade))</strong></span> A <strong>função de distribuição (acumulada)</strong>, f.d.a., de uma v.a. X, representada por <span class="math inline">\(F_X\)</span> (ou simplesmente por F), é definida por: <span class="math display">\[ F_X(x) = \mathbb{P}(X \le x), \quad x \in \mathbb{R} \]</span></p>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: A FDA é o Fundamento dos <em>p-values</em> e Quantis</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A FDA é o Fundamento dos *p-values* e Quantis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A FDA é o Fundamento dos <em>p-values</em> e Quantis
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><strong>Análise de Risco:</strong> <span class="math inline">\(F_X(0.2) = 0.15\)</span> significa “15% dos seus clientes têm score de risco abaixo de 0.2”.</li>
 <li><strong>Percentis/Quantis:</strong> A FDA é a função que <em>invertemos</em> para encontrar quantis. “Qual o 95º percentil do tempo de resposta?” é o mesmo que “Encontre o valor <span class="math inline">\(x\)</span> tal que <span class="math inline">\(F_X(x) = 0.95\)</span>”.</li>
 <li><strong>Testes de Hipótese:</strong> Um <strong>p-value</strong> é o resultado de uma FDA. Por exemplo, <span class="math inline">\(p = F_Z(-1.96)\)</span> (em um teste de cauda esquerda) nos dá a probabilidade acumulada de ver um resultado tão extremo ou <em>menor</em>.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <div id="exm-fda-cliques" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 7.1 (Exemplo 2.7)</strong></span> Um usuário vê dois anúncios (<code>Ad_1</code>, <code>Ad_2</code>). Suponha que a chance de clicar em cada um é de 50% (<span class="math inline">\(p=0.5\)</span>) e os eventos são independentes. Seja <span class="math inline">\(X = n^{o}\)</span> de anúncios clicados. Obtenha <span class="math inline">\(F_X\)</span>.</p>
 <p>Temos <span class="math inline">\(\Omega = \{(0,0), (0,1), (1,0), (1,1)\}\)</span> (0=não-clique, 1=clique) e a v.a. assume os valores <span class="math inline">\(X=0, 1, 2\)</span>.</p>
@@ -390,8 +399,16 @@ F_X(x) = \mathbb{P}(X \le x) =
 <li><p>A v.a. X é dita ser <strong>(absolutamente) contínua</strong> se existe uma função <span class="math inline">\(f(x) \ge 0\)</span> tal que <span class="math display">\[ F_X(x) = \int_{-\infty}^{x} f(t) dt, \quad \forall x \in \mathbb{R} \]</span> Neste caso, dizemos que <span class="math inline">\(f\)</span> é a <strong>função densidade de probabilidade (f.d.p.)</strong> de X.</p></li>
 </ol>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: FP vs.&nbsp;FDP (Gráfico de Barras vs.&nbsp;Densidade)</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: FP vs. FDP (Gráfico de Barras vs. Densidade)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: FP vs.&nbsp;FDP (Gráfico de Barras vs.&nbsp;Densidade)
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><strong>a) Discreta (FP):</strong> Pense em <code>feature</code> como <code>click_count</code>, <code>star_rating</code> (1, 2, 3, 4, 5) ou <code>num_purchases</code>.
 <ul>
@@ -404,7 +421,8 @@ F_X(x) = \mathbb{P}(X \le x) =
 <li><span class="math inline">\(f(x)\)</span> <em>não é</em> uma probabilidade! É uma “densidade”. A probabilidade é a <strong>área sob a curva</strong>. A probabilidade de <em>exatamente</em> <span class="math inline">\(X=120.53s\)</span> é zero. A probabilidade de <span class="math inline">\(X \in [120, 121]\)</span> é a integral (área) de <span class="math inline">\(f(x)\)</span> entre 120 e 121.</li>
 </ul></li>
 </ul>
-</blockquote>
+</div>
+</div>
 <p><strong>Notas:</strong></p>
 <ol type="1">
 <li>Se X é discreta, então <span class="math inline">\(\{X\leq x\}=\bigcup_{i: x_i \le x}\{X=x_i\},\)</span> logo <span class="math display">\[ F_X(x) = \mathbb{P}(X \le x) = \mathbb{P}(\bigcup_{i: x_i \le x} \{X = x_i\}) = \sum_{i: x_i \le x} p(x_i).\]</span></li>
@@ -449,14 +467,23 @@ F_X(x) = \mathbb{P}(X \le x) =
 <li><p>Se X é abs. contínua com densidade <span class="math inline">\(f\)</span> então <span class="math display">\[ \mathbb{P}_X(B) = \int_{B} f(x) dx, \quad \forall B \in \mathcal{B} \]</span></p></li>
 </ol>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: Como Calcular Probabilidades</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: Como Calcular Probabilidades">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: Como Calcular Probabilidades
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Esta proposição é o “como fazer”:</p>
 <ul>
 <li><strong>a) Discreta:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{star\_rating} &gt; 3)\)</span>, você <strong>soma</strong> as probabilidades das barras: <span class="math inline">\(\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)\)</span>.</li>
 <li><strong>b) Contínua:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{duration} \in [60, 120])\)</span>, você <strong>integra</strong> (calcula a área sob a curva) <span class="math inline">\(f(x)\)</span> de 60 a 120. Na prática, <span class="math inline">\(\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)\)</span>.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 </section>
 <section id="implementação-prática-em-r" class="level2" data-number="7.2">
 <h2 data-number="7.2" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">7.2</span> Implementação Prática em R</h2>
@@ -530,7 +557,8 @@ F_X(x) = \mathbb{P}(X \le x) =
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Esta é a 'versão prática' da F_X(x) teórica"</span>,</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x (Duração da Sessão)"</span>,</span>
 <span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"F_X(x) - Probabilidade Acumulada P(X &lt;= x)"</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">

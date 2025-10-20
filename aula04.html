@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -192,7 +192,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -326,8 +326,16 @@ window.Quarto = {
 <li>Se <span class="math inline">\(\mathbb{P}(B)=0\)</span>, definimos <span class="math inline">\(\mathbb{P}(A|B) = \mathbb{P}(A)\)</span>.</li>
 <li><span class="math inline">\(\mathbb{P}(\cdot|B)\)</span> é uma medida de probabilidade em <span class="math inline">\((\Omega, \mathcal{F})\)</span> (<a href="aula03.html#exm-prob-condicional" class="quarto-xref">Exemplo&nbsp;<span>3.2</span></a>).</li>
 </ol>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: <span class="math inline">\(\mathbb{P}(A|B)\)</span> como uma Métrica Filtrada</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: $\mathbb{P}(A|B)$ como uma Métrica Filtrada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: <span class="math inline">\(\mathbb{P}(A|B)\)</span> como uma Métrica Filtrada
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>A fórmula <span class="math inline">\(\mathbb{P}(A|B) = \mathbb{P}(A \cap B) / \mathbb{P}(B)\)</span> é a justificativa para a maioria das nossas <em>queries</em> de análise.</p>
 <ul>
 <li><span class="math inline">\(\mathbb{P}(A \cap B)\)</span> = <code>COUNT(usuários que são VIP E converteram)</code> / <code>COUNT(total de usuários)</code></li>
@@ -336,7 +344,8 @@ window.Quarto = {
 <p>Quando dividimos um pelo outro, o <code>COUNT(total de usuários)</code> (o denominador <span class="math inline">\(\Omega\)</span>) cancela:</p>
 <p><span class="math inline">\(\mathbb{P}(A|B) = \frac{\text{COUNT(VIP e Converteu)}}{\text{COUNT(VIP)}}\)</span></p>
 <p>Esta é exatamente a métrica de “taxa de conversão do segmento VIP”. A teoria da probabilidade condicional é o que garante que essa nova métrica, calculada sobre o <em>dataset</em> filtrado, ainda obedece a todas as regras da probabilidade.</p>
-</blockquote>
+</div>
+</div>
 <div id="thm-regra-produto" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 4.1 (Teorema 1.2 (Regra do Produto))</strong></span> Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade. Então <span class="math display">\[ \mathbb{P}(A_1 \cap A_2 \cap \dots \cap A_n) = \mathbb{P}(A_1) \mathbb{P}(A_2|A_1) \mathbb{P}(A_3|A_1 \cap A_2) \dots \mathbb{P}(A_n|\bigcap_{k=1}^{n-1} A_k) \]</span> para todo <span class="math inline">\(A_1, A_2, \dots, A_n \in \mathcal{F}\)</span>, <span class="math inline">\(n=2, 3, \dots\)</span></p>
 <p><strong>Demonstração:</strong> exercício lista 2.</p>
@@ -363,16 +372,33 @@ window.Quarto = {
 <div id="thm-lei-prob-total" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 4.2 (Teorema 1.3 (Lei da Probabilidade Total))</strong></span> Se <span class="math inline">\(A_1, A_2, \dots\)</span> (sequência finita ou enumerável) de eventos formar uma partição de <span class="math inline">\(\Omega\)</span>, então <span class="math display">\[ \mathbb{P}(B) = \sum_{k=1}^{\infty} \mathbb{P}(A_k) \mathbb{P}(B|A_k), \quad \forall B \in \mathcal{F} \]</span></p>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: A Lei da Média Ponderada</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A Lei da Média Ponderada">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A Lei da Média Ponderada
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>A Lei da Probabilidade Total é como “reconstruímos” uma métrica geral a partir de seus segmentos.</p>
 <p>Se <span class="math inline">\(B\)</span> é o evento “converter”, e a partição <span class="math inline">\(A_k\)</span> são os segmentos de clientes (“VIP”, “Regular”, “Novo”), então:</p>
 <p><span class="math inline">\(\mathbb{P}(\text{Converter}) = \sum_{k} \mathbb{P}(\text{Converter} | \text{Segmento}_k) \times \mathbb{P}(\text{Segmento}_k)\)</span></p>
 <p>A taxa de conversão <em>geral</em> é a <strong>média ponderada</strong> das taxas de conversão de cada segmento, onde os pesos são o tamanho (probabilidade) de cada segmento. Isso é usado o tempo todo para entender <em>drivers</em> de uma métrica: a métrica geral subiu porque um segmento melhorou (o <span class="math inline">\(\mathbb{P}(B|A_k)\)</span>) ou porque um segmento de alta performance cresceu (o <span class="math inline">\(\mathbb{P}(A_k)\)</span>)?</p>
-</blockquote>
+</div>
+</div>
 <p>Usando o <a href="#thm-lei-prob-total" class="quarto-xref">Teorema&nbsp;<span>4.2</span></a>, podemos obter a <strong>fórmula de Bayes</strong>: <span class="math display">\[ \mathbb{P}(A_i|B) = \frac{\mathbb{P}(A_i \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(A_i) \mathbb{P}(B|A_i)}{\sum_{k=1}^{\infty} \mathbb{P}(A_k) \mathbb{P}(B|A_k)} \]</span></p>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: Teorema de Bayes, O Motor da Inferência</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: Teorema de Bayes, O Motor da Inferência">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: Teorema de Bayes, O Motor da Inferência
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>O Teorema de Bayes é talvez o mais importante da estatística para a ciência de dados. Ele nos permite “inverter a pergunta”:</p>
 <ul>
 <li>Nós <em>sabemos</em> <span class="math inline">\(\mathbb{P}(B|A_i)\)</span>: A probabilidade de <em>ver uma evidência</em> (B), dado que uma <em>causa</em> (<span class="math inline">\(A_i\)</span>) é verdadeira.
@@ -391,7 +417,8 @@ window.Quarto = {
 <li><strong>Classificadores Naive Bayes:</strong> Um modelo de <em>machine learning</em> inteiro que usa Bayes para classificar textos, diagnosticar doenças, etc.</li>
 </ul>
 <p>Onde <span class="math inline">\(\mathbb{P}(A_i)\)</span> é o <strong>Prior</strong> (nossa crença inicial, ex: a taxa base de fraude) e <span class="math inline">\(\mathbb{P}(A_i|B)\)</span> é o <strong>Posterior</strong> (nossa crença atualizada após ver a evidência <span class="math inline">\(B\)</span>).</p>
-</blockquote>
+</div>
+</div>
 <section id="independência-de-eventos" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="independência-de-eventos"><span class="header-section-number">4.1</span> Independência de Eventos</h2>
 <div id="def-independencia" class="theorem definition">
@@ -442,8 +469,16 @@ window.Quarto = {
 </div>
 <p><strong>Exercício 19 (lista 2)</strong> <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> espaço de probabilidade, <span class="math inline">\(A \in \mathcal{F}\)</span>, com <span class="math inline">\(\mathbb{P}(A) \in (0, 1)\)</span>. A e B são independentes se, e só se, <span class="math inline">\(\mathbb{P}(B|A) = \mathbb{P}(B|A^c)\)</span>.</p>
 <!-- TODO: verificar -->
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: A Hipótese Nula de um Teste A/B</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A Hipótese Nula de um Teste A/B">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A Hipótese Nula de um Teste A/B
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Este exercício é a <strong>definição matemática da hipótese nula (<span class="math inline">\(H_0\)</span>)</strong> em um teste A/B.</p>
 <ul>
 <li><span class="math inline">\(B\)</span> = O evento de interesse (ex: “Compra”)</li>
@@ -453,7 +488,8 @@ window.Quarto = {
 <p>A afirmação <span class="math inline">\(\mathbb{P}(B|A) = \mathbb{P}(B|A^c)\)</span> se traduz em: “A taxa de compra no grupo Tratamento é <em>exatamente igual</em> à taxa de compra no grupo Controle.”</p>
 <p>O exercício prova que isso é matematicamente equivalente a dizer que “fazer a compra” (<span class="math inline">\(B\)</span>) é <em>independente</em> do “grupo que o usuário viu” (<span class="math inline">\(A\)</span>).</p>
 <p>Nosso objetivo no teste é justamente tentar <strong>rejeitar</strong> essa afirmação, provando que os eventos são <em>dependentes</em> e que <span class="math inline">\(\mathbb{P}(B|A) \neq \mathbb{P}(B|A^c)\)</span>.</p>
-</blockquote>
+</div>
+</div>
 </section>
 <section id="implementação-prática-em-r" class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">4.2</span> Implementação Prática em R</h2>

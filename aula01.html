@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>1&nbsp; Introdução: Da Teoria à Prática Analítica – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>1&nbsp; Introdução – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -147,7 +147,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -192,7 +192,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula01.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -284,10 +284,10 @@ window.Quarto = {
     <h2 id="toc-title">Índice</h2>
    
   <ul>
-  <li><a href="#a-linguagem-dos-dados-conjuntos-e-eventos" id="toc-a-linguagem-dos-dados-conjuntos-e-eventos" class="nav-link active" data-scroll-target="#a-linguagem-dos-dados-conjuntos-e-eventos"><span class="header-section-number">1.1</span> A Linguagem dos Dados: Conjuntos e Eventos</a></li>
-  <li><a href="#a-gramática-da-análise-operações-com-conjuntos" id="toc-a-gramática-da-análise-operações-com-conjuntos" class="nav-link" data-scroll-target="#a-gramática-da-análise-operações-com-conjuntos"><span class="header-section-number">1.2</span> A Gramática da Análise: Operações com Conjuntos</a></li>
-  <li><a href="#análise-dinâmica-sequências-de-conjuntos" id="toc-análise-dinâmica-sequências-de-conjuntos" class="nav-link" data-scroll-target="#análise-dinâmica-sequências-de-conjuntos"><span class="header-section-number">1.3</span> Análise Dinâmica: Sequências de Conjuntos</a></li>
-  <li><a href="#comportamento-de-longo-prazo-limite-de-sequências" id="toc-comportamento-de-longo-prazo-limite-de-sequências" class="nav-link" data-scroll-target="#comportamento-de-longo-prazo-limite-de-sequências"><span class="header-section-number">1.4</span> Comportamento de Longo Prazo: Limite de Sequências</a></li>
+  <li><a href="#conjuntos-e-eventos" id="toc-conjuntos-e-eventos" class="nav-link active" data-scroll-target="#conjuntos-e-eventos"><span class="header-section-number">1.1</span> Conjuntos e Eventos</a></li>
+  <li><a href="#operações-com-conjuntos" id="toc-operações-com-conjuntos" class="nav-link" data-scroll-target="#operações-com-conjuntos"><span class="header-section-number">1.2</span> Operações com Conjuntos</a></li>
+  <li><a href="#sequências-de-conjuntos" id="toc-sequências-de-conjuntos" class="nav-link" data-scroll-target="#sequências-de-conjuntos"><span class="header-section-number">1.3</span> Sequências de Conjuntos</a></li>
+  <li><a href="#limite-de-sequências" id="toc-limite-de-sequências" class="nav-link" data-scroll-target="#limite-de-sequências"><span class="header-section-number">1.4</span> Limite de Sequências</a></li>
   <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">1.5</span> Implementação Prática em R</a>
   <ul class="collapse">
   <li><a href="#operações-básicas-com-vetores" id="toc-operações-básicas-com-vetores" class="nav-link" data-scroll-target="#operações-básicas-com-vetores"><span class="header-section-number">1.5.1</span> Operações Básicas com Vetores</a></li>
@@ -300,9 +300,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula01.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></h1>
+<h1 class="title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></h1>
 </div>
 
 
@@ -322,8 +322,8 @@ window.Quarto = {
 <p>Imagine que você trabalha como Cientista de Dados em uma empresa de streaming de música. Uma pergunta fundamental do negócio é: “Quais são os nossos perfis de usuários? Quem são os ouvintes leais e quem são os esporádicos?”. Para responder a isso, você tem acesso aos dados de login de cada usuário, mês a mês.</p>
 <p>Como poderíamos definir matematicamente o que significa ser um “ouvinte leal”? Seria alguém que logou todos os meses? Ou alguém que, a partir de certo ponto, nunca mais deixou de logar? E o “ouvinte esporádico”? Seria aquele que, mesmo que desapareça por alguns meses, sempre acaba voltando?</p>
 <p>Para responder a essas perguntas de forma precisa e rigorosa, precisamos de uma linguagem formal. Essa linguagem é a <strong>Teoria dos Conjuntos</strong>. Nesta aula, vamos construir o alicerce matemático que nos permitirá não apenas estruturar nosso pensamento analítico, mas também desenvolver as ferramentas para analisar o comportamento de sistemas que evoluem ao longo do tempo. Cada definição e proposição que veremos é um passo em direção à solução do nosso problema.</p>
-<section id="a-linguagem-dos-dados-conjuntos-e-eventos" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="a-linguagem-dos-dados-conjuntos-e-eventos"><span class="header-section-number">1.1</span> A Linguagem dos Dados: Conjuntos e Eventos</h2>
+<section id="conjuntos-e-eventos" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="conjuntos-e-eventos"><span class="header-section-number">1.1</span> Conjuntos e Eventos</h2>
 <p>Para analisar dados, primeiro precisamos defini-los. A teoria dos conjuntos nos fornece o vocabulário fundamental para isso.</p>
 <div id="def-conjunto" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 1.1 (Conjunto)</strong></span> Um conjunto <span class="math inline">\(\Omega\)</span> é uma coleção de objetos distintos, que serão denotados por <span class="math inline">\(\omega\)</span>.</p>
@@ -332,22 +332,42 @@ window.Quarto = {
 <li><span class="math inline">\(\omega \notin \Omega\)</span> (elemento <span class="math inline">\(\omega\)</span> não pertence ao conjunto <span class="math inline">\(\Omega\)</span>).</li>
 </ul>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science:</strong> Pense no conjunto universal <span class="math inline">\(\Omega\)</span> como todo o seu <strong>universo de dados</strong>, ou <strong>espaço amostral</strong>. Cada elemento <span class="math inline">\(\omega\)</span> é uma <strong>unidade observacional</strong>: um cliente, uma transação, um produto. Por exemplo, <span class="math inline">\(\Omega\)</span> pode ser “o conjunto de todos os usuários da nossa plataforma”.</p>
-</blockquote>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Pense no conjunto universal <span class="math inline">\(\Omega\)</span> como todo o seu <strong>universo de dados</strong>, ou <strong>espaço amostral</strong>. Cada elemento <span class="math inline">\(\omega\)</span> é uma <strong>unidade observacional</strong>: um cliente, uma transação, um produto. Por exemplo, <span class="math inline">\(\Omega\)</span> pode ser “o conjunto de todos os usuários da nossa plataforma”.</p>
+</div>
+</div>
 <div id="def-subconjunto" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 1.2 (Subconjunto)</strong></span> Dizemos que A é um subconjunto de <span class="math inline">\(\Omega\)</span>, ou que A está contido em <span class="math inline">\(\Omega\)</span>, e denotamos por <span class="math inline">\(A \subseteq \Omega\)</span>, se <span class="math inline">\(\forall \omega \in A \rightarrow \omega \in \Omega\)</span>.</p>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science:</strong> Um subconjunto é um <strong>segmento de interesse</strong> ou um <strong>evento</strong> dentro do seu universo de dados, geralmente obtido através de um filtro ou consulta.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Um subconjunto é um <strong>segmento de interesse</strong> ou um <strong>evento</strong> dentro do seu universo de dados, geralmente obtido através de um filtro ou consulta.</p>
 <ul>
 <li>Se <span class="math inline">\(\Omega\)</span> é o conjunto de todos os usuários, um subconjunto <span class="math inline">\(A\)</span> pode ser: <span class="math inline">\(A = \{\)</span>usuários do plano Premium<span class="math inline">\(\}\)</span>.</li>
 <li>Outro subconjunto <span class="math inline">\(B\)</span> poderia ser: <span class="math inline">\(B = \{\)</span>usuários que ouviram mais de 100 horas de música no último mês<span class="math inline">\(\}\)</span>.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 </section>
-<section id="a-gramática-da-análise-operações-com-conjuntos" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="a-gramática-da-análise-operações-com-conjuntos"><span class="header-section-number">1.2</span> A Gramática da Análise: Operações com Conjuntos</h2>
+<section id="operações-com-conjuntos" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="operações-com-conjuntos"><span class="header-section-number">1.2</span> Operações com Conjuntos</h2>
 <p>Com nossos segmentos definidos, precisamos de uma forma de combiná-los e compará-los. As operações com conjuntos são a “gramática” que nos permite realizar análises complexas.</p>
 <p>Sejam A, <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span>,… subconjuntos de <span class="math inline">\(\Omega\)</span>. Temos as seguintes operações:</p>
 <ol type="1">
@@ -360,14 +380,24 @@ window.Quarto = {
 <ul>
 <li><strong>Conjunto vazio (<span class="math inline">\(\emptyset\)</span>)</strong>: não contém nenhum elemento.</li>
 </ul>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science:</strong> Cada operação corresponde diretamente a uma operação lógica em uma consulta de dados:</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Cada operação corresponde diretamente a uma operação lógica em uma consulta de dados:</p>
 <ul>
 <li><strong>Intersecção (<span class="math inline">\(A \cap B\)</span>)</strong> é a lógica <strong>E (AND)</strong>. Ex: “Usuários do plano Premium <strong>E</strong> que ouviram mais de 100 horas”.</li>
 <li><strong>União (<span class="math inline">\(A \cup B\)</span>)</strong> é a lógica <strong>OU (OR)</strong>. Ex: “Usuários do plano Premium <strong>OU</strong> que ouviram mais de 100 horas”.</li>
 <li><strong>Complementar (<span class="math inline">\(A^c\)</span>)</strong> é a lógica <strong>NÃO (NOT)</strong>. Ex: “Usuários que <strong>NÃO</strong> são do plano Premium”.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <div id="def-relacoes" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 1.3 (Relações entre Conjuntos)</strong></span> &nbsp;</p>
 <ul>
@@ -405,8 +435,8 @@ window.Quarto = {
 <li><span class="math inline">\(\Rightarrow \omega \in (\bigcup_{i=1}^{\infty} A_{i})^{c}\)</span> (Por definição de complementar)</li>
 </ol>
 </section>
-<section id="análise-dinâmica-sequências-de-conjuntos" class="level2" data-number="1.3">
-<h2 data-number="1.3" class="anchored" data-anchor-id="análise-dinâmica-sequências-de-conjuntos"><span class="header-section-number">1.3</span> Análise Dinâmica: Sequências de Conjuntos</h2>
+<section id="sequências-de-conjuntos" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="sequências-de-conjuntos"><span class="header-section-number">1.3</span> Sequências de Conjuntos</h2>
 <p>Agora, voltamos ao nosso problema original: analisar o comportamento dos usuários <em>ao longo do tempo</em>. Para isso, introduzimos o conceito de sequências de conjuntos.</p>
 <div id="def-monotona" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 1.4 (Sequência Monótona)</strong></span> Uma sequência <span class="math inline">\(\{A_{n}\}_{n \ge 1}\)</span> é dita ser <strong>monótona</strong> se:</p>
@@ -420,13 +450,23 @@ window.Quarto = {
 <li>se <span class="math inline">\(A_n \downarrow\)</span>, <span class="math inline">\(\lim_{n \to \infty} A_{n} = \bigcap_{i=1}^{\infty} A_{i}\)</span>.</li>
 </ol>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science:</strong> Sequências monótonas modelam processos de <strong>acumulação</strong> ou <strong>desgaste</strong>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sequências monótonas modelam processos de <strong>acumulação</strong> ou <strong>desgaste</strong>.</p>
 <ul>
 <li><strong>Não decrescente (<span class="math inline">\(A_n \uparrow\)</span>):</strong> Representa a <strong>aquisição cumulativa</strong>. Se <span class="math inline">\(A_n = \{\)</span>usuários que fizeram login <em>pelo menos uma vez</em> até o mês <span class="math inline">\(n\)</span><span class="math inline">\(\}\)</span>, este conjunto só pode crescer. O limite é o conjunto de todos os usuários que já logaram alguma vez na história.</li>
 <li><strong>Não crescente (<span class="math inline">\(A_n \downarrow\)</span>):</strong> Representa a <strong>retenção de uma coorte</strong>. Se <span class="math inline">\(A_1 = \{\)</span>usuários que se cadastraram em Janeiro<span class="math inline">\(\}\)</span> e <span class="math inline">\(A_n = \{\)</span>usuários de Janeiro que ainda estavam ativos no mês <span class="math inline">\(n\)</span><span class="math inline">\(\}\)</span>, este conjunto só pode diminuir. O limite representa os usuários de Janeiro que permaneceram leais para sempre.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <div id="exm-limites-an-bn" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 1.1</strong></span> Considere <span class="math inline">\(\Omega = \mathbb{N}\)</span> e as sequências:</p>
 <ul>
@@ -440,8 +480,8 @@ window.Quarto = {
 </ul>
 </div>
 </section>
-<section id="comportamento-de-longo-prazo-limite-de-sequências" class="level2" data-number="1.4">
-<h2 data-number="1.4" class="anchored" data-anchor-id="comportamento-de-longo-prazo-limite-de-sequências"><span class="header-section-number">1.4</span> Comportamento de Longo Prazo: Limite de Sequências</h2>
+<section id="limite-de-sequências" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="limite-de-sequências"><span class="header-section-number">1.4</span> Limite de Sequências</h2>
 <p>Mas e o comportamento geral de login, que não é necessariamente monótono? Um usuário pode estar ativo um mês e inativo no outro. É aqui que os conceitos de limite superior e inferior se tornam ferramentas analíticas poderosas para resolver nosso problema.</p>
 <div id="def-lim-sup-inf" class="theorem definition">
 <p><span class="theorem-title"><strong>Definição 1.5 (Limite Superior e Inferior)</strong></span> Para definir o limite de uma sequência qualquer de conjuntos <span class="math inline">\(\{A_{n}\}_{n \ge 1}\)</span>, considere duas sequências auxiliares <span class="math inline">\(\{B_{n}\}_{n \ge 1}\)</span> e <span class="math inline">\(\{C_{n}\}_{n \ge 1}\)</span>:</p>
@@ -459,13 +499,23 @@ window.Quarto = {
 <li>O <strong>limite inferior</strong> da sequência é definido por: <span class="math display">\[\liminf_{n \to \infty} A_{n} = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_{k}\]</span></li>
 </ul>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science (A Solução):</strong> Seja <span class="math inline">\(A_n = \{\)</span>usuários ativos no mês <span class="math inline">\(n\)</span><span class="math inline">\(\}\)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Seja <span class="math inline">\(A_n = \{\)</span>usuários ativos no mês <span class="math inline">\(n\)</span><span class="math inline">\(\}\)</span>.</p>
 <ul>
 <li><strong><code>liminf Aₙ</code> (Limite Inferior):</strong> É o conjunto dos elementos que pertencem a <span class="math inline">\(A_n\)</span> para todo <span class="math inline">\(n\)</span> a partir de um certo ponto. Este é o conjunto dos <strong>usuários leais (hardcore)</strong>. São aqueles que, após um tempo, se tornam permanentemente ativos.</li>
 <li><strong><code>limsup Aₙ</code> (Limite Superior):</strong> É o conjunto dos elementos que pertencem a <span class="math inline">\(A_n\)</span> para infinitos valores de <span class="math inline">\(n\)</span>. Este é o conjunto dos <strong>usuários esporádicos (recorrentes)</strong>. São aqueles que podem desaparecer, mas sempre acabam voltando.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <section id="interpretação-matemática-rigorosa" class="level4" data-number="1.4.0.1">
 <h4 data-number="1.4.0.1" class="anchored" data-anchor-id="interpretação-matemática-rigorosa"><span class="header-section-number">1.4.0.1</span> Interpretação Matemática Rigorosa</h4>
 <p>A seguir, demonstramos formalmente por que <code>limsup</code> corresponde à noção de “pertencer a infinitos conjuntos da sequência”.</p>

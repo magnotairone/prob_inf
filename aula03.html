@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-3584025bd2775ba93d20b6dabf7256d8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-0dd2bd5de344125cf763a379ddc3eb04.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -194,7 +194,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./aula01.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução: Da Teoria à Prática Analítica</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -339,8 +339,16 @@ window.Quarto = {
 <li>Dizemos que <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> é um <strong>espaço de probabilidade</strong>.</li>
 <li>1, 2 e 3 são chamados Axiomas de Kolmogorov.</li>
 </ol>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: Traduzindo os Axiomas</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: Traduzindo os Axiomas">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: Traduzindo os Axiomas
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Esses três axiomas são a fundação de toda a inferência estatística e <em>machine learning</em>.</p>
 <ul>
 <li><p><strong>Axioma 1: <span class="math inline">\(\mathbb{P}(\Omega) = 1\)</span> (A Caixa Contém Tudo)</strong> A probabilidade do universo (nosso <em>data frame</em> inteiro, ou o domínio completo do problema) é 1. Isso significa que “algum resultado” tem 100% de chance de ocorrer. A soma das probabilidades de todos os segmentos de clientes, por exemplo, deve ser 1.</p></li>
@@ -350,7 +358,8 @@ window.Quarto = {
 <li><strong>Exemplo:</strong> O evento <span class="math inline">\(A = \text{"Segmento VIP"}\)</span> e <span class="math inline">\(B = \text{"Segmento Regular"}\)</span> são disjuntos. Portanto, a probabilidade de um cliente ser VIP <em>ou</em> Regular é <span class="math inline">\(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)\)</span>. É isso que justifica somar <code>value_counts</code> ou <code>GROUP BY</code> em categorias exclusivas.</li>
 </ul></li>
 </ul>
-</blockquote>
+</div>
+</div>
 <div id="exm-clique-anuncio" class="theorem example">
 <p><span class="theorem-title"><strong>Exemplo 3.1 (Exemplo 1.8)</strong></span> Um usuário vê um anúncio. Observa-se se ele clica (1) ou não (0). <span class="math inline">\(\Omega=\{0, 1\}\)</span>. <span class="math inline">\(\mathcal{F} = \mathcal{P}(\Omega) = \{\emptyset, \{0,1\}, \{0\}, \{1\}\}\)</span></p>
 <p>Seja <span class="math inline">\(p\)</span> a “verdadeira” (mas desconhecida) taxa de cliques. Definimos <span class="math inline">\(\mathbb{P}\)</span> como:</p>
@@ -370,8 +379,16 @@ window.Quarto = {
 <li><span class="math inline">\(A_{1}, A_{2}, ... \in \mathcal{F}\)</span> disjuntos, então <span class="math display">\[\mathbb{P}_{B}(\bigcup_{n=1}^{\infty} A_{n}) = \frac{\mathbb{P}((\bigcup_{n=1}^{\infty} A_{n}) \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(\bigcup_{n=1}^{\infty} (A_{n} \cap B))}{\mathbb{P}(B)}\]</span> <span class="math display">\[= \sum_{n=1}^{\infty} \frac{\mathbb{P}(A_{n} \cap B)}{\mathbb{P}(B)} = \sum_{n=1}^{\infty} \mathbb{P}_{B}(A_{n})\]</span> Logo, <span class="math inline">\(\mathbb{P}_{B}\)</span> é medida de probabilidade.</li>
 </ol>
 </div>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: <span class="math inline">\(\mathbb{P}_B(A)\)</span> é a Probabilidade Condicional</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: $\mathbb{P}_B(A)$ é a Probabilidade Condicional">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: <span class="math inline">\(\mathbb{P}_B(A)\)</span> é a Probabilidade Condicional
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Este exemplo não é apenas um exercício teórico; ele é a <strong>definição formal de probabilidade condicional</strong>.</p>
 <p>A notação <span class="math inline">\(\mathbb{P}_B(A)\)</span> é o que chamamos em Data Science de <span class="math inline">\(\mathbb{P}(A|B)\)</span> (lê-se “a probabilidade de A, <em>dado</em> B”).</p>
 <ul>
@@ -380,7 +397,8 @@ window.Quarto = {
 </ul>
 <p><span class="math inline">\(\mathbb{P}(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(\text{Compra E VIP})}{\mathbb{P}(\text{VIP})}\)</span></p>
 <p>O que este exemplo prova matematicamente é que, quando “filtramos” nosso universo para um subconjunto (apenas clientes VIP), as regras da probabilidade (os 3 axiomas) continuam valendo perfeitamente dentro desse subconjunto. Isso justifica todo tipo de análise de funil e segmentação.</p>
-</blockquote>
+</div>
+</div>
 <section id="propriedades" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="propriedades"><span class="header-section-number">3.1</span> Propriedades</h2>
 <p>Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade e <span class="math inline">\(A, B, A_1, A_2, ... \in \mathcal{F}\)</span>. Então:</p>
@@ -398,15 +416,24 @@ window.Quarto = {
 <li><p>Podemos escrever <span class="math inline">\(B = A \cup (B-A)\)</span> (união disjunta). <span class="math inline">\(\Rightarrow \mathbb{P}(B) = \mathbb{P}(A) + \mathbb{P}(B-A) \Rightarrow \mathbb{P}(B-A) = \mathbb{P}(B) - \mathbb{P}(A)\)</span>. Como <span class="math inline">\(\mathbb{P}(B-A) \ge 0 \Rightarrow \mathbb{P}(A) \le \mathbb{P}(B)\)</span>.</p></li>
 <li><p>Vamos escrever <span class="math inline">\(\bigcup_{n=1}^{\infty} A_{n}\)</span> como uma união de eventos disjuntos. Seja <span class="math inline">\(B_{1} = A_{1}\)</span> e <span class="math inline">\(B_{n} = (\bigcup_{k=1}^{n-1} A_{k})^{c} \cap A_{n}, n \ge 2\)</span>. Então <span class="math inline">\(B_n \subseteq A_n, \forall n\)</span> <!-- e $\bigcup_{n=1}^{\infty} B_{n} = \bigcup_{n=1}^{\infty} A_{n}$ e $B_n$ são disjuntos. --> Portanto, <span class="math display">\[\mathbb{P}(\bigcup_{n=1}^{\infty} A_{n}) = \mathbb{P}(\bigcup_{n=1}^{\infty} B_{n}) = \sum_{n=1}^{\infty} \mathbb{P}(B_{n}) \le \sum_{n=1}^{\infty} \mathbb{P}(A_{n})\]</span> (Pois <span class="math inline">\(B_n \subseteq A_n \Rightarrow \mathbb{P}(B_n) \le \mathbb{P}(A_n)\)</span> pela prop. 3).</p></li>
 </ol>
-<blockquote class="blockquote">
-<p><strong>Perspectiva de Data Science: Propriedades como “Sanity Checks”</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: Propriedades como 'Sanity Checks'">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: Propriedades como ‘Sanity Checks’
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <p>Essas propriedades são ferramentas de “sanidade” que usamos o tempo todo, muitas vezes sem perceber.</p>
 <ul>
 <li><strong>Prop 2 (Complemento):</strong> <span class="math inline">\(\mathbb{P}(\text{taxa de churn}) = 1 - \mathbb{P}(\text{taxa de retenção})\)</span>. É a base para modelar problemas binários (fraude/não-fraude, clicou/não-clicou).</li>
 <li><strong>Prop 3 (Monotonicidade):</strong> <span class="math inline">\(\mathbb{P}(\text{Clicou E Comprou}) \le \mathbb{P}(\text{Clicou})\)</span>. A probabilidade de um evento mais específico (um subconjunto) nunca pode ser maior que a do evento geral. Se seu <em>dashboard</em> mostrar o contrário, há um erro no filtro.</li>
 <li><strong>Prop 5 (Inclusão-Exclusão):</strong> Essencial para evitar contagem dupla. Se você quer saber a proporção de usuários que são “VIP” <em>ou</em> “clicaram em e-mails” (grupos com sobreposição), você não pode simplesmente somar as duas proporções. Você deve subtrair a interseção: <span class="math inline">\(\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)\)</span>.</li>
 </ul>
-</blockquote>
+</div>
+</div>
 <div id="thm-continuidade" class="theorem">
 <p><span class="theorem-title"><strong>Teorema 3.1 (Teorema 1.1 (Continuidade da probabilidade))</strong></span> Seja <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> um espaço de probabilidade. Se <span class="math inline">\(\{A_n\}_{n \ge 1} \in \mathcal{F}\)</span> com <span class="math inline">\(A_n \uparrow A\)</span> ou <span class="math inline">\(A_n \downarrow A\)</span>, e <span class="math inline">\(A \in \mathcal{F}\)</span>. Então <span class="math display">\[\lim_{n \to \infty} \mathbb{P}(A_{n}) = \mathbb{P}(A).\]</span></p>
 <p><strong>Demonstração</strong></p>

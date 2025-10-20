@@ -1,0 +1,267 @@
+# Independência
+
+Até agora, vimos vetores aleatórios $\underline{X} = (X_1, \dots, X_n)$ e como suas *features* se relacionam através da densidade conjunta. Agora, vamos focar no caso especial (e muito importante) em que elas **não** se relacionam.
+
+A independência é a suposição que nos permite "quebrar" um problema complexo de $n$ dimensões (a densidade conjunta) em $n$ problemas simples de 1 dimensão (as densidades marginais).
+
+::: {#def-independencia-va name="Definição 2.7 (Independência)"}
+Sejam $X_1, X_2, \dots, X_n$, $n \ge 2$, v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$, de modo que $\underline{X} = (X_1, \dots, X_n)$ é um vetor aleatório. As variáveis $X_1, \dots, X_n$ são **(coletivamente) independentes** se
+$$ \mathbb{P}(X_1 \in \mathcal{B}_1, X_2 \in \mathcal{B}_2, \dots, X_n \in \mathcal{B}_n) = \prod_{i=1}^n \mathbb{P}(X_i \in \mathcal{B}_i), \quad \forall \mathcal{B}_i \in \mathcal{B}, i=1, \dots, n $$
+:::
+
+**Notas:**
+
+1.  A ideia é que $X_1, \dots, X_n$ são independentes se, e somente se, para quaisquer eventos determinados por qualquer grupo de v.a.s distintas são independentes. Isto é, $\{X_1 < 5\}$ e $\{X_2 > 9\}$ são independentes, $\{1 \le X_1 \le 3\}$ e $\{X_2 > 4\}$ são independentes, etc.
+2.  Para toda família de v.a.s independentes, qualquer subfamília é também formada por v.a.s independentes. Por ex, se $X_1, \dots, X_n$ são v.a.s independentes, então $X_1$ e $X_2$ também são v.a.s independentes.
+    De fato,
+    $$
+    \begin{align*}
+    \mathbb{P}(X_1 \in B_1, X_2 \in B_2) &= \mathbb{P}(X_1 \in B_1, X_2 \in B_2, X_3 \in \mathbb{R}, \dots, X_n \in \mathbb{R}) \\
+    &\stackrel{\text{indep.}}{=} \mathbb{P}(X_1 \in B_1) \mathbb{P}(X_2 \in B_2) \mathbb{P}(X_3 \in \mathbb{R}) \dots \mathbb{P}(X_n \in \mathbb{R}) \\
+    &= \mathbb{P}(X_1 \in B_1) \mathbb{P}(X_2 \in B_2), \quad \forall B_1, B_2 \in \mathcal{B}.
+    \end{align*}
+    $$
+3.  Se $X_1$ e $X_2$ são independentes, então $Y_1 = f(X_1)$ e $Y_2 = g(X_2)$ também são v.a.s independentes. Vale para o caso geral (n v.a.s).
+
+::: {.callout-tip title="Perspectiva de Data Science: A Suposição I.I.D."}
+A estatística clássica e o *Machine Learning* são construídos sobre a suposição **I.I.D.** (Independente e Idênticamente Distribuída).
+
+* **Independente (I):** O valor de uma observação (uma linha, um usuário) não afeta o valor de outra. $\mathbb{P}(\text{usuário}_A \text{ converte})$ é independente de $\mathbb{P}(\text{usuário}_B \text{ converte})$.
+    * Esta é a definição que estamos vendo agora.
+* **Idênticamente Distribuída (I.D.):** Todas as observações (linhas) são amostradas do *mesmo* processo subjacente (a mesma $F_X$). O `user_A` e `user_B` são ambos "humanos comprando em um site".
+    * Se metade do seu *dataset* é de 2010 e a outra metade de 2020, eles podem não ser *idênticos*.
+
+Quando fazemos **validação cruzada** (*cross-validation*) ou ***bootstrapping***, estamos assumindo que cada *fold* ou cada reamostragem é I.I.D.
+:::
+
+::: {#prp-criterio-indep-fda name="Proposição 2.5 (Critério para independência)"}
+Seja $\underline{X} = (X_1, \dots, X_n)$ um vetor aleatório. Então $X_1, \dots, X_n$ são v.a.s independentes se, e somente se,
+$$ F_{\underline{X}}(\underline{x}) = \prod_{i=1}^n F_{X_i}(x_i), \quad \forall \underline{x} = (x_1, \dots, x_n) \in \mathbb{R}^n $$
+
+**Demonstração:** ($\Rightarrow$) (James, B. p. 57)
+Temos que, para $\underline{x} \in \mathbb{R}^n$,
+$$
+\begin{align*}
+F_{\underline{X}}(\underline{x}) &= \mathbb{P}(X_1 \le x_1, \dots, X_n \le x_n) \\
+&= \mathbb{P}(X_1 \in (-\infty, x_1], \dots, X_n \in (-\infty, x_n]) \\
+&\stackrel{\text{indep.}}{=} \prod_{i=1}^n \mathbb{P}(X_i \in (-\infty, x_i]) = \prod_{i=1}^n F_{X_i}(x_i)
+\end{align*}
+$$
+($\Leftarrow$) (Exercício)
+:::
+
+::: {.callout-tip title="Perspectiva de Data Science: Fatorização da FDA"}
+Esta proposição traduz a independência em um teste prático.
+$F_{\underline{X}}(\underline{x})$ é a FDA **conjunta** e $F_{X_i}(x_i)$ são as FDAs **marginais**.
+
+* **Tradução:** Se as *features* são independentes, a probabilidade de "(`idade <= 30`) E (`renda\_k <= 50`)" é simplesmente:
+    $\mathbb{P}(\text{idade} \le 30) \times$ $\mathbb{P}(\mathrm{renda\_k} \le 50)$.
+* Se o valor calculado (conjunto) for muito *diferente* do produto das marginais, temos uma **dependência**.
+:::
+
+::: {#prp-criterio-indep-discreta name="Proposição 2.6 (Critério de independência, caso discreto)"}
+Seja $\underline{X} = (X_1, \dots, X_n)$ um vetor aleatório discreto. Então, $X_1, \dots, X_n$ são independentes se, e somente se,
+$$ p_{\underline{X}}(\underline{x}) = \mathbb{P}(\underline{X} = \underline{x}) = \prod_{i=1}^n p_{X_i}(x_i) = \prod_{i=1}^n \mathbb{P}(X_i = x_i), \quad \forall \underline{x} \in \mathbb{R}^n $$
+
+**Demonstração:** 
+
+($\Rightarrow$ Exercício).
+
+($\Leftarrow$) Vamos supor que $p_{\underline{X}}(\underline{x}) = \prod_{i=1}^n p_{X_i}(x_i), \forall \underline{x} \in \mathbb{R}^n$. 
+
+Temos que
+$$
+\begin{align*}
+\mathbb{P}(X_1 \in B_1, \dots, X_n \in B_n) &= \sum_{x_1 \in B_1} \dots \sum_{x_n \in B_n} p_{\underline{X}}(\underline{x}) \\
+&= \sum_{x_1 \in B_1} \dots \sum_{x_n \in B_n} p_{X_1}(x_1) \dots p_{X_n}(x_n) \\
+&= \left[ \sum_{x_1 \in B_1} p_{X_1}(x_1) \right] \dots \left[ \sum_{x_n \in B_n} p_{X_n}(x_n) \right] \\
+&= \prod_{i=1}^n \mathbb{P}(X_i \in B_i), \quad \forall B_i \in \mathcal{B}
+\end{align*}
+$$
+:::
+
+::: {.callout-tip title="Perspectiva de Data Science: A Base do Teste Qui-Quadrado ($\chi^2$)"}
+Esta é a fórmula exata por trás do **Teste de Independência Qui-Quadrado ($\chi^2$)**.
+
+* $p_{\underline{X}}(\underline{x}) = \mathbb{P}(X=x, Y=y)$ é a probabilidade **Observada** (o valor real em uma célula da tabela de contingência).
+* $p_{X_i}(x_i) p_{X_j}(x_j)$ é a probabilidade **Esperada** (o que *esperaríamos* ver na célula se as *features* fossem independentes, calculado como `(total_linha * total_coluna) / total_geral`).
+
+O teste $\chi^2$ mede a soma das diferenças entre o Observado e o Esperado em todas as células. Se a diferença for grande, rejeitamos a hipótese nula ($H_0$) de independência.
+:::
+
+::: {#prp-criterio-indep-continua name="Proposição 2.7 (Critério para independência, caso contínuo)"}
+Seja $\underline{X} = (X_1, \dots, X_n)$ um vetor aleatório contínuo cujas coordenadas tenham função de densidade $f_{X_1}, \dots, f_{X_n}$. Então $X_1, \dots, X_n$ são independentes se, e somente se, a função
+$$ f_{\underline{X}}(\underline{x}) = f_{X_1}(x_1) \dots f_{X_n}(x_n), \qquad \underline{x} \in \mathbb{R}^n$$
+é uma densidade conjunta de $\underline{X}$.
+
+**Demonstração:** (Exercício. Usar o critério de indep. que usa funções de distribuição)
+:::
+
+**Nota:** Como as densidades conjuntas não são únicas, para concluir que $X_1, \dots, X_n$ não são independentes, devemos verificar que existe uma região de medida positiva tal que $f_{\underline{X}}(\underline{x}) \ne f_{X_1}(x_1) \dots f_{X_n}(x_n)$.
+
+::: {#exm-indep-continua name="Exemplo 2.13"}
+Considere o quadrado $Q = \{(x, y) \in \mathbb{R}^2 : |x| + |y| \le 1\}$ e suponha que X e Y tenham densidade conjunta
+$$ f_{X,Y}(x, y) = \frac{1}{2} I_Q(x, y) $$
+
+a) Obtenha as densidades marginais de X e Y.
+b) Verifique formalmente que X e Y não são independentes.
+
+**Solução (a):**
+$f_X(x) = \int f_{X,Y}(x, y) dy, x \in [-1, 1]$.
+
+Quando $x \in [-1, 0]$: (Temos $|y| \le 1 - |x|$)
+$$ \int f_{X,Y}(x, y) dy = \int_{-(1+x)}^{1+x} \frac{1}{2} dy = \frac{1}{2} [y]_{-(1+x)}^{1+x} = \frac{1}{2} [(1+x) - (-(1+x))] = x+1 $$
+Quando $x \in [0, 1]$: (Temos $|y| \le 1 - |x| = 1 - x$)
+$$ \int f_{X,Y}(x, y) dy = \int_{-(1-x)}^{1-x} \frac{1}{2} dy = \frac{1}{2} [ (1-x) - (-(1-x)) ] = -x+1 $$
+Logo,
+$$ f_X(x) = \begin{cases} x+1, & -1 \le x < 0 \\ -x+1, & 0 \le x \le 1 \end{cases} = (1 - |x|) I_{[-1, 1]}(x) $$
+Por simetria, a marginal de Y é $f_Y(y) = (1 - |y|) I_{[-1, 1]}(y)$.
+
+**Solução (b):**
+Basta observar que $f_{X,Y}(x, y) = 0$, $\forall (x, y)$ em $(2/3, 3/4) \times (2/3, 3/4)$.
+(Note que $x=2/3, y=2/3 \Rightarrow |x|+|y| = 4/3 > 1$, então $(x,y) \notin Q$).
+
+enquanto
+$$ f_X(x) \cdot f_Y(y) = (1-x)(1-y) > 0 $$
+(Para $x=2/3$, $f_X(x) = 1/3 > 0$. Para $y=2/3$, $f_Y(y) = 1/3 > 0$).
+
+Note que o conjunto $[2/3, 3/4] \times [2/3, 3/4]$ tem medida de Lebesgue (área) positiva.
+:::
+
+::: {.callout-tip title="Perspectiva de Data Science: Dependência no Domínio"}
+A solução (b) é a prova matemática, mas a intuição é mais simples: X e Y não são independentes porque o **domínio** (o "suporte") da densidade conjunta **não é um retângulo**.
+
+* O domínio marginal de $X$ é $[-1, 1]$.
+* O domínio marginal de $Y$ é $[-1, 1]$.
+* O produto dos domínios marginais é o **quadrado** $[-1, 1] \times [-1, 1]$.
+* O domínio conjunto $Q$ é um **losango** (quadrado rotacionado).
+
+Como o domínio conjunto não é o produto dos domínios marginais, saber $X$ nos dá informação sobre $Y$:
+
+* Se $X = 0.9$, então $Y$ *deve* estar entre $-0.1$ e $0.1$.
+* Se $X = 0.1$, $Y$ pode estar entre $-0.9$ e $0.9$.
+Como o valor de $X$ restringe os valores possíveis de $Y$, as variáveis são **dependentes**.
+:::
+
+
+
+## Implementação Prática em R
+
+Como verificamos a independência na prática?
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+library(tidyverse)
+library(ggplot2)
+library(ggExtra)
+library(patchwork)
+library(MASS)
+```
+
+
+### Caso Discreto: Teste Qui-Quadrado ($\chi^2$) {.unnumbered}
+
+Vamos testar se `segmento` e `converteu` são independentes.
+$H_0$: As variáveis são independentes ($\mathbb{P}(X=x, Y=y) = \mathbb{P}(X=x)\mathbb{P}(Y=y)$).
+$H_1$: As variáveis são dependentes.
+
+```{r qui-quadrado}
+# Criamos um dataset ONDE AS VARIÁVEIS SÃO DEPENDENTES
+# Segmento A converte a 10%, Segmento B converte a 20%
+set.seed(42)
+dados_dependentes <- tibble(
+  segmento = rep(c("A", "B"), each = 500),
+  converteu = c(rbinom(500, 1, 0.10), rbinom(500, 1, 0.20))
+)
+
+# Criar a Tabela de Contingência (Prob. Conjunta Observada)
+tabela_contingencia <- table(dados_dependentes$segmento, dados_dependentes$converteu)
+```
+
+Tabela de Contingência Observada:
+
+```{r qui-quadrado2}
+print(tabela_contingencia)
+```
+
+```{r qui-quadrado3}
+# Rodar o Teste Qui-Quadrado
+# Ele calcula as prob. marginais, o "Esperado" (sob H0) 
+# e compara com o "Observado"
+teste_qui2 <- chisq.test(tabela_contingencia)
+print(teste_qui2)
+```
+
+**Interpretação:** O `p-value` é muito pequeno. Isso significa que a diferença entre o que observamos e o que esperaríamos (se fossem independentes) é muito grande.
+**Conclusão:** Rejeitamos $H_0$. As variáveis `segmento` e `converteu` são **dependentes**.
+
+### Caso Contínuo: Correlação e Visualização  {.unnumbered}
+
+Vamos revisitar nosso *dataset* de `idade` e `renda_k`.
+
+```{r continuo-dependente, fig.cap="Visualização de variáveis dependentes (correlacionadas)."}
+# Dados Dependentes (Correlação = 0.6)
+set.seed(42)
+mu <- c(idade = 40, renda_k = 60)
+sigma_dep <- matrix(c(100, 90, 90, 225), ncol = 2) # Cov = 90
+dados_dep <- as_tibble(MASS::mvrnorm(n = 2000, mu = mu, Sigma = sigma_dep))
+
+# Calcular correlação
+cor_dep <- cor(dados_dep$idade, dados_dep$renda_k)
+cat("Correlação (Dependente):", cor_dep, "\n")
+
+# Plotar (o scatter plot é uma elipse "inclinada")
+p_dep <- ggplot(dados_dep, aes(x = idade, y = renda_k)) +
+  geom_point(alpha = 0.2) + theme_minimal() +
+  labs(title = "Caso 1: Variáveis Dependentes (Correlacionadas)",
+       subtitle = paste("Correlação =", round(cor_dep, 2)))
+
+ggExtra::ggMarginal(p_dep, type = "density", fill = "lightblue")
+```
+
+```{r continuo-independente, fig.cap="Visualização de variáveis independentes (não-correlacionadas)."}
+# Dados Independentes (Correlação = 0)
+sigma_indep <- matrix(c(100, 0, 0, 225), ncol = 2) # Cov = 0
+dados_indep <- as_tibble(MASS::mvrnorm(n = 2000, mu = mu, Sigma = sigma_indep))
+
+# Calcular correlação
+cor_indep <- cor(dados_indep$idade, dados_indep$renda_k)
+cat("Correlação (Independente):", cor_indep, "\n")
+
+# Plotar (o scatter plot é uma elipse "alinhada" ou círculo)
+p_indep <- ggplot(dados_indep, aes(x = idade, y = renda_k)) +
+  geom_point(alpha = 0.2) + theme_minimal() +
+  labs(title = "Caso 2: Variáveis Independentes (Não-Correlacionadas)",
+       subtitle = paste("Correlação =", round(cor_indep, 4)))
+       
+ggExtra::ggMarginal(p_indep, type = "density", fill = "lightgreen")
+```
+
+### Armadilha: Correlação Zero $\neq$ Independência {.unnumbered}
+
+**Cuidado:** Correlação mede apenas dependência **linear**. Variáveis podem ter correlação zero e ainda assim serem **altamente dependentes**.
+
+```{r armadilha-correlacao, fig.cap="Dependência não-linear com correlação zero."}
+set.seed(42)
+n_pontos <- 2000
+X <- runif(n_pontos, -2, 2)
+# Y é uma função quadrática de X (dependência perfeita!)
+Y <- X^2 + rnorm(n_pontos, 0, 0.2) # Adiciona ruído
+
+df_parabola <- tibble(X, Y)
+
+# 1. Calcular a correlação
+cor_parabola <- cor(df_parabola$X, df_parabola$Y)
+
+# 2. Plotar
+ggplot(df_parabola, aes(x = X, y = Y)) +
+  geom_point(alpha = 0.3) +
+  labs(
+    title = "Dependência Não-Linear (Correlação $\\approx 0$)",
+    subtitle = paste("Correlação Linear:", round(cor_parabola, 4)),
+    caption = "Y é perfeitamente dependente de X, mas a correlação linear é nula."
+  ) +
+  theme_minimal()
+```

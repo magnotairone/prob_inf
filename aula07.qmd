@@ -22,13 +22,13 @@ A **função de distribuição (acumulada)**, f.d.a., de uma v.a. X, representad
 $$ F_X(x) = \mathbb{P}(X \le x), \quad x \in \mathbb{R} $$
 :::
 
-> **Perspectiva de Data Science: A FDA é o Fundamento dos *p-values* e Quantis**
->
->
-> * **Análise de Risco:** $F_X(0.2) = 0.15$ significa "15% dos seus clientes têm score de risco abaixo de 0.2".
-> * **Percentis/Quantis:** A FDA é a função que *invertemos* para encontrar quantis. "Qual o 95º percentil do tempo de resposta?" é o mesmo que "Encontre o valor $x$ tal que $F_X(x) = 0.95$".
-> * **Testes de Hipótese:** Um **p-value** é o resultado de uma FDA. Por exemplo, $p = F_Z(-1.96)$ (em um teste de cauda esquerda) nos dá a probabilidade acumulada de ver um resultado tão extremo ou *menor*.
+::: {.callout-tip title="Perspectiva de Data Science: A FDA é o Fundamento dos *p-values* e Quantis"}
 
+* **Análise de Risco:** $F_X(0.2) = 0.15$ significa "15% dos seus clientes têm score de risco abaixo de 0.2".
+* **Percentis/Quantis:** A FDA é a função que *invertemos* para encontrar quantis. "Qual o 95º percentil do tempo de resposta?" é o mesmo que "Encontre o valor $x$ tal que $F_X(x) = 0.95$".
+* **Testes de Hipótese:** Um **p-value** é o resultado de uma FDA. Por exemplo, $p = F_Z(-1.96)$ (em um teste de cauda esquerda) nos dá a probabilidade acumulada de ver um resultado tão extremo ou *menor*.
+ 
+:::
 
 ::: {#exm-fda-cliques name="Exemplo 2.7"}
 Um usuário vê dois anúncios (`Ad_1`, `Ad_2`). Suponha que a chance de clicar em cada um é de 50% ($p=0.5$) e os eventos são independentes. Seja $X = n^{o}$ de anúncios clicados. Obtenha $F_X$.
@@ -157,17 +157,17 @@ $$ F_X(x) = \int_{-\infty}^{x} f(t) dt, \quad \forall x \in \mathbb{R} $$
 Neste caso, dizemos que $f$ é a **função densidade de probabilidade (f.d.p.)** de X.
 :::
 
+::: {.callout-tip title="Perspectiva de Data Science: FP vs. FDP (Gráfico de Barras vs. Densidade)"}
 
-> **Perspectiva de Data Science: FP vs. FDP (Gráfico de Barras vs. Densidade)**
->
-> * **a) Discreta (FP):** Pense em `feature` como `click_count`, `star_rating` (1, 2, 3, 4, 5) ou `num_purchases`.
->     * A **função de probabilidade (f.p.)** $p(x_i)$ é o que você vê em um **gráfico de barras** (`geom_col`) após normalizar (ex: `prop.table(count(df, click_count))`).
->     * $p(x_i)$ *é* uma probabilidade (ex: $p(3) = \mathbb{P}(X=3) = 0.15$ ou "15% dos usuários clicaram 3 vezes").
->
-> * **b) Contínua (FDP):** Pense em `feature` como `session_duration`, `transaction_amount` ou `score_de_risco`.
->     * A **função densidade de probabilidade (f.d.p.)** $f(x)$ é a curva suave que você vê em um **gráfico de densidade** (`geom_density`).
->     * $f(x)$ *não é* uma probabilidade! É uma "densidade". A probabilidade é a **área sob a curva**. A probabilidade de *exatamente* $X=120.53s$ é zero. A probabilidade de $X \in [120, 121]$ é a integral (área) de $f(x)$ entre 120 e 121.
+ * **a) Discreta (FP):** Pense em `feature` como `click_count`, `star_rating` (1, 2, 3, 4, 5) ou `num_purchases`.
+     * A **função de probabilidade (f.p.)** $p(x_i)$ é o que você vê em um **gráfico de barras** (`geom_col`) após normalizar (ex: `prop.table(count(df, click_count))`).
+     * $p(x_i)$ *é* uma probabilidade (ex: $p(3) = \mathbb{P}(X=3) = 0.15$ ou "15% dos usuários clicaram 3 vezes").
 
+ * **b) Contínua (FDP):** Pense em `feature` como `session_duration`, `transaction_amount` ou `score_de_risco`.
+     * A **função densidade de probabilidade (f.d.p.)** $f(x)$ é a curva suave que você vê em um **gráfico de densidade** (`geom_density`).
+     * $f(x)$ *não é* uma probabilidade! É uma "densidade". A probabilidade é a **área sob a curva**. A probabilidade de *exatamente* $X=120.53s$ é zero. A probabilidade de $X \in [120, 121]$ é a integral (área) de $f(x)$ entre 120 e 121.
+
+:::
 
 **Notas:**
 
@@ -271,13 +271,14 @@ b) Se X é abs. contínua com densidade $f$ então
 $$ \mathbb{P}_X(B) = \int_{B} f(x) dx, \quad \forall B \in \mathcal{B} $$
 :::
 
-> **Perspectiva de Data Science: Como Calcular Probabilidades**
->
-> Esta proposição é o "como fazer":
->
-> * **a) Discreta:** Para saber $\mathbb{P}(\text{star\_rating} > 3)$, você **soma** as probabilidades das barras: $\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)$.
-> * **b) Contínua:** Para saber $\mathbb{P}(\text{duration} \in [60, 120])$, você **integra** (calcula a área sob a curva) $f(x)$ de 60 a 120. Na prática, $\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)$.
+::: {.callout-tip title="Perspectiva de Data Science: Como Calcular Probabilidades"}
 
+Esta proposição é o "como fazer":
+
+ * **a) Discreta:** Para saber $\mathbb{P}(\text{star\_rating} > 3)$, você **soma** as probabilidades das barras: $\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)$.
+ * **b) Contínua:** Para saber $\mathbb{P}(\text{duration} \in [60, 120])$, você **integra** (calcula a área sob a curva) $f(x)$ de 60 a 120. Na prática, $\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)$.
+
+:::
 
 
 
@@ -359,7 +360,8 @@ ggplot(Omega_data, aes(x = X_session_duration)) +
     subtitle = "Esta é a 'versão prática' da F_X(x) teórica",
     x = "x (Duração da Sessão)",
     y = "F_X(x) - Probabilidade Acumulada P(X <= x)"
-  )
+  ) +
+  theme_minimal()
 ```
 
 ### Visualizando os 3 Tipos de V.A.s {.unnumbered}

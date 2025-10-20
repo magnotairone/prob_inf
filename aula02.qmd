@@ -33,19 +33,20 @@ Um espaço de probabilidade tem três componentes:
 2.  Uma classe de subconjuntos de $\Omega$, denotada aqui por $\mathcal{F}$, chamados de **eventos aleatórios**. São os conjuntos de $\mathcal{F}$ que gostaríamos de "medir" (atribuir probabilidade).
 3.  Uma função $\mathbb{P}$ que associa a cada evento aleatório em $\mathcal{F}$ um número real, chamada **probabilidade** ou **medida de probabilidade**.
 
-> **Perspectiva de Data Science: O Data Frame como Espaço Amostral**
->
-> Como podemos traduzir esses conceitos para o nosso dia a dia?
->
-> * **$\Omega$ (Espaço Amostral):** Pense em $\Omega$ como o seu **data frame ou tabela inteira** (`df`). É o universo de todas as observações possíveis que seu experimento (coleta de dados) poderia gerar.
-> * **$\omega$ (Resultado):** Um $\omega$ (um elemento de $\Omega$) é uma **única linha** do seu data frame. Pode ser um usuário (`user_id = 123`), uma transação (`transaction_id = 9A8B`), ou uma sessão de site.
-> * **$A$ (Evento):** Um evento $A$ (um subconjunto de $\Omega$) é o resultado de uma **consulta (`query`) ou filtro (`subset`)** que você aplica ao seu data frame.
->
-> Por exemplo:
-> * `df[df$segmento == "VIP", ]` é o evento $A = \text{"Clientes VIP"}$.
-> * `df[df$clicou == 1 & df$pais == "BR", ]` é o evento $B \cap C$, onde $B = \text{"Clicou"}$ e $C = \text{"Brasil"}$.
->
-> A Teoria da Probabilidade nos dá as regras formais para calcular o "tamanho" (a probabilidade) desses subconjuntos.
+::: {.callout-tip title="Perspectiva de Data Science"}
+Como podemos traduzir esses conceitos para o nosso dia a dia?
+
+ * **$\Omega$ (Espaço Amostral):** Pense em $\Omega$ como o seu **data frame ou tabela inteira** (`df`). É o universo de todas as observações possíveis que seu experimento (coleta de dados) poderia gerar.
+ * **$\omega$ (Resultado):** Um $\omega$ (um elemento de $\Omega$) é uma **única linha** do seu data frame. Pode ser um usuário (`user_id = 123`), uma transação (`transaction_id = 9A8B`), ou uma sessão de site.
+ * **$A$ (Evento):** Um evento $A$ (um subconjunto de $\Omega$) é o resultado de uma **consulta (`query`) ou filtro (`subset`)** que você aplica ao seu data frame.
+
+Por exemplo:
+
+ * `df[df$segmento == "VIP", ]` é o evento $A = \text{"Clientes VIP"}$.
+ * `df[df$clicou == 1 & df$pais == "BR", ]` é o evento $B \cap C$, onde $B = \text{"Clicou"}$ e $C = \text{"Brasil"}$.
+
+A Teoria da Probabilidade nos dá as regras formais para calcular o "tamanho" (a probabilidade) desses subconjuntos.
+:::
 
 Gostaríamos, em princípio, de atribuir probabilidade a qualquer subconjunto de $\Omega$, isto é, considerar $\mathcal{F}=\mathcal{P}(\Omega)$ (conjunto das partes de $\Omega$).
 
@@ -63,19 +64,20 @@ ii) $\forall A \in \mathcal{F} \Rightarrow A^{c} \in \mathcal{F}$.
 iii) Se $A_{1}, A_{2}, ... \in \mathcal{F} \Rightarrow \bigcup_{n=1}^{\infty} A_{n} \in \mathcal{F}$.
 :::
 
-> **Perspectiva de Data Science: A $\sigma$-álgebra como o *Schema* dos Dados**
->
-> O conceito de $\sigma$-álgebra ($\mathcal{F}$) é um dos mais abstratos, mas tem uma analogia prática: pense em $\mathcal{F}$ como as **"perguntas que o seu *schema* de dados permite fazer"**.
->
-> O $\mathcal{F}$ define quais eventos são "mensuráveis". Em Data Science, isso é definido pelas *features* (colunas) que você coletou.
->
-> * Se seu data frame $\Omega$ tem colunas `idade` e `genero`, sua $\sigma$-álgebra $\mathcal{F}$ permite "medir" (filtrar, agrupar, calcular probabilidades) eventos como "clientes com mais de 30 anos" ($A$) ou "clientes do gênero feminino" ($B$).
-> * As propriedades da $\sigma$-álgebra garantem que você também pode medir combinações:
->     * (ii) `NOT` $A$: "clientes com 30 anos ou menos" ($A^c$).
->     * (iii) $A \cup B$: "clientes com mais de 30 anos **OU** femininos".
->     * (Prop. 1.1) $A \cap B$: "clientes femininos com mais de 30 anos".
->
-> Se uma *feature* não foi coletada (ex: `renda`), eventos como "clientes com renda > 10k" **não estão** em $\mathcal{F}$. Não podemos medir sua probabilidade porque essa informação não existe no nosso espaço. A $\sigma$-álgebra é, portanto, o conjunto de todas as *queries* que podemos construir a partir das colunas disponíveis.
+::: {.callout-tip title="Perspectiva de Data Science: A $\sigma$-álgebra como o *Schema* dos Dados"}
+
+O conceito de $\sigma$-álgebra ($\mathcal{F}$) é um dos mais abstratos, mas tem uma analogia prática: pense em $\mathcal{F}$ como as **"perguntas que o seu *schema* de dados permite fazer"**.
+
+O $\mathcal{F}$ define quais eventos são "mensuráveis". Em Data Science, isso é definido pelas *features* (colunas) que você coletou.
+
+ * Se seu data frame $\Omega$ tem colunas `idade` e `genero`, sua $\sigma$-álgebra $\mathcal{F}$ permite "medir" (filtrar, agrupar, calcular probabilidades) eventos como "clientes com mais de 30 anos" ($A$) ou "clientes do gênero feminino" ($B$).
+ * As propriedades da $\sigma$-álgebra garantem que você também pode medir combinações:
+     * (ii) `NOT` $A$: "clientes com 30 anos ou menos" ($A^c$).
+     * (iii) $A \cup B$: "clientes com mais de 30 anos **OU** femininos".
+     * (Prop. 1.1) $A \cap B$: "clientes femininos com mais de 30 anos".
+
+ Se uma *feature* não foi coletada (ex: `renda`), eventos como "clientes com renda > 10k" **não estão** em $\mathcal{F}$. Não podemos medir sua probabilidade porque essa informação não existe no nosso espaço. A $\sigma$-álgebra é, portanto, o conjunto de todas as *queries* que podemos construir a partir das colunas disponíveis.
+:::
 
 ::: {#exm-sigma-partes name="Exemplo 1.3"}
 $\Omega \neq \emptyset$ qualquer. $\mathcal{F}=\mathcal{P}(\Omega)=\{A:A\subseteq\Omega\}$ é $\sigma$-algebra (maior $\sigma$-algebra).

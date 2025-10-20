@@ -28,19 +28,19 @@ Seja $\Omega$ um espaço amostral e $\mathcal{F}$ uma $\sigma$-álgebra em $\Ome
 2)  1, 2 e 3 são chamados Axiomas de Kolmogorov.
 
 
-> **Perspectiva de Data Science: Traduzindo os Axiomas**
->
-> Esses três axiomas são a fundação de toda a inferência estatística e *machine learning*.
->
-> * **Axioma 1: $\mathbb{P}(\Omega) = 1$ (A Caixa Contém Tudo)**
->   A probabilidade do universo (nosso *data frame* inteiro, ou o domínio completo do problema) é 1. Isso significa que "algum resultado" tem 100% de chance de ocorrer. A soma das probabilidades de todos os segmentos de clientes, por exemplo, deve ser 1.
->
-> * **Axioma 2: $\mathbb{P}(A) \ge 0$ (Não Existe Chance Negativa)**
->   A probabilidade de qualquer evento (ex: "usuário clicou") deve ser, no mínimo, zero.
->
-> * **Axioma 3: $\sigma$-aditividade (Se não há sobreposição, as chances somam)**
->   Se os eventos são *mutuamente exclusivos* (disjuntos), a probabilidade de "um deles" acontecer é a soma de suas probabilidades individuais.
->   * **Exemplo:** O evento $A = \text{"Segmento VIP"}$ e $B = \text{"Segmento Regular"}$ são disjuntos. Portanto, a probabilidade de um cliente ser VIP *ou* Regular é $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)$. É isso que justifica somar `value_counts` ou `GROUP BY` em categorias exclusivas.
+::: {.callout-tip title="Perspectiva de Data Science: Traduzindo os Axiomas"}
+Esses três axiomas são a fundação de toda a inferência estatística e *machine learning*.
+
+ * **Axioma 1: $\mathbb{P}(\Omega) = 1$ (A Caixa Contém Tudo)**
+   A probabilidade do universo (nosso *data frame* inteiro, ou o domínio completo do problema) é 1. Isso significa que "algum resultado" tem 100% de chance de ocorrer. A soma das probabilidades de todos os segmentos de clientes, por exemplo, deve ser 1.
+
+ * **Axioma 2: $\mathbb{P}(A) \ge 0$ (Não Existe Chance Negativa)**
+   A probabilidade de qualquer evento (ex: "usuário clicou") deve ser, no mínimo, zero.
+
+ * **Axioma 3: $\sigma$-aditividade (Se não há sobreposição, as chances somam)**
+   Se os eventos são *mutuamente exclusivos* (disjuntos), a probabilidade de "um deles" acontecer é a soma de suas probabilidades individuais.
+   * **Exemplo:** O evento $A = \text{"Segmento VIP"}$ e $B = \text{"Segmento Regular"}$ são disjuntos. Portanto, a probabilidade de um cliente ser VIP *ou* Regular é $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B)$. É isso que justifica somar `value_counts` ou `GROUP BY` em categorias exclusivas.
+:::
 
 ::: {#exm-clique-anuncio name="Exemplo 1.8"}
 Um usuário vê um anúncio. Observa-se se ele clica (1) ou não (0).
@@ -72,18 +72,18 @@ Mostre que $\mathbb{P}_{B}$ é uma medida de probabilidade.
    Logo, $\mathbb{P}_{B}$ é medida de probabilidade.
 :::
 
-> **Perspectiva de Data Science: $\mathbb{P}_B(A)$ é a Probabilidade Condicional**
->
-> Este exemplo não é apenas um exercício teórico; ele é a **definição formal de probabilidade condicional**.
->
-> A notação $\mathbb{P}_B(A)$ é o que chamamos em Data Science de $\mathbb{P}(A|B)$ (lê-se "a probabilidade de A, *dado* B").
->
-> * $A = \text{"Usuário fez uma compra"}$
-> * $B = \text{"Usuário é do segmento VIP"}$
->
-> $\mathbb{P}(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(\text{Compra E VIP})}{\mathbb{P}(\text{VIP})}$
->
-> O que este exemplo prova matematicamente é que, quando "filtramos" nosso universo para um subconjunto (apenas clientes VIP), as regras da probabilidade (os 3 axiomas) continuam valendo perfeitamente dentro desse subconjunto. Isso justifica todo tipo de análise de funil e segmentação.
+::: {.callout-tip title="Perspectiva de Data Science: $\mathbb{P}_B(A)$ é a Probabilidade Condicional"}
+Este exemplo não é apenas um exercício teórico; ele é a **definição formal de probabilidade condicional**.
+
+ A notação $\mathbb{P}_B(A)$ é o que chamamos em Data Science de $\mathbb{P}(A|B)$ (lê-se "a probabilidade de A, *dado* B").
+
+ * $A = \text{"Usuário fez uma compra"}$
+ * $B = \text{"Usuário é do segmento VIP"}$
+
+ $\mathbb{P}(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(\text{Compra E VIP})}{\mathbb{P}(\text{VIP})}$
+
+ O que este exemplo prova matematicamente é que, quando "filtramos" nosso universo para um subconjunto (apenas clientes VIP), as regras da probabilidade (os 3 axiomas) continuam valendo perfeitamente dentro desse subconjunto. Isso justifica todo tipo de análise de funil e segmentação.
+:::
 
 ## Propriedades
 
@@ -118,13 +118,15 @@ Seja $(\Omega, \mathcal{F}, \mathbb{P})$ um espaço de probabilidade e $A, B, A_
    $$\mathbb{P}(\bigcup_{n=1}^{\infty} A_{n}) = \mathbb{P}(\bigcup_{n=1}^{\infty} B_{n}) = \sum_{n=1}^{\infty} \mathbb{P}(B_{n}) \le \sum_{n=1}^{\infty} \mathbb{P}(A_{n})$$
    (Pois $B_n \subseteq A_n \Rightarrow \mathbb{P}(B_n) \le \mathbb{P}(A_n)$ pela prop. 3).
 
-> **Perspectiva de Data Science: Propriedades como "Sanity Checks"**
->
-> Essas propriedades são ferramentas de "sanidade" que usamos o tempo todo, muitas vezes sem perceber.
->
-> * **Prop 2 (Complemento):** $\mathbb{P}(\text{taxa de churn}) = 1 - \mathbb{P}(\text{taxa de retenção})$. É a base para modelar problemas binários (fraude/não-fraude, clicou/não-clicou).
-> * **Prop 3 (Monotonicidade):** $\mathbb{P}(\text{Clicou E Comprou}) \le \mathbb{P}(\text{Clicou})$. A probabilidade de um evento mais específico (um subconjunto) nunca pode ser maior que a do evento geral. Se seu *dashboard* mostrar o contrário, há um erro no filtro.
-> * **Prop 5 (Inclusão-Exclusão):** Essencial para evitar contagem dupla. Se você quer saber a proporção de usuários que são "VIP" *ou* "clicaram em e-mails" (grupos com sobreposição), você não pode simplesmente somar as duas proporções. Você deve subtrair a interseção: $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)$.
+::: {.callout-tip title="Perspectiva de Data Science: Propriedades como 'Sanity Checks'"}
+Essas propriedades são ferramentas de "sanidade" que usamos o tempo todo, muitas vezes sem perceber.
+
+  * **Prop 2 (Complemento):** $\mathbb{P}(\text{taxa de churn}) = 1 - \mathbb{P}(\text{taxa de retenção})$. É a base para modelar problemas binários (fraude/não-fraude, clicou/não-clicou).
+  * **Prop 3 (Monotonicidade):** $\mathbb{P}(\text{Clicou E Comprou}) \le \mathbb{P}(\text{Clicou})$. A probabilidade de um evento mais específico (um subconjunto) nunca pode ser maior que a do evento geral. Se seu *dashboard* mostrar o contrário, há um erro no filtro.
+  * **Prop 5 (Inclusão-Exclusão):** Essencial para evitar contagem dupla. Se você quer saber a proporção de usuários que são "VIP" *ou* "clicaram em e-mails" (grupos com sobreposição), você não pode simplesmente somar as duas proporções. Você deve subtrair a interseção: $\mathbb{P}(A \cup B) = \mathbb{P}(A) + \mathbb{P}(B) - \mathbb{P}(A \cap B)$.
+
+:::
+
 
 ::: {#thm-continuidade name="Teorema 1.1 (Continuidade da probabilidade)"}
 Seja $(\Omega, \mathcal{F}, \mathbb{P})$ um espaço de probabilidade.

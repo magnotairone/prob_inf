@@ -1,4 +1,4 @@
-# Introdução: Da Teoria à Prática Analítica
+# Introdução
 
 Imagine que você trabalha como Cientista de Dados em uma empresa de streaming de música. Uma pergunta fundamental do negócio é: "Quais são os nossos perfis de usuários? Quem são os ouvintes leais e quem são os esporádicos?". Para responder a isso, você tem acesso aos dados de login de cada usuário, mês a mês.
 
@@ -6,7 +6,7 @@ Como poderíamos definir matematicamente o que significa ser um "ouvinte leal"? 
 
 Para responder a essas perguntas de forma precisa e rigorosa, precisamos de uma linguagem formal. Essa linguagem é a **Teoria dos Conjuntos**. Nesta aula, vamos construir o alicerce matemático que nos permitirá não apenas estruturar nosso pensamento analítico, mas também desenvolver as ferramentas para analisar o comportamento de sistemas que evoluem ao longo do tempo. Cada definição e proposição que veremos é um passo em direção à solução do nosso problema.
 
-## A Linguagem dos Dados: Conjuntos e Eventos
+## Conjuntos e Eventos
 
 Para analisar dados, primeiro precisamos defini-los. A teoria dos conjuntos nos fornece o vocabulário fundamental para isso.
 
@@ -17,20 +17,22 @@ Um conjunto $\Omega$ é uma coleção de objetos distintos, que serão denotados
 * $\omega \notin \Omega$ (elemento $\omega$ não pertence ao conjunto $\Omega$).
 :::
 
-> **Perspectiva de Data Science:**
-> Pense no conjunto universal $\Omega$ como todo o seu **universo de dados**, ou **espaço amostral**. Cada elemento $\omega$ é uma **unidade observacional**: um cliente, uma transação, um produto. Por exemplo, $\Omega$ pode ser "o conjunto de todos os usuários da nossa plataforma".
+::: {.callout-tip title="Perspectiva de Data Science"}
+Pense no conjunto universal $\Omega$ como todo o seu **universo de dados**, ou **espaço amostral**. Cada elemento $\omega$ é uma **unidade observacional**: um cliente, uma transação, um produto. Por exemplo, $\Omega$ pode ser "o conjunto de todos os usuários da nossa plataforma".
+:::
 
 ::: {#def-subconjunto name="Subconjunto"}
 Dizemos que A é um subconjunto de $\Omega$, ou que A está contido em $\Omega$, e denotamos por $A \subseteq \Omega$, se $\forall \omega \in A \rightarrow \omega \in \Omega$.
 :::
 
-> **Perspectiva de Data Science:**
-> Um subconjunto é um **segmento de interesse** ou um **evento** dentro do seu universo de dados, geralmente obtido através de um filtro ou consulta.
->
-> * Se $\Omega$ é o conjunto de todos os usuários, um subconjunto $A$ pode ser: $A = \{$usuários do plano Premium$\}$.
-> * Outro subconjunto $B$ poderia ser: $B = \{$usuários que ouviram mais de 100 horas de música no último mês$\}$.
+::: {.callout-tip title="Perspectiva de Data Science"}
+Um subconjunto é um **segmento de interesse** ou um **evento** dentro do seu universo de dados, geralmente obtido através de um filtro ou consulta.
 
-## A Gramática da Análise: Operações com Conjuntos
+ * Se $\Omega$ é o conjunto de todos os usuários, um subconjunto $A$ pode ser: $A = \{$usuários do plano Premium$\}$.
+ * Outro subconjunto $B$ poderia ser: $B = \{$usuários que ouviram mais de 100 horas de música no último mês$\}$.
+:::
+
+## Operações com Conjuntos
 
 Com nossos segmentos definidos, precisamos de uma forma de combiná-los e compará-los. As operações com conjuntos são a "gramática" que nos permite realizar análises complexas.
 
@@ -44,12 +46,13 @@ Sejam A, $A_1$, $A_2$,... subconjuntos de $\Omega$. Temos as seguintes operaçõ
 
 * **Conjunto vazio ($\emptyset$)**: não contém nenhum elemento.
 
-> **Perspectiva de Data Science:**
-> Cada operação corresponde diretamente a uma operação lógica em uma consulta de dados:
->
-> * **Intersecção ($A \cap B$)** é a lógica **E (AND)**. Ex: "Usuários do plano Premium **E** que ouviram mais de 100 horas".
-> * **União ($A \cup B$)** é a lógica **OU (OR)**. Ex: "Usuários do plano Premium **OU** que ouviram mais de 100 horas".
-> * **Complementar ($A^c$)** é a lógica **NÃO (NOT)**. Ex: "Usuários que **NÃO** são do plano Premium".
+::: {.callout-tip title="Perspectiva de Data Science"}
+Cada operação corresponde diretamente a uma operação lógica em uma consulta de dados:
+
+ * **Intersecção ($A \cap B$)** é a lógica **E (AND)**. Ex: "Usuários do plano Premium **E** que ouviram mais de 100 horas".
+ * **União ($A \cup B$)** é a lógica **OU (OR)**. Ex: "Usuários do plano Premium **OU** que ouviram mais de 100 horas".
+ * **Complementar ($A^c$)** é a lógica **NÃO (NOT)**. Ex: "Usuários que **NÃO** são do plano Premium".
+:::
 
 ::: {#def-relacoes name="Relações entre Conjuntos"}
 * Dizemos que $A_{1}$ e $A_{2}$ são **disjuntos** se $A_{1} \cap A_{2} = \emptyset$.
@@ -86,7 +89,7 @@ Parte 2: $\bigcap_{i=1}^{\infty} A_{i}^{c} \subseteq (\bigcup_{i=1}^{\infty} A_{
 4.  $\Rightarrow \omega \notin \bigcup_{i=1}^{\infty} A_{i}$ (Se não está em nenhum conjunto, não está na união)
 5.  $\Rightarrow \omega \in (\bigcup_{i=1}^{\infty} A_{i})^{c}$ (Por definição de complementar)
 
-## Análise Dinâmica: Sequências de Conjuntos
+## Sequências de Conjuntos
 
 Agora, voltamos ao nosso problema original: analisar o comportamento dos usuários *ao longo do tempo*. Para isso, introduzimos o conceito de sequências de conjuntos.
 
@@ -102,11 +105,12 @@ i) se $A_n \uparrow$, $\lim_{n \to \infty} A_{n} = \bigcup_{i=1}^{\infty} A_{i}$
 ii) se $A_n \downarrow$, $\lim_{n \to \infty} A_{n} = \bigcap_{i=1}^{\infty} A_{i}$.
 :::
 
-> **Perspectiva de Data Science:**
-> Sequências monótonas modelam processos de **acumulação** ou **desgaste**.
->
-> * **Não decrescente ($A_n \uparrow$):** Representa a **aquisição cumulativa**. Se $A_n = \{$usuários que fizeram login *pelo menos uma vez* até o mês $n$$\}$, este conjunto só pode crescer. O limite é o conjunto de todos os usuários que já logaram alguma vez na história.
-> * **Não crescente ($A_n \downarrow$):** Representa a **retenção de uma coorte**. Se $A_1 = \{$usuários que se cadastraram em Janeiro$\}$ e $A_n = \{$usuários de Janeiro que ainda estavam ativos no mês $n$$\}$, este conjunto só pode diminuir. O limite representa os usuários de Janeiro que permaneceram leais para sempre.
+::: {.callout-tip title="Perspectiva de Data Science"}
+Sequências monótonas modelam processos de **acumulação** ou **desgaste**.
+
+ * **Não decrescente ($A_n \uparrow$):** Representa a **aquisição cumulativa**. Se $A_n = \{$usuários que fizeram login *pelo menos uma vez* até o mês $n$$\}$, este conjunto só pode crescer. O limite é o conjunto de todos os usuários que já logaram alguma vez na história.
+ * **Não crescente ($A_n \downarrow$):** Representa a **retenção de uma coorte**. Se $A_1 = \{$usuários que se cadastraram em Janeiro$\}$ e $A_n = \{$usuários de Janeiro que ainda estavam ativos no mês $n$$\}$, este conjunto só pode diminuir. O limite representa os usuários de Janeiro que permaneceram leais para sempre.
+:::
 
 ::: {#exm-limites-an-bn}
 Considere $\Omega = \mathbb{N}$ e as sequências:
@@ -120,7 +124,7 @@ Considere $\Omega = \mathbb{N}$ e as sequências:
 * $B_{1}=\{2,4,6,...\}, B_{2}=\{4,6,...\},... \Rightarrow B_{1} \supseteq B_{2} \supseteq ...$. A sequência $\{B_{n}\}_{n \ge 1}$ é monótona não crescente. Logo, $\lim_{n \to \infty} B_{n} = \bigcap_{i=1}^{\infty} B_{i} = \{2,4,6,...\} \cap \{4,6,...\} \cap ... = \emptyset$.
 :::
 
-## Comportamento de Longo Prazo: Limite de Sequências
+## Limite de Sequências
 
 Mas e o comportamento geral de login, que não é necessariamente monótono? Um usuário pode estar ativo um mês e inativo no outro. É aqui que os conceitos de limite superior e inferior se tornam ferramentas analíticas poderosas para resolver nosso problema.
 
@@ -156,11 +160,12 @@ Se $A_1, A_2, ...$ é uma sequência de conjuntos:
     $$\liminf_{n \to \infty} A_{n} = \bigcup_{n=1}^{\infty} \bigcap_{k=n}^{\infty} A_{k}$$
 :::
 
-> **Perspectiva de Data Science (A Solução):**
-> Seja $A_n = \{$usuários ativos no mês $n$$\}$.
->
-> * **`liminf Aₙ` (Limite Inferior):** É o conjunto dos elementos que pertencem a $A_n$ para todo $n$ a partir de um certo ponto. Este é o conjunto dos **usuários leais (hardcore)**. São aqueles que, após um tempo, se tornam permanentemente ativos.
-> * **`limsup Aₙ` (Limite Superior):** É o conjunto dos elementos que pertencem a $A_n$ para infinitos valores de $n$. Este é o conjunto dos **usuários esporádicos (recorrentes)**. São aqueles que podem desaparecer, mas sempre acabam voltando.
+::: {.callout-tip title="Perspectiva de Data Science"}
+Seja $A_n = \{$usuários ativos no mês $n$$\}$.
+
+ * **`liminf Aₙ` (Limite Inferior):** É o conjunto dos elementos que pertencem a $A_n$ para todo $n$ a partir de um certo ponto. Este é o conjunto dos **usuários leais (hardcore)**. São aqueles que, após um tempo, se tornam permanentemente ativos.
+ * **`limsup Aₙ` (Limite Superior):** É o conjunto dos elementos que pertencem a $A_n$ para infinitos valores de $n$. Este é o conjunto dos **usuários esporádicos (recorrentes)**. São aqueles que podem desaparecer, mas sempre acabam voltando.
+:::
 
 #### Interpretação Matemática Rigorosa
 

@@ -23,18 +23,18 @@ $$ \mathbb{P}(A|B) = \frac{\mathbb{P}(A \cap B)}{\mathbb{P}(B)}, \quad A \in \ma
 1)  Se $\mathbb{P}(B)=0$, definimos $\mathbb{P}(A|B) = \mathbb{P}(A)$.
 2)  $\mathbb{P}(\cdot|B)$ é uma medida de probabilidade em $(\Omega, \mathcal{F})$ (@exm-prob-condicional).
 
-> **Perspectiva de Data Science: $\mathbb{P}(A|B)$ como uma Métrica Filtrada** 
->
-> A fórmula $\mathbb{P}(A|B) = \mathbb{P}(A \cap B) / \mathbb{P}(B)$ é a justificativa para a maioria das nossas *queries* de análise.
->
-> * $\mathbb{P}(A \cap B)$ = `COUNT(usuários que são VIP E converteram)` / `COUNT(total de usuários)`
-> * $\mathbb{P}(B)$ = `COUNT(usuários que são VIP)` / `COUNT(total de usuários)`
->
-> Quando dividimos um pelo outro, o `COUNT(total de usuários)` (o denominador $\Omega$) cancela:
->
-> $\mathbb{P}(A|B) = \frac{\text{COUNT(VIP e Converteu)}}{\text{COUNT(VIP)}}$
->
-> Esta é exatamente a métrica de "taxa de conversão do segmento VIP". A teoria da probabilidade condicional é o que garante que essa nova métrica, calculada sobre o *dataset* filtrado, ainda obedece a todas as regras da probabilidade.
+::: {.callout-tip title="Perspectiva de Data Science: $\mathbb{P}(A|B)$ como uma Métrica Filtrada"}
+ A fórmula $\mathbb{P}(A|B) = \mathbb{P}(A \cap B) / \mathbb{P}(B)$ é a justificativa para a maioria das nossas *queries* de análise.
+
+ * $\mathbb{P}(A \cap B)$ = `COUNT(usuários que são VIP E converteram)` / `COUNT(total de usuários)`
+ * $\mathbb{P}(B)$ = `COUNT(usuários que são VIP)` / `COUNT(total de usuários)`
+
+ Quando dividimos um pelo outro, o `COUNT(total de usuários)` (o denominador $\Omega$) cancela:
+
+ $\mathbb{P}(A|B) = \frac{\text{COUNT(VIP e Converteu)}}{\text{COUNT(VIP)}}$
+
+ Esta é exatamente a métrica de "taxa de conversão do segmento VIP". A teoria da probabilidade condicional é o que garante que essa nova métrica, calculada sobre o *dataset* filtrado, ainda obedece a todas as regras da probabilidade.
+:::
 
 ::: {#thm-regra-produto name="Teorema 1.2 (Regra do Produto)"}
 Seja $(\Omega, \mathcal{F}, \mathbb{P})$ um espaço de probabilidade. Então
@@ -78,36 +78,35 @@ Se $A_1, A_2, \dots$ (sequência finita ou enumerável) de eventos formar uma pa
 $$ \mathbb{P}(B) = \sum_{k=1}^{\infty} \mathbb{P}(A_k) \mathbb{P}(B|A_k), \quad \forall B \in \mathcal{F} $$
 :::
 
-> **Perspectiva de Data Science: A Lei da Média Ponderada**
->
-> A Lei da Probabilidade Total é como "reconstruímos" uma métrica geral a partir de seus segmentos.
->
-> Se $B$ é o evento "converter", e a partição $A_k$ são os segmentos de clientes ("VIP", "Regular", "Novo"), então:
->
-> $\mathbb{P}(\text{Converter}) = \sum_{k} \mathbb{P}(\text{Converter} | \text{Segmento}_k) \times \mathbb{P}(\text{Segmento}_k)$
->
-> A taxa de conversão *geral* é a **média ponderada** das taxas de conversão de cada segmento, onde os pesos são o tamanho (probabilidade) de cada segmento. Isso é usado o tempo todo para entender *drivers* de uma métrica: a métrica geral subiu porque um segmento melhorou (o $\mathbb{P}(B|A_k)$) ou porque um segmento de alta performance cresceu (o $\mathbb{P}(A_k)$)?
+::: {.callout-tip title="Perspectiva de Data Science: A Lei da Média Ponderada"}
+ A Lei da Probabilidade Total é como "reconstruímos" uma métrica geral a partir de seus segmentos.
+
+ Se $B$ é o evento "converter", e a partição $A_k$ são os segmentos de clientes ("VIP", "Regular", "Novo"), então:
+
+ $\mathbb{P}(\text{Converter}) = \sum_{k} \mathbb{P}(\text{Converter} | \text{Segmento}_k) \times \mathbb{P}(\text{Segmento}_k)$
+
+ A taxa de conversão *geral* é a **média ponderada** das taxas de conversão de cada segmento, onde os pesos são o tamanho (probabilidade) de cada segmento. Isso é usado o tempo todo para entender *drivers* de uma métrica: a métrica geral subiu porque um segmento melhorou (o $\mathbb{P}(B|A_k)$) ou porque um segmento de alta performance cresceu (o $\mathbb{P}(A_k)$)?
+:::
 
 Usando o @thm-lei-prob-total, podemos obter a **fórmula de Bayes**:
 $$ \mathbb{P}(A_i|B) = \frac{\mathbb{P}(A_i \cap B)}{\mathbb{P}(B)} = \frac{\mathbb{P}(A_i) \mathbb{P}(B|A_i)}{\sum_{k=1}^{\infty} \mathbb{P}(A_k) \mathbb{P}(B|A_k)} $$
 
-> **Perspectiva de Data Science: Teorema de Bayes, O Motor da Inferência**
->
-> O Teorema de Bayes é talvez o mais importante da estatística para a ciência de dados. Ele nos permite "inverter a pergunta":
->
-> * Nós *sabemos* $\mathbb{P}(B|A_i)$: A probabilidade de *ver uma evidência* (B), dado que uma *causa* ($A_i$) é verdadeira.
->     * Ex: $\mathbb{P}(\text{clique} | \text{é fraude})$ (Fácil de medir a partir de dados de fraude confirmada).
-> * Nós *queremos saber* $\mathbb{P}(A_i|B)$: A probabilidade da *causa* ser verdadeira, dado que vimos a *evidência*.
->     * Ex: $\mathbb{P}(\text{é fraude} | \text{clique})$ (A pergunta crucial: esse clique *foi* fraudulento?)
->
-> O Teorema de Bayes é a base para:
->
-> * **Filtros de Spam:** $\mathbb{P}(\text{Spam} | \text{Palavra "Viagra"})$
-> * **Detecção de Anomalias:** $\mathbb{P}(\text{Fraude} | \text{Transação > 10k})$
-> * **Classificadores Naive Bayes:** Um modelo de *machine learning* inteiro que usa Bayes para classificar textos, diagnosticar doenças, etc.
->
-> Onde $\mathbb{P}(A_i)$ é o **Prior** (nossa crença inicial, ex: a taxa base de fraude) e $\mathbb{P}(A_i|B)$ é o **Posterior** (nossa crença atualizada após ver a evidência $B$).
+::: {.callout-tip title="Perspectiva de Data Science: Teorema de Bayes, O Motor da Inferência"}
+O Teorema de Bayes é talvez o mais importante da estatística para a ciência de dados. Ele nos permite "inverter a pergunta":
 
+ * Nós *sabemos* $\mathbb{P}(B|A_i)$: A probabilidade de *ver uma evidência* (B), dado que uma *causa* ($A_i$) é verdadeira.
+     * Ex: $\mathbb{P}(\text{clique} | \text{é fraude})$ (Fácil de medir a partir de dados de fraude confirmada).
+ * Nós *queremos saber* $\mathbb{P}(A_i|B)$: A probabilidade da *causa* ser verdadeira, dado que vimos a *evidência*.
+     * Ex: $\mathbb{P}(\text{é fraude} | \text{clique})$ (A pergunta crucial: esse clique *foi* fraudulento?)
+
+ O Teorema de Bayes é a base para:
+
+ * **Filtros de Spam:** $\mathbb{P}(\text{Spam} | \text{Palavra "Viagra"})$
+ * **Detecção de Anomalias:** $\mathbb{P}(\text{Fraude} | \text{Transação > 10k})$
+ * **Classificadores Naive Bayes:** Um modelo de *machine learning* inteiro que usa Bayes para classificar textos, diagnosticar doenças, etc.
+
+ Onde $\mathbb{P}(A_i)$ é o **Prior** (nossa crença inicial, ex: a taxa base de fraude) e $\mathbb{P}(A_i|B)$ é o **Posterior** (nossa crença atualizada após ver a evidência $B$).
+:::
 
 ## Independência de Eventos
 
@@ -201,20 +200,21 @@ $(\Omega, \mathcal{F}, \mathbb{P})$ espaço de probabilidade, $A \in \mathcal{F}
 A e B são independentes se, e só se, $\mathbb{P}(B|A) = \mathbb{P}(B|A^c)$.
 
 <!-- TODO: verificar -->
-> **Perspectiva de Data Science: A Hipótese Nula de um Teste A/B**
->
-> Este exercício é a **definição matemática da hipótese nula ($H_0$)** em um teste A/B.
->
-> * $B$ = O evento de interesse (ex: "Compra")
-> * $A$ = "Usuário viu a Versão A (Tratamento)"
-> * $A^c$ = "Usuário viu a Versão B (Controle)"
->
-> A afirmação $\mathbb{P}(B|A) = \mathbb{P}(B|A^c)$ se traduz em:
-> "A taxa de compra no grupo Tratamento é *exatamente igual* à taxa de compra no grupo Controle."
->
-> O exercício prova que isso é matematicamente equivalente a dizer que "fazer a compra" ($B$) é *independente* do "grupo que o usuário viu" ($A$).
->
-> Nosso objetivo no teste é justamente tentar **rejeitar** essa afirmação, provando que os eventos são *dependentes* e que $\mathbb{P}(B|A) \neq \mathbb{P}(B|A^c)$.
+::: {.callout-tip title="Perspectiva de Data Science: A Hipótese Nula de um Teste A/B"}
+Este exercício é a **definição matemática da hipótese nula ($H_0$)** em um teste A/B.
+
+ * $B$ = O evento de interesse (ex: "Compra")
+ * $A$ = "Usuário viu a Versão A (Tratamento)"
+ * $A^c$ = "Usuário viu a Versão B (Controle)"
+
+ A afirmação $\mathbb{P}(B|A) = \mathbb{P}(B|A^c)$ se traduz em:
+ "A taxa de compra no grupo Tratamento é *exatamente igual* à taxa de compra no grupo Controle."
+
+ O exercício prova que isso é matematicamente equivalente a dizer que "fazer a compra" ($B$) é *independente* do "grupo que o usuário viu" ($A$).
+
+ Nosso objetivo no teste é justamente tentar **rejeitar** essa afirmação, provando que os eventos são *dependentes* e que $\mathbb{P}(B|A) \neq \mathbb{P}(B|A^c)$.
+
+:::
 
 ## Implementação Prática em R
 

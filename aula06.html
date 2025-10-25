@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>6&nbsp; Variáveis Aleatórias – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./aula07.html" rel="next">
+<link href="./aula05.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet">
+
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probabilidade e Inferência Estatística para Ciência de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introdução</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./010_probabilidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Módulo Probabilidade</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Parte 1: Espaço de Probabilidade</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Definição Axiomática de Probabilidade</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilidade Condicional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula06.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Principais Modelos Probabilisticos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vetores Aleatórios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Independência</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distribuição de Transformações de Vetores Aleatórios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Método do Jacobiano e Estatísticas de Ordem</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./020_inferencia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Módulo Inferência Estatística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#espaço-de-probabilidade-induzido" id="toc-espaço-de-probabilidade-induzido" class="nav-link active" data-scroll-target="#espaço-de-probabilidade-induzido"><span class="header-section-number">6.1</span> Espaço de Probabilidade Induzido</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">6.2</span> Implementação Prática em R</a>
+  <ul class="collapse">
+  <li><a href="#v.a.s-como-funções" id="toc-v.a.s-como-funções" class="nav-link" data-scroll-target="#v.a.s-como-funções">V.A.s como Funções</a></li>
+  <li><a href="#explorando-eventos-x-le-x" id="toc-explorando-eventos-x-le-x" class="nav-link" data-scroll-target="#explorando-eventos-x-le-x">Explorando Eventos <span class="math inline">\(\{X \le x\}\)</span></a></li>
+  <li><a href="#o-espaço-induzido-mathbbp_x-o-histograma" id="toc-o-espaço-induzido-mathbbp_x-o-histograma" class="nav-link" data-scroll-target="#o-espaço-induzido-mathbbp_x-o-histograma">O Espaço Induzido <span class="math inline">\(\mathbb{P}_X\)</span> (O Histograma)</a></li>
+  <li><a href="#distribuição-induzida-de-uma-função-indicadora-mathbbp_z" id="toc-distribuição-induzida-de-uma-função-indicadora-mathbbp_z" class="nav-link" data-scroll-target="#distribuição-induzida-de-uma-função-indicadora-mathbbp_z"><span class="header-section-number">6.2.1</span> Distribuição Induzida de uma Função Indicadora <span class="math inline">\(\mathbb{P}_Z\)</span></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula06.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Até agora, lidamos com o espaço amostral <span class="math inline">\(\Omega\)</span> (ex: o conjunto de todos os usuários) e eventos <span class="math inline">\(\mathcal{F}\)</span> (ex: “o usuário é VIP”). No entanto, em Data Science, raramente trabalhamos com o evento “bruto” <span class="math inline">\((\omega)\)</span>.</p>
+<p>Não analisamos o <em>log JSON</em> inteiro de um usuário; nós extraímos <strong>métricas</strong> numéricas dele:</p>
+<ul>
+<li><code>session_duration_seconds = 124.5</code></li>
+<li><code>click_count = 3</code></li>
+<li><code>converted = 1</code></li>
+</ul>
+<p>Uma <strong>Variável Aleatória</strong> (v.a.) é a ferramenta matemática formal que representa essa extração. É uma <strong>função</strong> que mapeia o resultado complexo de um experimento (<span class="math inline">\(\omega\)</span>) para um número real (<span class="math inline">\(\mathbb{R}\)</span>) que podemos medir e modelar.</p>
+<div id="exm-cliques-n-vezes" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.1 (Exemplo 2.1)</strong></span> Um usuário visita um site <span class="math inline">\(n\)</span> vezes. Observamos a sequência de cliques (C) e não-cliques (K). <span class="math inline">\(\Omega = \{(a_1, a_2, \dots, a_n) : a_i = C \text{ ou } a_i = K, i=1, \dots, n\}\)</span>. Um <span class="math inline">\(\omega\)</span> individual seria uma sequência como <span class="math inline">\((C, K, K, C, ...)\)</span>.</p>
+<p>Nosso interesse não é a sequência exata, mas a métrica <span class="math inline">\(X\)</span>: número de cliques. <span class="math inline">\(X(\omega) =\)</span> número de “C” observados em <span class="math inline">\(\omega = (a_1, \dots, a_n)\)</span>. <span class="math inline">\(X\)</span> é uma v.a. que mapeia uma sequência de eventos para um número inteiro.</p>
+</div>
+<!-- TODO: adaptar esse exemplo -->
+<div id="exm-score-de-risco" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.2 (Exemplo 2.2 (alternativo)</strong></span> Selecionar um cliente ao acaso para análise de crédito. Temos <span class="math inline">\(\Omega = \{\text{todos os clientes}\}\)</span>. O resultado <span class="math inline">\(\omega\)</span> é o <em>perfil completo</em> de um cliente (histórico, renda, etc.).</p>
+<p>Estamos interessados em $X = $ <em>score</em> de risco (normalizado). <span class="math inline">\(X: \Omega \rightarrow [0, 1]\)</span>. Podemos criar outras v.a.s (outras <em>features</em>): * <span class="math inline">\(Y(\omega) = \text{idade do cliente}\)</span> * <span class="math inline">\(Z(\omega) = \omega^2\)</span> (uma <em>transformação de feature</em>, como <span class="math inline">\(score^2\)</span>, para um modelo)</p>
+</div>
+<p>Em todo caso, X é uma função de <span class="math inline">\(\Omega\)</span> em <span class="math inline">\(\mathbb{R}\)</span>, isto é, <span class="math inline">\(X: \Omega \rightarrow \mathbb{R}\)</span>.</p>
+<div id="exm-ponto-aleatorio" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.3 (Exemplo 2.2 (original))</strong></span> Escolher um ponto ao acaso em <span class="math inline">\([0, 1]\)</span>. Temos <span class="math inline">\(\Omega = [0, 1]\)</span>. Poderíamos ter <span class="math inline">\(X =\)</span> quadrado do valor observado; <span class="math inline">\(X(\omega) = \omega^2\)</span>.</p>
+</div>
+<p>Em todo caso, X é uma função de <span class="math inline">\(\Omega\)</span> em <span class="math inline">\(\mathbb{R}\)</span>, isto é, <span class="math inline">\(X: \Omega \rightarrow \mathbb{R}\)</span>.</p>
+<p>Vamos impor uma restrição sobre a função X que permitirá atribuir probabilidades a eventos como “número de caras é, no máximo, 5”.</p>
+<div id="def-variavel-aleatoria" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 6.1 (Definição 2.1 (Variável Aleatória))</strong></span> Uma <strong>variável aleatória (v.a.)</strong> <span class="math inline">\(X\)</span> em um espaço de probabilidade <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> é uma função real definida em <span class="math inline">\(\Omega\)</span> tal que <span class="math display">\[ \{\omega \in \Omega : X(\omega) \le x\} \]</span> é um evento aleatório para todo <span class="math inline">\(x \in \mathbb{R}\)</span>, isto é, <span class="math display">\[ \{\omega \in \Omega : X(\omega) \le x\} \in \mathcal{F}, \forall x \in \mathbb{R}. \]</span></p>
+</div>
+<p><strong>Notas:</strong></p>
+<ol type="1">
+<li>Utilizamos a notação <span class="math inline">\(\{X \le x\} = \{\omega \in \Omega : X(\omega) \le x\}\)</span>.</li>
+<li>Em Teoria da Medida, <span class="math inline">\(\{X \le x\} \in \mathcal{F}, \forall x \in \mathbb{R}\)</span>, significa que X é uma <strong>função mensurável</strong> a <span class="math inline">\(\mathcal{F}\)</span>.</li>
+<li>Note que <span class="math inline">\(\{X \le x\}\)</span> é a imagem inversa de <span class="math inline">\(X\)</span> no intervalo <span class="math inline">\((-\infty, x]\)</span>, isto é, <span class="math inline">\(X^{-1}((-\infty, x])\)</span>.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A V.A. como 'Feature' e a $\sigma$-álgebra como 'Schema'">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A V.A. como ‘Feature’ e a <span class="math inline">\(\sigma\)</span>-álgebra como ‘Schema’
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta definição é a garantia teórica para nossas <em>queries</em> diárias.</p>
+<ul>
+<li><strong><span class="math inline">\(X\)</span> é a <em>Feature</em></strong>: Pense em <span class="math inline">\(X\)</span> como a coluna <code>session_duration</code> em seu <em>data frame</em>.</li>
+<li><strong><span class="math inline">\(\Omega\)</span> é a Fonte de Dados Bruta</strong>: Pense em <span class="math inline">\(\Omega\)</span> como a coleção de todos os logs JSON brutos do servidor. <span class="math inline">\(X(\omega)\)</span> é a função (o <em>parser</em>) que extrai o valor <code>session_duration</code> de um log <span class="math inline">\(\omega\)</span>. &gt; * <strong>A Condição de Mensurabilidade</strong>: A condição <span class="math inline">\(\{X \le x\} \in \mathcal{F}\)</span> significa: “O conjunto de todos os logs brutos (<span class="math inline">\(\omega\)</span>) que resultaram em uma <code>session_duration</code> menor ou igual a <span class="math inline">\(x\)</span> <em>deve ser algo que nosso schema de dados (<span class="math inline">\(\mathcal{F}\)</span>) nos permite identificar</em>.”</li>
+</ul>
+<p>Se nosso <em>schema</em> (<span class="math inline">\(\mathcal{F}\)</span>) não nos permite filtrar por “duração”, então a função <span class="math inline">\(X = \text{session\_duration}\)</span> <strong>não é</strong> uma variável aleatória válida em nosso sistema, pois não podemos calcular <span class="math inline">\(\mathbb{P}(X \le 30)\)</span>.</p>
+</div>
+</div>
+<div id="exm-va-constante" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.4 (Exemplo 2.3 (Variável Aleatória Constante))</strong></span> Seja <span class="math inline">\(X(\omega) = 5, \forall \omega \in \Omega\)</span>. Verifique que X é v.a. Temos que <span class="math display">\[ \{X \le x\} = \{\omega \in \Omega : X(\omega) \le x\} = \begin{cases} \emptyset, &amp; x &lt; 5 \\ \Omega, &amp; x \ge 5 \end{cases} \]</span> Como <span class="math inline">\(\emptyset\)</span> e <span class="math inline">\(\Omega\)</span> estão em <span class="math inline">\(\mathcal{F}\)</span>, então X é v.a.</p>
+</div>
+<ul>
+<li>Dizemos que uma v.a. é <strong>degenerada</strong> em <span class="math inline">\(c\)</span> se existe um <span class="math inline">\(c\)</span> tal que <span class="math inline">\(\mathbb{P}(X=c)=1\)</span>. No <a href="#exm-va-constante" class="quarto-xref">Exemplo&nbsp;<span class="quarto-unresolved-ref">exm-va-constante</span></a>, X é degenerada em 5.</li>
+</ul>
+<div id="exm-funcao-indicadora" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.5 (Exemplo 2.4 (Função Indicadora))</strong></span> Seja <span class="math inline">\(A \subseteq \Omega\)</span>. Defina <span class="math display">\[ I_A(\omega) = \begin{cases} 1, &amp; \omega \in A \\ 0, &amp; \omega \notin A \end{cases} \]</span> (função indicadora). Se <span class="math inline">\(A \in \mathcal{F}\)</span> e <span class="math inline">\(X = I_A(\omega)\)</span>, mostre que X é v.a. <span class="math display">\[ \{X \le x\} = \{\omega \in \Omega : X(\omega) \le x\} = \begin{cases} \emptyset, &amp; x \in (-\infty, 0) \\ A^c, &amp; x \in [0, 1) \\ \Omega, &amp; x \in [1, +\infty) \end{cases} \]</span> Como <span class="math inline">\(A \in \mathcal{F}\)</span>, então <span class="math inline">\(A^c \in \mathcal{F}\)</span>. Como <span class="math inline">\(\emptyset, A^c, \Omega \in \mathcal{F}\)</span>, X é v.a.</p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A Função Indicadora é a *Dummy Variable*">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A Função Indicadora é a <em>Dummy Variable</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A função indicadora é uma das v.a.s mais importantes. É como transformamos eventos categóricos (VIP/Não-VIP, Clicou/Não-Clicou, Fraude/Não-Fraude) em números (1/0).</p>
+<p><span class="math inline">\(X = I_A\)</span> é a <strong>“dummy variable”</strong> ou a coluna <strong>“one-hot encoded”</strong> (<code>is_vip</code>) que usamos para treinar modelos de regressão logística, árvores de decisão e redes neurais. Esta prova mostra que, desde que o evento original (<span class="math inline">\(A\)</span>) seja mensurável em nosso <em>schema</em>, a <em>dummy variable</em> correspondente é uma v.a. válida.</p>
+</div>
+</div>
+<div id="exm-nao-va" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.6 (Exemplo 2.5)</strong></span> Seja <span class="math inline">\(\Omega = \{1, 2, 3, 4\}\)</span>, <span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega, \{1, 2\}, \{3, 4\}\}\)</span> e <span class="math inline">\(B = \{1, 3\}\)</span>. Seja <span class="math inline">\(Y(\omega) = I_B(\omega) = \begin{cases} 1, &amp; \omega \in \{1, 3\} \\ 0, &amp; \omega \in \{2, 4\} \end{cases}\)</span>. Verifique se Y é v.a.</p>
+<p>Para <span class="math inline">\(x \in [0, 1)\)</span>: <span class="math inline">\(\{Y \le x\} = \{\omega \in \Omega : Y(\omega) \le x\} = \begin{cases} \emptyset, &amp; y &lt; 0 \\ B^c, &amp;y \in [0,1)] \\ \Omega, &amp; y \geq 1 \end{cases}\)</span></p>
+<p>Como <span class="math inline">\(B^c = \{2, 4\} \notin \mathcal{F}\)</span>, Logo Y não é v.a.</p>
+</div>
+<!-- TODO: definir a v.a. Y como no exemplo original acima, todos os tres casos. -->
+<div id="exm-nao-va" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.7 (Exemplo 2.5 (Dados Não Coletados))</strong></span> Seja <span class="math inline">\(\Omega = \{u_1, u_2, u_3, u_4\}\)</span> (4 usuários) e <span class="math inline">\(\mathcal{F} = \{\emptyset, \Omega, \{1, 2\}, \{3, 4\}\}\)</span>. Nosso <em>schema</em> <span class="math inline">\(\mathcal{F}\)</span> só nos permite ver dois grupos: “Controle” <span class="math inline">\(\{1, 2\}\)</span> e “Tratamento” <span class="math inline">\(\{3, 4\}\)</span>.</p>
+<p>Agora, considere uma propriedade <span class="math inline">\(B = \{1, 3\}\)</span> (ex: “usuários que acessaram de manhã”), algo que <strong>não coletamos</strong>.</p>
+<p>Seja <span class="math inline">\(Y(\omega) = I_B(\omega) = \begin{cases} 1, &amp; \omega \in \{1, 3\} \text{ (acessou de manhã)} \\ 0, &amp; \omega \in \{2, 4\} \text{ (não acessou de manhã)} \end{cases}\)</span>. Verifique se Y é v.a.</p>
+<p>Vamos checar a condição para <span class="math inline">\(x = 0.5\)</span>: <span class="math inline">\(\{Y \le 0.5\} = \{\omega : Y(\omega) = 0\} = \{2, 4\} = B^c\)</span>. Mas <span class="math inline">\(B^c = \{2, 4\}\)</span> <strong>não é</strong> um evento em nosso <em>schema</em> <span class="math inline">\(\mathcal{F}\)</span>! Não podemos “isolar” esse grupo.</p>
+<p>Como <span class="math inline">\(\{Y \le 0.5\} \notin \mathcal{F}\)</span>, a função Y <strong>não é</strong> uma variável aleatória no nosso espaço. <strong>Conclusão:</strong> Você não pode criar <em>features</em> (v.a.s) a partir de informações que seu <em>schema</em> (<span class="math inline">\(\mathcal{F}\)</span>) não contém.</p>
+</div>
+<section id="espaço-de-probabilidade-induzido" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="espaço-de-probabilidade-induzido"><span class="header-section-number">6.1</span> Espaço de Probabilidade Induzido</h2>
+<p>Dado um espaço de probabilidade <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span> e uma v.a. X, definimos o <strong>espaço de probabilidade induzido por X</strong> como <span class="math inline">\((\mathbb{R}, \mathcal{B}, \mathbb{P}_X)\)</span>, em que <span class="math inline">\(\mathcal{B}\)</span> é a <span class="math inline">\(\sigma\)</span>-álgebra de Borel em <span class="math inline">\(\mathbb{R}\)</span>, que contém todos os subconjuntos de <span class="math inline">\(\mathbb{R}\)</span> que nos interessam, e <span class="math display">\[ \mathbb{P}_X(B) = \mathbb{P}(\{\omega \in \Omega : X(\omega) \in B\}), \quad B \in \mathcal{B} \]</span> <span class="math display">\[ = \mathbb{P}(X \in B) \]</span></p>
+<p><strong>Notas:</strong></p>
+<ol type="1">
+<li>Neste caso, o espaço amostral é <span class="math inline">\(\mathbb{R}\)</span>, os eventos aleatórios são os borelianos e a medida de probabilidade é <span class="math inline">\(\mathbb{P}_X\)</span>.</li>
+<li>A medida de probabilidade <span class="math inline">\(\mathbb{P}_X\)</span> é chamada <strong>distribuição de X</strong>.</li>
+<li>Verifique que <span class="math inline">\(\mathbb{P}_X\)</span> é, de fato, uma probabilidade.</li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: O Histograma é a Distribuição Induzida $\mathbb{P}_X$">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: O Histograma é a Distribuição Induzida <span class="math inline">\(\mathbb{P}_X\)</span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Este é o passo mais importante da Análise Exploratória de Dados (EDA).</p>
+<ul>
+<li><strong>Nós jogamos <span class="math inline">\(\Omega\)</span> fora:</strong> Não nos importamos mais com os <em>milhões</em> de logs brutos (<span class="math inline">\(\Omega\)</span>).</li>
+<li><strong>Nós focamos em <span class="math inline">\(\mathbb{P}_X\)</span>:</strong> Nós nos importamos apenas com a <strong>distribuição da <em>feature</em></strong> <span class="math inline">\(X\)</span>.</li>
+</ul>
+<p>Quando você plota um <strong>histograma</strong> da <code>session_duration</code>, você está plotando uma estimativa empírica da <strong>distribuição induzida <span class="math inline">\(\mathbb{P}_X\)</span></strong>.</p>
+<p>O histograma da <code>session_duration</code> (<span class="math inline">\(X\)</span>) vive no espaço <span class="math inline">\((\mathbb{R}, \mathcal{B}, \mathbb{P}_X)\)</span>. Ele não vive mais no espaço de logs brutos (<span class="math inline">\(\Omega, \mathcal{F}, \mathbb{P}\)</span>). A v.a. <span class="math inline">\(X\)</span> nos permitiu “transportar” a probabilidade de um espaço complexo (logs) para um espaço simples (<span class="math inline">\(\mathbb{R}\)</span>) onde podemos fazer estatística.</p>
+</div>
+</div>
+<div id="exm-feature-selection" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 6.8 (Exemplo 2.6)</strong></span> Um experimento coleta 3 <em>features</em> de um usuário: <span class="math inline">\(F_1, F_2, F_3\)</span> (ex: <code>device_type</code>, <code>country</code>, <code>time_of_day</code>). <span class="math inline">\(\Omega = \{1, \dots, 6\} \times \{1, \dots, 10\} \times \{1, \dots, 24\}\)</span> (um espaço amostral com <span class="math inline">\(6 \times 10 \times 24 = 1440\)</span> resultados possíveis). <span class="math inline">\(\mathcal{F} = \mathcal{P}(\Omega)\)</span> e <span class="math inline">\(\mathbb{P}\)</span> é uniforme por simplicidade.</p>
+<p>Estamos interessados <em>apenas</em> na <em>feature</em> <span class="math inline">\(X = F_1\)</span> (<code>device_type</code>, com 6 tipos). <span class="math inline">\(X: \Omega \rightarrow \mathbb{R}\)</span> com <span class="math inline">\(X(\omega) = \omega_1\)</span>, em que <span class="math inline">\(\omega = (\omega_1, \omega_2, \omega_3) \in \Omega\)</span>. Suponha que queiramos calcular <span class="math inline">\(\mathbb{P}(1.5 \le X \le 3.4)\)</span> (ou seja, <span class="math inline">\(\mathbb{P}(X=2 \text{ ou } X=3)\)</span>).</p>
+<p><strong>Cálculo no espaço original <span class="math inline">\((\Omega)\)</span>:</strong> <span class="math display">\[ \mathbb{P}(\{\omega : 1.5 \le X(\omega) \le 3.4\}) = \mathbb{P}(\{\omega : \omega_1 \in \{2, 3\}\}) \]</span> <span class="math display">\[ = \frac{n(\{\omega : \omega_1 \in \{2, 3\}\})}{1440} = \frac{n(\{2, 3\} \times \{1, \dots, 10\} \times \{1, \dots, 24\})}{1440} \]</span> <span class="math display">\[ = \frac{2 \times 10 \times 24}{1440} = \frac{480}{1440} = \frac{1}{3} \]</span> (Este cálculo foi complicado e exigiu pensar nas <em>outras</em> features).</p>
+<p><strong>Cálculo no espaço induzido <span class="math inline">\((\mathbb{R}, \mathcal{B}, \mathbb{P}_X)\)</span>:</strong> A v.a. <span class="math inline">\(X\)</span> induz uma distribuição <span class="math inline">\(\mathbb{P}_X\)</span> que é simplesmente: <span class="math display">\[ \mathbb{P}_X(B) = \frac{n(B \cap \{1, 2, 3, 4, 5, 6\})}{6}, \quad B \in \mathcal{B}. \]</span> (Nós efetivamente “ignoramos” as features <span class="math inline">\(F_2\)</span> e <span class="math inline">\(F_3\)</span>). Para calcular <span class="math inline">\(\mathbb{P}(1.5 \le X \le 3.4)\)</span>, nós perguntamos ao espaço induzido: <span class="math display">\[ \mathbb{P}_X([1.5, 3.4]) = \frac{n([1.5, 3.4] \cap \{1, 2, 3, 4, 5, 6\})}{6} \]</span> <span class="math display">\[ = \frac{n(\{2, 3\})}{6} = \frac{2}{6} = \frac{1}{3} \]</span> (Muito mais simples!)</p>
+</div>
+</section>
+<section id="implementação-prática-em-r" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">6.2</span> Implementação Prática em R</h2>
+<p>Vamos demonstrar como um <code>data.frame</code> é o nosso <span class="math inline">\(\Omega\)</span>, e as colunas são as Variáveis Aleatórias.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carregando pacotes</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Nosso Espaço Amostral Omega (Ω)</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Cada linha (observação) é um resultado do experimento (ω)</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># O data.frame em si é o nosso universo Omega</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">user_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># O 'evento bruto' ω pode ser um log complexo</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">raw_event_log =</span> <span class="fu">paste0</span>(<span class="st">"user_id: "</span>, user_id, <span class="st">", time: "</span>, <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">50</span>, <span class="dv">20</span>)),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="co"># FEATURES (Variáveis Aleatórias)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># X é uma v.a. contínua (extraída do log)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">X_session_duration =</span> <span class="fu">abs</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">120</span>, <span class="dv">40</span>)), </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Y é uma v.a. discreta (extraída do log)</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y_click_count =</span> <span class="fu">rpois</span>(<span class="dv">1000</span>, <span class="fl">1.5</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Z é uma v.a. binária (Função Indicadora)</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Z_is_vip =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Omega_data)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">user_id</th>
+<th style="text-align: left;" data-quarto-table-cell-role="th">raw_event_log</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">X_session_duration</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Y_click_count</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">Z_is_vip</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">user_id: 1, time: 77.4191689429334</td>
+<td style="text-align: right;">213.00234</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2</td>
+<td style="text-align: left;">user_id: 2, time: 38.7060365720782</td>
+<td style="text-align: right;">140.96489</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">3</td>
+<td style="text-align: left;">user_id: 3, time: 57.2625682267468</td>
+<td style="text-align: right;">158.82934</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4</td>
+<td style="text-align: left;">user_id: 4, time: 62.6572520992208</td>
+<td style="text-align: right;">135.07894</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5</td>
+<td style="text-align: left;">user_id: 5, time: 58.08536646282</td>
+<td style="text-align: right;">80.16266</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6</td>
+<td style="text-align: left;">user_id: 6, time: 47.8775096781703</td>
+<td style="text-align: right;">96.10068</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<section id="v.a.s-como-funções" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="v.a.s-como-funções">V.A.s como Funções</h3>
+<p><code>X_session_duration</code>, <code>Y_click_count</code> e <code>Z_is_vip</code> são nossas v.a.s. Elas mapeiam o <code>raw_event_log</code> (ou <code>user_id</code>, nosso <span class="math inline">\(\omega\)</span>) para um número.</p>
+</section>
+<section id="explorando-eventos-x-le-x" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="explorando-eventos-x-le-x">Explorando Eventos <span class="math inline">\(\{X \le x\}\)</span></h3>
+<p>A “condição de mensurabilidade” <span class="math inline">\(\{X \le x\} \in \mathcal{F}\)</span> é o que nos permite usar o comando <code>filter()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O evento A = {ω : X_session_duration(ω) &lt;= 30}</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Este é o subconjunto de *usuários* (linhas) que satisfazem a condição.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>evento_A <span class="ot">&lt;-</span> Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(X_session_duration <span class="sc">&lt;=</span> <span class="dv">30</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Número de usuários (ω) no evento {X &lt;= 30}:"</span>, <span class="fu">nrow</span>(evento_A), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Número de usuários (ω) no evento {X &lt;= 30}: 13 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Podemos calcular a probabilidade deste evento</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>P_A <span class="ot">&lt;-</span> <span class="fu">nrow</span>(evento_A) <span class="sc">/</span> <span class="fu">nrow</span>(Omega_data)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"P(X &lt;= 30) ="</span>, P_A, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>P(X &lt;= 30) = 0.013 </code></pre>
+</div>
+</div>
+</section>
+<section id="o-espaço-induzido-mathbbp_x-o-histograma" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="o-espaço-induzido-mathbbp_x-o-histograma">O Espaço Induzido <span class="math inline">\(\mathbb{P}_X\)</span> (O Histograma)</h3>
+<p>Não precisamos mais do <code>Omega_data</code> (os logs brutos). Focamos apenas na distribuição da <em>feature</em> <span class="math inline">\(X\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># P_X é a "distribuição de X"</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># O histograma é a nossa visão empírica de P_X</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"lightblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">alpha=</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribuição Induzida P_X (O Histograma)"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Jogamos Ω (os logs) fora e focamos no espaço induzido (os números em ℝ)"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"X_session_duration (Nossa V.A. Contínua)"</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Densidade (Probabilidade Induzida)"</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula06_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="distribuição-induzida-de-uma-função-indicadora-mathbbp_z" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="distribuição-induzida-de-uma-função-indicadora-mathbbp_z"><span class="header-section-number">6.2.1</span> Distribuição Induzida de uma Função Indicadora <span class="math inline">\(\mathbb{P}_Z\)</span></h3>
+<p>Para a <em>dummy variable</em> <span class="math inline">\(Z\)</span> (<code>Z_is_vip</code>), a distribuição <span class="math inline">\(\mathbb{P}_Z\)</span> é o que chamamos de <strong>Distribuição de Bernoulli</strong>. A “distribuição” de <span class="math inline">\(Z\)</span> é apenas <span class="math inline">\(P(Z=0)\)</span> e <span class="math inline">\(P(Z=1)\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Z_is_vip) <span class="sc">|&gt;</span> <span class="co"># Agrupa pelos valores da v.a.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">P_Z =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="co"># Calcula a probabilidade induzida</span></span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-striped table-hover caption-top table-sm small">
+<thead>
+<tr class="header">
+<th style="text-align: right;" data-quarto-table-cell-role="th">Z_is_vip</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">n</th>
+<th style="text-align: right;" data-quarto-table-cell-role="th">P_Z</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">891</td>
+<td style="text-align: right;">0.891</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">109</td>
+<td style="text-align: right;">0.109</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./aula05.html" class="pagination-link" aria-label="Exercícios">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./aula07.html" class="pagination-link" aria-label="Função de Distribuição Acumulada (FDA)">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

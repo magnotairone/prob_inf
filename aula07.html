@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt" xml:lang="pt"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>7&nbsp; Função de Distribuição Acumulada (FDA) – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./aula08.html" rel="next">
+<link href="./aula06.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-70a47bd5681a7291082a5b9f83d58762.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "Nenhum resultado",
+    "search-matching-documents-text": "documentos correspondentes",
+    "search-copy-link-title": "Copiar link para a busca",
+    "search-hide-matches-text": "Esconder correspondências adicionais",
+    "search-more-match-text": "mais correspondência neste documento",
+    "search-more-matches-text": "mais correspondências neste documento",
+    "search-clear-button-title": "Limpar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Procurar"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Probabilidade e Inferência Estatística para Ciência de Dados</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Procurar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Introdução</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./010_probabilidade.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Módulo Probabilidade</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introdução</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Parte 1: Espaço de Probabilidade</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Definição Axiomática de Probabilidade</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Probabilidade Condicional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercícios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula07.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Principais Modelos Probabilisticos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Vetores Aleatórios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Independência</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Distribuição de Transformações de Vetores Aleatórios</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Método do Jacobiano e Estatísticas de Ordem</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="./020_inferencia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Módulo Inferência Estatística</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./aula24.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Índice</h2>
+   
+  <ul>
+  <li><a href="#tipos-de-variáveis-aleatórias" id="toc-tipos-de-variáveis-aleatórias" class="nav-link active" data-scroll-target="#tipos-de-variáveis-aleatórias"><span class="header-section-number">7.1</span> Tipos de Variáveis Aleatórias</a></li>
+  <li><a href="#implementação-prática-em-r" id="toc-implementação-prática-em-r" class="nav-link" data-scroll-target="#implementação-prática-em-r"><span class="header-section-number">7.2</span> Implementação Prática em R</a>
+  <ul class="collapse">
+  <li><a href="#calculando-um-ponto-na-efda" id="toc-calculando-um-ponto-na-efda" class="nav-link" data-scroll-target="#calculando-um-ponto-na-efda">Calculando um Ponto na eFDA</a></li>
+  <li><a href="#plotando-a-efda-completa" id="toc-plotando-a-efda-completa" class="nav-link" data-scroll-target="#plotando-a-efda-completa">Plotando a eFDA Completa</a></li>
+  <li><a href="#visualizando-os-3-tipos-de-v.a.s" id="toc-visualizando-os-3-tipos-de-v.a.s" class="nav-link" data-scroll-target="#visualizando-os-3-tipos-de-v.a.s">Visualizando os 3 Tipos de V.A.s</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula07.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Função de Distribuição Acumulada (FDA)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Na aula anterior, definimos uma variável aleatória (v.a.) <span class="math inline">\(X\)</span> como uma <em>feature</em> ou métrica (ex: <code>session_duration</code>).</p>
+<p>Na prática, especialmente com <em>features</em> contínuas, a pergunta “Qual a probabilidade da sessão durar <em>exatamente</em> 120.53 segundos?” não é útil (a resposta é zero!).</p>
+<p>As perguntas de negócio que realmente importam são sobre <strong>limites</strong> (<em>thresholds</em>):</p>
+<ul>
+<li>“Qual a chance da transação ser <em>menor ou igual a</em> R$ 100?”</li>
+<li>“Qual a proporção de clientes com <em>score de risco abaixo de</em> 0.2?”</li>
+<li>“Qual a probabilidade do tempo de resposta do servidor ser <em>maior que</em> 3 segundos?” (uma quebra de SLA).</li>
+</ul>
+<p>A <strong>Função de Distribuição Acumulada (FDA)</strong>, ou <em>Cumulative Distribution Function (CDF)</em>, é a ferramenta matemática que responde a todas essas perguntas.</p>
+<div id="def-funcao-distribuicao" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 7.1 (Definição 2.2 (Função de Probabilidade))</strong></span> A <strong>função de distribuição (acumulada)</strong>, f.d.a., de uma v.a. X, representada por <span class="math inline">\(F_X\)</span> (ou simplesmente por F), é definida por: <span class="math display">\[ F_X(x) = \mathbb{P}(X \le x), \quad x \in \mathbb{R} \]</span></p>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: A FDA é o Fundamento dos *p-values* e Quantis">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: A FDA é o Fundamento dos <em>p-values</em> e Quantis
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>Análise de Risco:</strong> <span class="math inline">\(F_X(0.2) = 0.15\)</span> significa “15% dos seus clientes têm score de risco abaixo de 0.2”.</li>
+<li><strong>Percentis/Quantis:</strong> A FDA é a função que <em>invertemos</em> para encontrar quantis. “Qual o 95º percentil do tempo de resposta?” é o mesmo que “Encontre o valor <span class="math inline">\(x\)</span> tal que <span class="math inline">\(F_X(x) = 0.95\)</span>”.</li>
+<li><strong>Testes de Hipótese:</strong> Um <strong>p-value</strong> é o resultado de uma FDA. Por exemplo, <span class="math inline">\(p = F_Z(-1.96)\)</span> (em um teste de cauda esquerda) nos dá a probabilidade acumulada de ver um resultado tão extremo ou <em>menor</em>.</li>
+</ul>
+</div>
+</div>
+<div id="exm-fda-cliques" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 7.1 (Exemplo 2.7)</strong></span> Um usuário vê dois anúncios (<code>Ad_1</code>, <code>Ad_2</code>). Suponha que a chance de clicar em cada um é de 50% (<span class="math inline">\(p=0.5\)</span>) e os eventos são independentes. Seja <span class="math inline">\(X = n^{o}\)</span> de anúncios clicados. Obtenha <span class="math inline">\(F_X\)</span>.</p>
+<p>Temos <span class="math inline">\(\Omega = \{(0,0), (0,1), (1,0), (1,1)\}\)</span> (0=não-clique, 1=clique) e a v.a. assume os valores <span class="math inline">\(X=0, 1, 2\)</span>.</p>
+<ul>
+<li><span class="math inline">\(\mathbb{P}(X=0) = \mathbb{P}(\{(0,0)\}) = 0.5 \times 0.5 = 1/4\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X=1) = \mathbb{P}(\{(0,1), (1,0)\}) = 2 \times (0.5 \times 0.5) = 1/2\)</span></li>
+<li><span class="math inline">\(\mathbb{P}(X=2) = \mathbb{P}(\{(1,1)\}) = 0.5 \times 0.5 = 1/4\)</span></li>
+</ul>
+<p>A FDA <span class="math inline">\(F_X(x) = \mathbb{P}(X \le x)\)</span> acumula essas probabilidades:</p>
+<p><span class="math display">\[
+F_X(x) = \mathbb{P}(X \le x) =
+\begin{cases}
+    \mathbb{P}(\emptyset) = 0, &amp; \text{se } x &lt; 0 \\
+    \mathbb{P}(X=0) = 1/4, &amp; \text{se } 0 \le x &lt; 1 \\
+    \mathbb{P}(X=0) + \mathbb{P}(X=1) = 1/4 + 1/2 = 3/4, &amp; \text{se } 1 \le x &lt; 2 \\
+    \mathbb{P}(\Omega) = \mathbb{P}(X=0) + \mathbb{P}(X=1) + \mathbb{P}(X=2) = 1, &amp; \text{se } x \ge 2
+\end{cases}
+\]</span></p>
+<p>O gráfico desta f.d.a. esta na figura abaixo.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula07_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="prp-propriedades-fda" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposição 7.1 (Proposição 2.1)</strong></span> Se X é uma v.a., sua função de distribuição goza das seguintes propriedades:</p>
+<ul>
+<li>P1. <span class="math inline">\(x \le y \rightarrow F(x) \le F(y)\)</span> (i.e.&nbsp;F é não decrescente).</li>
+<li>P2. Se <span class="math inline">\(x_n \downarrow x\)</span>, então <span class="math inline">\(F(x_n) \downarrow F(x)\)</span> (i.e.&nbsp;F é contínua à direita).</li>
+<li>P3. Se <span class="math inline">\(x_n \downarrow -\infty\)</span>, então <span class="math inline">\(F(x_n) \downarrow 0.\)</span> Se <span class="math inline">\(x_n \uparrow \infty\)</span>, então <span class="math inline">\(F(x_n) \uparrow 1.\)</span></li>
+</ul>
+<p><strong>Demonstração:</strong></p>
+<p>P1: Seja <span class="math inline">\(x \le y \rightarrow \{X \le x\} \subseteq \{X \le y\}\)</span>. <span class="math inline">\(\Rightarrow \mathbb{P}(X \le x) \le \mathbb{P}(X \le y)\)</span> (pela Propriedade 3 da probabilidade). <span class="math inline">\(\rightarrow F(x) \le F(y)\)</span>.</p>
+<p>P2: Seja <span class="math inline">\(x_n \downarrow x\)</span>, então <span class="math inline">\(\{X \le x_n\} \downarrow \{X \le x\}\)</span>. Pela Continuidade da Probabilidade (<a href="#thm-continuidade" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-continuidade</span></a>): <span class="math inline">\(\mathbb{P}(\{X \le x_n\}) \downarrow \mathbb{P}(\{X \le x\})\)</span>. <span class="math inline">\(\Rightarrow F(x_n) \downarrow F(x)\)</span>.</p>
+<p>P3: Se <span class="math inline">\(x_n \downarrow -\infty\)</span>, então <span class="math inline">\(\{X \le x_n\} \downarrow \emptyset \rightarrow F(x_n) \downarrow 0\)</span>. Se <span class="math inline">\(x_n \uparrow \infty\)</span>, então <span class="math inline">\(\{X \le x_n\} \uparrow \Omega \rightarrow F(x_n) \uparrow 1\)</span>.</p>
+</div>
+<p><strong>Comentário:</strong> Toda função F satisfazendo P1, P2, P3 é a função de distribuição de alguma variável aleatória.</p>
+<p><strong>Observação:</strong> Uma função de distribuição pode corresponder a várias v.a.s no mesmo espaço de probabilidade. Por exemplo, se <span class="math inline">\(X \sim N(0, 1) \rightarrow -X \sim N(0, 1)\)</span> e <span class="math inline">\(F_X = F_{-X}\)</span>. No entanto <span class="math inline">\(\mathbb{P}(X = -X) = \mathbb{P}(2X = 0) = \mathbb{P}(X = 0) = 0\)</span>.</p>
+<p><strong>Notação:</strong> O símbolo “<span class="math inline">\(\sim\)</span>” significa “tem como distribuição” ou “está distribuído como”.</p>
+<section id="tipos-de-variáveis-aleatórias" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="tipos-de-variáveis-aleatórias"><span class="header-section-number">7.1</span> Tipos de Variáveis Aleatórias</h2>
+<p>A FDA nos permite classificar as variáveis aleatórias. Na prática, isso se traduz diretamente nos tipos de dados que analisamos: dados de <strong>contagem</strong> (discretos), dados de <strong>medição</strong> (contínuos) e dados <strong>censurados</strong> (mistos).</p>
+<div id="def-tipos-va" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 7.2 (Definição 2.3)</strong></span> &nbsp;</p>
+<ol type="a">
+<li><p>A v.a. X é dita ser <strong>discreta</strong> se toma valores em um conjunto finito ou infinito enumerável, isto é, se existe um conjunto <span class="math inline">\(\{x_1, x_2, \dots\} \subset \mathbb{R}\)</span> tal que <span class="math display">\[ X(\omega) \in \{x_1, x_2, \dots\}, \forall \omega \in \Omega. \]</span> A função <span class="math display">\[ p(x_i) = \mathbb{P}(X = x_i), \quad i=1, 2, \dots \]</span> é chamada <strong>função de probabilidade (f.p.)</strong> de X.</p></li>
+<li><p>A v.a. X é dita ser <strong>(absolutamente) contínua</strong> se existe uma função <span class="math inline">\(f(x) \ge 0\)</span> tal que <span class="math display">\[ F_X(x) = \int_{-\infty}^{x} f(t) dt, \quad \forall x \in \mathbb{R} \]</span> Neste caso, dizemos que <span class="math inline">\(f\)</span> é a <strong>função densidade de probabilidade (f.d.p.)</strong> de X.</p></li>
+</ol>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: FP vs. FDP (Gráfico de Barras vs. Densidade)">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: FP vs.&nbsp;FDP (Gráfico de Barras vs.&nbsp;Densidade)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong>a) Discreta (FP):</strong> Pense em <code>feature</code> como <code>click_count</code>, <code>star_rating</code> (1, 2, 3, 4, 5) ou <code>num_purchases</code>.
+<ul>
+<li>A <strong>função de probabilidade (f.p.)</strong> <span class="math inline">\(p(x_i)\)</span> é o que você vê em um <strong>gráfico de barras</strong> (<code>geom_col</code>) após normalizar (ex: <code>prop.table(count(df, click_count))</code>).</li>
+<li><span class="math inline">\(p(x_i)\)</span> <em>é</em> uma probabilidade (ex: <span class="math inline">\(p(3) = \mathbb{P}(X=3) = 0.15\)</span> ou “15% dos usuários clicaram 3 vezes”).</li>
+</ul></li>
+<li><strong>b) Contínua (FDP):</strong> Pense em <code>feature</code> como <code>session_duration</code>, <code>transaction_amount</code> ou <code>score_de_risco</code>.
+<ul>
+<li>A <strong>função densidade de probabilidade (f.d.p.)</strong> <span class="math inline">\(f(x)\)</span> é a curva suave que você vê em um <strong>gráfico de densidade</strong> (<code>geom_density</code>).</li>
+<li><span class="math inline">\(f(x)\)</span> <em>não é</em> uma probabilidade! É uma “densidade”. A probabilidade é a <strong>área sob a curva</strong>. A probabilidade de <em>exatamente</em> <span class="math inline">\(X=120.53s\)</span> é zero. A probabilidade de <span class="math inline">\(X \in [120, 121]\)</span> é a integral (área) de <span class="math inline">\(f(x)\)</span> entre 120 e 121.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<p><strong>Notas:</strong></p>
+<ol type="1">
+<li>Se X é discreta, então <span class="math inline">\(\{X\leq x\}=\bigcup_{i: x_i \le x}\{X=x_i\},\)</span> logo <span class="math display">\[ F_X(x) = \mathbb{P}(X \le x) = \mathbb{P}(\bigcup_{i: x_i \le x} \{X = x_i\}) = \sum_{i: x_i \le x} p(x_i).\]</span></li>
+<li>De forma geral, uma <strong>f.p.</strong> é qualquer função <span class="math inline">\(p(\cdot)\)</span> tal que <span class="math inline">\(p(x) \ge 0, \forall x \in \mathbb{R}\)</span> e <span class="math inline">\(\sum_{x \in K} p(x) = 1\)</span> (onde K é o conjunto de valores possíveis de X).</li>
+<li>Se X é absolutamente contínua, então <span class="math inline">\(F_X\)</span> é contínua. Tecnicamente, a integral na Definição 2.3.b) é de Lebesgue e X tem densidade se, e só se, <span class="math inline">\(F_X\)</span> é absolutamente contínua (isto é, <span class="math inline">\(F_X\)</span> é a integral de sua densidade). Neste caso, <span class="math display">\[ f(x) = F_X'(x) \]</span> em quase todo ponto (exceto num conjunto de medida de Lebesgue nula, isto é, comprimento zero).</li>
+<li>Uma função <span class="math inline">\(f(\cdot)\)</span> é uma <strong>f.d.p.</strong> se:
+<ul>
+<li><span class="math inline">\(f(x) \ge 0, \forall x \in \mathbb{R}\)</span></li>
+<li><span class="math inline">\(\int_{-\infty}^{\infty} f(x) dx = 1\)</span></li>
+</ul></li>
+<li>A f.d.p. não é única. Por exemplo, seja <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; 0 \\ x, &amp; 0 \le x &lt; 1 \\ 1, &amp; x \ge 1 \end{cases} \]</span> Podemos obter um candidato para <span class="math inline">\(f(\cdot)\)</span> fazendo <span class="math inline">\(f_X^1(x) = \frac{d}{dx} F(x) = 1, x \in (0, 1)\)</span> e 0 caso contrário. Também poderíamos ter <span class="math inline">\(f_X^2(x) = 1\)</span> para <span class="math inline">\(x \in [0, 1/2] \cup (1/2, 1]\)</span> (i.e., mudando um ponto).</li>
+</ol>
+<div id="exm-va-mista" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 7.2 (Exemplo 2.8 (Variável Aleatória Mista))</strong></span> Seja X tal que <span class="math inline">\(X \sim U(0, 1)\)</span>, isto é, X tem função de dist. <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; 0 \\ x, &amp; 0 \le x &lt; 1 \\ 1, &amp; x \ge 1 \end{cases} \]</span> Defina <span class="math inline">\(Y = \min(X, 1/2)\)</span>. Obtenha a f.d.a. de Y. <span class="math display">\[ Y(\omega) = \begin{cases} X(\omega), &amp; 0 \le X(\omega) &lt; 1/2 \\ 1/2, &amp; 1/2 \le X(\omega) \le 1 \end{cases} \]</span> <span class="math inline">\(F_Y(y) = \mathbb{P}(Y \le y), y \in \mathbb{R}\)</span>.</p>
+<ul>
+<li>Para <span class="math inline">\(y &lt; 0\)</span>, temos que <span class="math inline">\(F_Y(y) = 0\)</span>.</li>
+<li>Para <span class="math inline">\(0 \le y &lt; 1/2\)</span>, temos <span class="math display">\[ F_Y(y) = \mathbb{P}(Y \le y) = \mathbb{P}(\{\omega \in \Omega : Y(\omega) \le y\}) \]</span> <span class="math display">\[ = \mathbb{P}(\{\omega \in \Omega : X(\omega) \le y\}) = F_X(y) = y \]</span></li>
+<li>Para <span class="math inline">\(y \ge 1/2\)</span>, <span class="math inline">\(F_Y(y) = 1\)</span>.</li>
+</ul>
+<p>Em resumo, <span class="math display">\[ F_Y(y) = \begin{cases} 0, &amp; y &lt; 0 \\ y, &amp; 0 \le y &lt; 1/2 \\ 1, &amp; y \ge 1/2 \end{cases} \]</span></p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula07_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note que <span class="math inline">\(F_Y(y)\)</span> é contínua em <span class="math inline">\((-\infty, 1/2)\)</span> e <span class="math inline">\([1/2, \infty)\)</span> e descontínua em <span class="math inline">\(y = 1/2\)</span>.</p>
+</div>
+<div id="def-va-singular" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 7.3 (Definição 2.4)</strong></span> Uma v.a. X é dita ser <strong>singular</strong> se <span class="math inline">\(F_X'(x) = 0, \forall x \in \mathbb{R}\)</span>, exceto para um conj. de medida de Lebesgue nula e <span class="math inline">\(F_X\)</span> é contínua.</p>
+</div>
+<div id="exm-cantor" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 7.3 (Exemplo 2.9 (Função de Cantor))</strong></span> Ver exemplo 7 - James (2003) p.&nbsp;41.</p>
+</div>
+<div id="prp-prob-conjuntos-borel" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposição 7.2 (Proposição 2.2)</strong></span> &nbsp;</p>
+<ol type="a">
+<li><p>Se X é uma v.a. discreta tomando valores em <span class="math inline">\(\{x_1, x_2, \dots\}\)</span> então <span class="math display">\[ \mathbb{P}_X(B) = \sum_{i: x_i \in B} p(x_i), \quad \forall B \in \mathcal{B} \]</span></p></li>
+<li><p>Se X é abs. contínua com densidade <span class="math inline">\(f\)</span> então <span class="math display">\[ \mathbb{P}_X(B) = \int_{B} f(x) dx, \quad \forall B \in \mathcal{B} \]</span></p></li>
+</ol>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Perspectiva de Data Science: Como Calcular Probabilidades">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Dica</span>Perspectiva de Data Science: Como Calcular Probabilidades
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Esta proposição é o “como fazer”:</p>
+<ul>
+<li><strong>a) Discreta:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{star\_rating} &gt; 3)\)</span>, você <strong>soma</strong> as probabilidades das barras: <span class="math inline">\(\mathbb{P}(\text{rating}=4) + \mathbb{P}(\text{rating}=5)\)</span>.</li>
+<li><strong>b) Contínua:</strong> Para saber <span class="math inline">\(\mathbb{P}(\text{duration} \in [60, 120])\)</span>, você <strong>integra</strong> (calcula a área sob a curva) <span class="math inline">\(f(x)\)</span> de 60 a 120. Na prática, <span class="math inline">\(\mathbb{P}(X \le 120) - \mathbb{P}(X \le 60) = F_X(120) - F_X(60)\)</span>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="implementação-prática-em-r" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="implementação-prática-em-r"><span class="header-section-number">7.2</span> Implementação Prática em R</h2>
+<p>Na prática, não conhecemos a <span class="math inline">\(F_X\)</span> teórica; nós a estimamos a partir dos dados. Isso é chamado de <strong>Função de Distribuição Acumulada Empírica (eFDA)</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(patchwork)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usando os dados da aula anterior</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">user_id =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">X_session_duration =</span> <span class="fu">abs</span>(<span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">120</span>, <span class="dv">40</span>)), </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">Y_click_count =</span> <span class="fu">rpois</span>(<span class="dv">1000</span>, <span class="fl">1.5</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">Z_is_vip =</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">1000</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.1</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Criando a V.A. Mista (Dados Censurados)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Vamos "censurar" ou "capar" a duração em 180s (timeout)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># W = min(X, 180)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>Omega_data <span class="ot">&lt;-</span> Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">W_duration_censored =</span> <span class="fu">pmin</span>(X_session_duration, <span class="dv">180</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="calculando-um-ponto-na-efda" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="calculando-um-ponto-na-efda">Calculando um Ponto na eFDA</h3>
+<p>A definição <span class="math inline">\(F_X(x) = \mathbb{P}(X \le x)\)</span> se traduz em R para: <code>mean(X &lt;= x)</code></p>
+<p>Isso calcula a <strong>proporção</strong> de observações no <em>dataset</em> que são menores ou iguais a <span class="math inline">\(x\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Qual a P(Duração da Sessão &lt;= 100 segundos)?</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>x_threshold <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Usamos mean() que age como P(A) = count(A) / count(Omega)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>prob_acumulada <span class="ot">&lt;-</span> Omega_data  <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">F_X_de_100 =</span> <span class="fu">mean</span>(X_session_duration <span class="sc">&lt;=</span> x_threshold)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )  <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(F_X_de_100)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Estimativa de F_X(100):"</span>, prob_acumulada, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Estimativa de F_X(100): 0.307 </code></pre>
+</div>
+</div>
+<p>Isso significa que 31% das sessões duram 100s ou menos.</p>
+</section>
+<section id="plotando-a-efda-completa" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="plotando-a-efda-completa">Plotando a eFDA Completa</h3>
+<p>O <code>ggplot2</code> tem uma função dedicada para plotar a eFDA: <code>stat_ecdf()</code>. Ela faz o cálculo acima para <em>todos</em> os valores de <span class="math inline">\(x\)</span> e desenha a curva.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># O valor que acabamos de calcular</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x_val <span class="ot">&lt;-</span> <span class="dv">100</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y_val <span class="ot">&lt;-</span> prob_acumulada</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Plota a eFDA</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"step"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Linhas de anotação para o nosso ponto</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> y_val, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> x_val, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Anotação</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">150</span>, <span class="at">y =</span> y_val <span class="sc">-</span> <span class="fl">0.1</span>, </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label =</span> <span class="fu">paste0</span>(<span class="st">"P(X &lt;= 100) = "</span>, <span class="fu">round</span>(y_val, <span class="dv">2</span>)), </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Função de Distribuição Acumulada Empírica (eFDA)"</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Esta é a 'versão prática' da F_X(x) teórica"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"x (Duração da Sessão)"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"F_X(x) - Probabilidade Acumulada P(X &lt;= x)"</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="aula07_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualizando-os-3-tipos-de-v.a.s" class="level3 unnumbered">
+<h3 class="unnumbered anchored" data-anchor-id="visualizando-os-3-tipos-de-v.a.s">Visualizando os 3 Tipos de V.A.s</h3>
+<p>Vamos comparar as Funções de Probabilidade/Densidade (FP/FDP) com as Funções de Distribuição (FDA) para nossos 3 tipos de v.a.s.</p>
+<section id="v.a.-discreta-y_click_count" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-discreta-y_click_count">V.A. Discreta (<code>Y_click_count</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Probabilidade (FP) - Gráfico de Barras</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>p1 <span class="ot">&lt;-</span> Omega_data <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(Y_click_count) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">prob =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n)) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(Y_click_count), <span class="at">y =</span> prob)) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"blue"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Discreta: Função de Probabilidade (FP)"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Y (Contagem de Cliques)"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"p(y) = P(Y=y)"</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Distribuição (FDA) - Gráfico de Degraus</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> Y_click_count)) <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"step"</span>, <span class="at">color =</span> <span class="st">"blue"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Discreta: FDA (eCDF)"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"y (Contagem de Cliques)"</span>,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[Y](y))) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>p1 <span class="sc">+</span> p2</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-discreta-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FP e FDA de uma V.A. Discreta (Contagem de Cliques)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="v.a.-contínua-x_session_duration" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-contínua-x_session_duration">V.A. Contínua (<code>X_session_duration</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Função Densidade de Probabilidade (FDP) - Gráfico de Densidade</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>p3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"green"</span>, <span class="at">color =</span> <span class="st">"darkgreen"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Contínua: Função Densidade (FDP)"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"X (Duração da Sessão)"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"f(x) (Densidade)"</span>) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Função de Distribuição (FDA) - Curva Suave</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>p4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> X_session_duration)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"line"</span>, <span class="at">color =</span> <span class="st">"green"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Contínua: FDA (eCDF)"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"x (Duração da Sessão)"</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[X](x))) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>p3 <span class="sc">+</span> p4</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-continua-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FDP e FDA de uma V.A. Contínua (Duração da Sessão)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="v.a.-mista-w_duration_censored" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="v.a.-mista-w_duration_censored">V.A. Mista (<code>W_duration_censored</code>)</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># "Densidade" - Histograma (note o pico!)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>p5 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> W_duration_censored)) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y =</span> <span class="fu">after_stat</span>(density)), <span class="at">bins =</span> <span class="dv">30</span>, <span class="at">fill =</span> <span class="st">"purple"</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Mista: Histograma (Note o 'pico' da censura)"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"W (Duração Censurada em 180s)"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Densidade"</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>p6 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(Omega_data, <span class="fu">aes</span>(<span class="at">x =</span> W_duration_censored)) <span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_ecdf</span>(<span class="at">geom =</span> <span class="st">"step"</span>, <span class="at">color =</span> <span class="st">"purple"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"V.A. Mista: FDA (Note o 'Salto')"</span>,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"w (Duração Censurada em 180s)"</span>,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(F[W](w))) <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Combinar gráficos</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>p5 <span class="sc">+</span> p6</span></code></pre></div><button title="Copiar para a área de transferência" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="aula07_files/figure-html/plot-va-mista-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption>FDP/FDA de uma V.A. Mista (Duração Censurada)</figcaption>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiada");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiada");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./aula06.html" class="pagination-link" aria-label="Variáveis Aleatórias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Variáveis Aleatórias</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./aula08.html" class="pagination-link" aria-label="Principais Modelos Probabilisticos">
+        <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Principais Modelos Probabilisticos</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

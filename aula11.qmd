@@ -333,7 +333,6 @@ f_Z_teorica <- function(z) {
 # Plotar o histograma de Z e a curva teórica f_Z(z)
 ggplot(tibble(Z = Z), aes(x = Z)) +
   geom_histogram(aes(y = after_stat(density)), bins = 100, fill = "lightgreen", alpha = 0.8) +
-  # Adiciona a curva teórica f_Z(z)
   stat_function(fun = f_Z_teorica, color = "red", linewidth = 1) +
   labs(
     title = "Verificação: Distribuição da Razão Z = X / Y",
@@ -342,6 +341,5 @@ ggplot(tibble(Z = Z), aes(x = Z)) +
     y = "Densidade"
   ) +
   theme_minimal() +
-  # Limita o eixo x pois a cauda é longa
   xlim(0, quantile(Z, 0.95))
 ```

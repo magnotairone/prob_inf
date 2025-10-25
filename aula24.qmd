@@ -156,42 +156,37 @@ Vamos:
 #| message: false
 #| warning: false
 
-library(ggplot2) # Para criar os gráficos
+library(ggplot2) 
 
-# 1. Nossos dados observados para a Versão B
+# Nossos dados observados para a Versão B
 n_B <- 500
 cliques_B <- 30
 estimativa_observada <- cliques_B / n_B
 
-# 2. Criar um "grid" de hipóteses para a verdadeira taxa de cliques (theta_B)
+# Criar um "grid" de hipóteses para a verdadeira taxa de cliques (theta_B)
 # Vamos testar 1000 valores possíveis entre 1% e 15%
 hipoteses_theta <- seq(from = 0.01, to = 0.15, by = 0.0001)
 
-# 3. Calcular a log-verossimilhança para cada hipótese
-# Usamos dbinom() para calcular a "pontuação" de cada hipótese,
-# dado que observamos 'cliques_B' em 'n_B' tentativas.
-# log = TRUE nos dá a log-verossimilhança.
+# Calcular a log-verossimilhança para cada hipótese
 log_like <- dbinom(x = cliques_B, 
                    size = n_B, 
                    prob = hipoteses_theta, 
                    log = TRUE)
 
-# 4. Preparar os dados para plotar
+# Preparar os dados para plotar
 df_like <- data.frame(
   theta = hipoteses_theta,
   log_likelihood = log_like
 )
 
-# 5. Encontrar o valor de theta que maximiza a log-verossimilhança
+# Encontrar o valor de theta que maximiza a log-verossimilhança
 theta_max <- hipoteses_theta[which.max(log_like)]
 
 print(paste("Estimativa Observada (nosso 'chute'):", estimativa_observada))
 print(paste("Estimativa de Máxima Verossimilhança (pico do gráfico):", theta_max))
 
-# 6. Plotar!
 ggplot(df_like, aes(x = theta, y = log_likelihood)) +
   geom_line(color = "blue", size = 1) +
-  # Adiciona uma linha vertical no pico encontrado
   geom_vline(xintercept = theta_max, 
              color = "red", 
              linetype = "dashed", 

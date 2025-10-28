@@ -1,0 +1,98 @@
+## Esperança Condicional
+
+::: {#def-esperanca-condicional name="Definição 4.2"}
+Sejam $X$ e $Y$ v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$. A **esperança condicional** de $X$ dado $Y=y$, se existir, é dada por:
+\begin{align*} E(X|Y=y) &= \int_{\mathbb{R}} x dF_{X|Y}(x|Y=y) \qquad \text{(integral Riemann-Stieltjes)}\\
+& =
+\begin{cases}
+    \sum_{x \in \mathbb{R}} x \mathbb{P}(X=x|Y=y), & \text{se X e Y discretas} \\
+    \int_{\mathbb{R}} x f_{X|Y}(x|y) dx, & \text{se X e Y contínuas}
+\end{cases}
+\end{align*}
+
+:::
+
+**Comentários:**
+
+1)  Se X é integrável, então $E(X|Y=y)$ existe e é finita quase certamente (com respeito à medida de prob. de Y), isto é, existe boreliano $B_0$ tal que $\mathbb{P}(Y \in B_0) = 1$ e $E(X|Y=y)$ é finita $\forall y \in B_0$.
+2)  Definindo $\psi(y) = E(X|Y=y)$, a v.a. $\psi(Y) = E(X|Y)$ chama-se **esperança condicional** de X dado Y. Note que $E(X|Y=y)$ é um número, enquanto $E(X|Y)$ é v.a.
+
+::: {#thm-esperanca-iterada name="Teorema 4.1 (Esperança Iterada / Lei da Esperança Total)"}
+Sendo X e Y v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$, temos que
+$$ E[E(X|Y)] = E(X) $$
+desde que as esperanças existam e sejam finitas.
+
+**Demonstração:**
+
+Vamos provar separadamente para os casos discreto e contínuo, assumindo que todas as esperanças existem e são finitas.
+
+* **Caso 1: X e Y são v.a.s discretas**
+
+    Lembremos que $E(X|Y)$ é uma variável aleatória que assume o valor $E(X|Y=y)$ quando $Y=y$. Portanto, pela definição de esperança de uma função de Y (neste caso, a função $\psi(y) = E(X|Y=y)$):
+    $$ E[E(X|Y)] = \sum_y E(X|Y=y) \mathbb{P}(Y=y) $$
+    Agora, substituímos a definição da esperança condicional para v.a.s discretas, $E(X|Y=y) = \sum_x x \mathbb{P}(X=x|Y=y)$:
+    $$ E[E(X|Y)] = \sum_y \left( \sum_x x \mathbb{P}(X=x|Y=y) \right) \mathbb{P}(Y=y) $$
+    Usando a definição de probabilidade condicional, $\mathbb{P}(X=x|Y=y) \mathbb{P}(Y=y) = \mathbb{P}(X=x, Y=y)$:
+    $$ E[E(X|Y)] = \sum_y \sum_x x \mathbb{P}(X=x, Y=y) $$
+    Podemos trocar a ordem das somas (assumindo convergência absoluta, garantida pela finitude das esperanças):
+    $$ E[E(X|Y)] = \sum_x x \left( \sum_y \mathbb{P}(X=x, Y=y) \right) $$
+    A soma interna é a probabilidade marginal de X: $\sum_y \mathbb{P}(X=x, Y=y) = \mathbb{P}(X=x)$.
+    $$ E[E(X|Y)] = \sum_x x \mathbb{P}(X=x) $$
+    Que é, por definição, a esperança de X:
+    $$ E[E(X|Y)] = E(X) $$
+
+* **Caso 2: X e Y são v.a.s contínuas**
+
+    De forma análoga, $E(X|Y)$ é uma v.a. que é função de Y, $\psi(Y)$, onde $\psi(y) = E(X|Y=y)$. A esperança de uma função de Y é calculada como:
+    $$ E[E(X|Y)] = \int_{-\infty}^{\infty} E(X|Y=y) f_Y(y) dy $$
+    Substituímos a definição da esperança condicional para v.a.s contínuas, $E(X|Y=y) = \int_{-\infty}^{\infty} x f_{X|Y}(x|y) dx$:
+    $$ E[E(X|Y)] = \int_{-\infty}^{\infty} \left( \int_{-\infty}^{\infty} x f_{X|Y}(x|y) dx \right) f_Y(y) dy $$
+    Usando a relação $f_{X|Y}(x|y) f_Y(y) = f_{X,Y}(x, y)$:
+    $$ E[E(X|Y)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x f_{X,Y}(x, y) dx dy $$
+    Podemos trocar a ordem de integração (pelo Teorema de Fubini-Tonelli, aplicável pois as esperanças são finitas):
+    $$ E[E(X|Y)] = \int_{-\infty}^{\infty} x \left( \int_{-\infty}^{\infty} f_{X,Y}(x, y) dy \right) dx $$
+    A integral interna é a densidade marginal de X: $\int_{-\infty}^{\infty} f_{X,Y}(x, y) dy = f_X(x)$.
+    $$ E[E(X|Y)] = \int_{-\infty}^{\infty} x f_X(x) dx $$
+    Que é, por definição, a esperança de X:
+    $$ E[E(X|Y)] = E(X) $$
+:::
+
+::: {#exm-esp-cond-continua name="Exemplo 4.4"}
+Sejam X e Y v.a.s com f.d.p. conjunta
+$$ f_{X,Y}(x, y) = 2 \cdot I_A(x, y) $$
+onde $A = \{(x, y) \in \mathbb{R}^2 : x > 0, y > 0, x+y < 1\}$.
+
+a) Obtenha $f_{X|Y}(x|y)$.
+
+Primeiro, a marginal de Y:
+$$ f_Y(y) = \int_0^{1-y} 2 dx = 2 [x]_0^{1-y} = 2(1-y), \quad \text{para } 0 < y < 1. $$
+
+Agora a condicional:
+$$ f_{X|Y}(x|y) = \frac{f_{X,Y}(x, y)}{f_Y(y)} = \frac{2}{2(1-y)} = \frac{1}{1-y}, \quad \text{para } 0 < x < 1-y \text{ (e } 0 < y < 1 \text{)} $$
+Ou seja, $X|Y=y \sim U(0, 1-y).$
+
+b) Obtenha $E(X|Y=y)$.
+$$ E(X|Y=y) = \int_{\mathbb{R}} x f_{X|Y}(x|y) dx = \int_0^{1-y} x \frac{1}{1-y} dx $$
+$$ = \frac{1}{1-y} \left[ \frac{x^2}{2} \right]_0^{1-y} = \frac{1}{1-y} \frac{(1-y)^2}{2} = \frac{1-y}{2} $$
+
+c) Calcule $E[E(X|Y)]$.
+Primeiro, $E(Y)$:
+$$ E(Y) = \int_0^1 y f_Y(y) dy = \int_0^1 y \cdot 2(1-y) dy = 2 \int_0^1 (y - y^2) dy $$
+$$ = 2 \left[ \frac{y^2}{2} - \frac{y^3}{3} \right]_0^1 = 2 (\frac{1}{2} - \frac{1}{3}) = 2 (\frac{1}{6}) = \frac{1}{3} $$
+Agora, $E[E(X|Y)]$:
+$$ E[E(X|Y)] = E\left[ \frac{1-Y}{2} \right] = \frac{1 - E(Y)}{2} = \frac{1 - 1/3}{2} = \frac{2/3}{2} = \frac{1}{3} $$
+Note que $E(X) = 1/3$ por simetria, confirmando o @thm-esperanca-iterada
+:::
+
+::: {#def-var-condicional name="Definição 4.3"}
+Sejam X e Y v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$. A **variância condicional** de X, dado que $Y=y$, é dada por
+$$ Var(X|Y=y) = E\{[X - E(X|Y=y)]^2 | Y=y \} $$
+$$ = E[X^2 | Y=y] - [E(X|Y=y)]^2 $$
+supondo que as esperanças existam e sejam finitas.
+:::
+
+::: {#def-cov-condicional name="Definição 4.4"}
+Sejam X, Y, Z v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$. A **covariância condicional** entre X e Y dado $Z=z$ é
+$$ Cov(X, Y | Z=z) = E(XY | Z=z) - E(X|Z=z)E(Y|Z=z) $$
+desde que as esperanças existam e sejam finitas.
+:::

@@ -1,0 +1,126 @@
+# Tipos de Convergência
+
+**Contexto:** $X, X_1, X_2, \dots$ v.a.s definidas em $(\Omega, \mathcal{F}, \mathbb{P})$.
+Nosso objetivo é estudar formas de convergência de $X_n$ para $X$.
+
+**Nota:** Convergência de funções.
+Dizemos que $X_n \rightarrow X$ quando $n \rightarrow \infty$ se, para cada $\epsilon > 0$ e $\omega \in \Omega$, $\exists n_0 = n(\epsilon, \omega)$ tal que $$|X_n(\omega) - X(\omega)| < \epsilon, \forall n > n_0.$$
+
+Note que, para cada $\omega \in \Omega$, $X_n(\omega)$ é uma sequência de números e a definição acima é a definição de convergência de sequências reais. Essa convergência é chamada de **convergência pontual** ou ponto a ponto.
+
+Na teoria das probabilidades existem outras formas de convergência que são de interesse.
+
+::: {#def-conv-qc name="Definição 5.1 (Convergência Quase Certa)"}
+A sequência $\{X_n\}_{n \ge 1}$ tem **convergência quase certa** para X se existir um conjunto $A \in \mathcal{F}$ tal que $\mathbb{P}(A) = 0$ e $X_n(\omega) \rightarrow X(\omega)$ em $A^c$, quando $n \rightarrow \infty$.
+Equivalentemente, se, e somente se,
+$$ \mathbb{P}(\lim_{n \to \infty} X_n = X) = 1 \Leftrightarrow \mathbb{P}(\{\omega \in \Omega : \lim_{n \to \infty} X_n(\omega) = X(\omega)\}) = 1 $$
+Notação: $X_n \xrightarrow{q.c.} X$.
+
+Note que a convergência quase certa é a convergência pontual com probabilidade 1. Essa convergência é também chamada de **convergência forte**.
+:::
+
+::: {#def-conv-prob name="Definição 5.2 (Convergência em Probabilidade)"}
+A sequência $\{X_n\}_{n \ge 1}$ tem **convergência em probabilidade** para X se, $\forall \epsilon > 0$,
+$$ \lim_{n \to \infty} \mathbb{P}(|X_n - X| \geq \epsilon) = 0 \Leftrightarrow \lim_{n \to \infty} \mathbb{P}(\{\omega \in \Omega : |X_n(\omega) - X(\omega)| \geq \epsilon\}) = 0 $$
+Notação: $X_n \xrightarrow{P} X$.
+
+A convergência em probabilidade não diz respeito à convergência pontual, apenas afirma que, para $n$ grande, as v.a.s $X_n$ e X são aproximadamente iguais com probabilidade alta. Essa convergência é chamada de **convergência fraca**.
+:::
+
+::: {#exm-conv-qc-1 name="Exemplo 5.1"}
+Seja $\Omega = (0, 1)$ e defina $X_n(\omega) = \frac{\omega}{n}$.
+Para cada $\omega \in \Omega$, $\lim_{n \to \infty} X_n(\omega) = 0$.
+Dessa forma,
+$$ \mathbb{P}(\{\omega \in \Omega : \lim_{n \to \infty} X_n(\omega) = 0\}) = \mathbb{P}(\Omega) = 1 $$
+Logo, $X_n \xrightarrow{q.c.} 0$.
+Note que $X_n \rightarrow 0$ (pontualmente).
+:::
+
+::: {#exm-conv-prob-1 name="Exemplo 5.2"}
+Seja $X_n \sim \text{Bernoulli}(p_n)$, $p_n = (1/2)^n, n=1, 2, \dots$
+Mostre que $X_n \xrightarrow{P} 0$.
+
+Para todo $\epsilon > 0$, 
+$$ 0 \le \lim_{n \to \infty} \mathbb{P}(|X_n| \ge \epsilon) \le \lim_{n \to \infty} \frac{E(|X_n|)}{\epsilon} $$
+Como $X_n$ só assume valores 0 e 1, $|X_n| = X_n$. $E(X_n) = p_n = (1/2)^n$
+$$ \le \lim_{n \to \infty} \frac{(1/2)^n}{\epsilon} = 0 $$
+Logo, $\lim_{n \to \infty} \mathbb{P}(|X_n - 0| \ge \epsilon) = 0$, portanto $X_n \xrightarrow{P} 0$.
+:::
+
+::: {#exm-conv-qc-2 name="Exemplo 5.3"}
+Seja $([0, 1], \mathcal{B}([0, 1]), \mathbb{P})$ um espaço de probabilidade com $\mathbb{P}(I) = \text{comprimento}(I), I \in \mathcal{B}([0, 1])$.
+Seja $X_n$ tal que $X_n(\omega) = n I_{[0, 1/n]}(\omega), n=1, 2, \dots$
+Mostre que $X_n \xrightarrow{q.c.} 0$.
+
+Note que $X_n(0) = n.$
+Mostramos que $\lim_{n \to \infty} X_n(\omega) = 0, \forall \omega \in (0, 1]$.
+**(Se $\omega > 0$, existe $N$ tal que $1/N < \omega$. Para todo $n \ge N$, $1/n \le 1/N < \omega$, então $\omega \notin (0, 1/n]$, logo $X_n(\omega) = n \cdot 0 = 0$. Portanto, $\lim_{n \to \infty} X_n(\omega) = 0$.)**
+Como $\mathbb{P}((0, 1]) = 1$, temos que $X_n \xrightarrow{q.c.} 0$.
+:::
+
+A principal ferramenta para provar convergência quase certa é o lema de Borel-Cantelli, enunciado a seguir.
+
+::: {#thm-borel-cantelli .theorem name="Lema de Borel-Cantelli"}
+Sejam $A_1, A_2, \dots$ eventos em $(\Omega, \mathcal{F}, \mathbb{P})$, em que $\mathbb{P}(A_n) = p_n, n=1, 2, \dots$
+Temos que
+
+i) Se $\sum_{n=1}^\infty p_n < \infty$, então $\mathbb{P}(\limsup A_n) = 0$.
+ii) Se $\sum_{n=1}^\infty p_n = \infty$ e os $A_n$'s são independentes, então $\mathbb{P}(\limsup A_n) = 1$.
+
+**Demonstração:**
+Seja $B_n = \bigcup_{k=n}^\infty A_k$. Notemos que $\{B_n\}_{n \ge 1}$ é uma sequência não crescente e
+$\lim_{n \to \infty} B_n = \bigcap_{n=1}^\infty B_n = \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k = \limsup A_n$.
+
+**(i):**
+$$ 0 \le \mathbb{P}(\limsup A_n) = \mathbb{P}(\lim_{n \to \infty} B_n) = \lim_{n \to \infty} \mathbb{P}(B_n) \quad (\text{Continuidade da Prob.}) $$
+$$ = \lim_{n \to \infty} \mathbb{P}(\bigcup_{k=n}^\infty A_k) \le \lim_{n \to \infty} \sum_{k=n}^\infty \mathbb{P}(A_k) \quad (\text{Subaditividade}) $$
+$$ = \lim_{n \to \infty} \sum_{k=n}^\infty p_k = 0 \quad (\text{Cauda de série convergente}) $$
+Logo, $\mathbb{P}(\limsup A_n) = 0$.
+
+**(ii):**
+
+Vamos trabalhar com eventos complementares.
+Seja $(\limsup A_n)^c =$ 
+<!-- \liminf A_n^c = \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k^c =  -->
+$\bigcup_{n=1}^\infty B_n^c$
+com $B_n^c = \bigcap_{k=n}^\infty A_k^c,$ $n=1,2,\dots$.
+Consideremos $m$ inteiro positivo com $m > n$. Então
+$$ 0 \le \mathbb{P}(B_n^c) = \mathbb{P}(\bigcap_{k=n}^\infty A_k^c) \le \mathbb{P}(\bigcap_{k=n}^m A_k^c) $$
+$$ \stackrel{\text{indep.}}{=} \prod_{k=n}^m \mathbb{P}(A_k^c) = \prod_{k=n}^m (1 - p_k) $$
+Usando a desigualdade $1 - x \le e^{-x}, \forall x \in [0,1]$:
+$$ \le \prod_{k=n}^m e^{-p_k} = \exp\left\{ -\sum_{k=n}^m p_k \right\} $$
+Fixado n, temos que $\lim_{m \to \infty} \sum_{k=n}^m p_k = \infty$, pois a série diverge.
+$$ \Rightarrow \lim_{m \to \infty} \exp\left\{ -\sum_{k=n}^m p_k \right\} = 0 $$
+Logo, $\mathbb{P}(B_n^c) = 0$.
+Assim,
+$$ \mathbb{P}((\limsup A_n)^c) = \mathbb{P}(\bigcup_{n=1}^\infty B_n^c) \le \sum_{n=1}^\infty \mathbb{P}(B_n^c) = \sum_{n=1}^\infty 0 = 0,$$ pois $\mathbb{P}(B_n^c)=0, \forall n=1,2,\dots.$
+$$\Rightarrow \mathbb{P}((\limsup A_n)^c) = 0 \Rightarrow \mathbb{P}(\limsup A_n) = 1.$$
+:::
+
+::: {#lem-conv-qc .lemma name="Lema 5.1"}
+Seja $A_{n,m} = \{\omega \in \Omega : |X_n(\omega) - X(\omega)| > 1/m\}$.
+Se, para todo $m \in \mathbb{N}$, $\sum_{n=1}^\infty \mathbb{P}(A_{n,m}^c) < \infty$, então $X_n \xrightarrow{q.c.} X$.
+**(Prova: exercício)**
+
+**Comentário:** Equivalentemente, se $\sum_{n=1}^\infty \mathbb{P}(|X_n - X| \geq \epsilon) < \infty, \forall \epsilon > 0$, então $X_n \xrightarrow{q.c.} X$.
+<!-- **(Isto segue do Lema de Borel-Cantelli (i) aplicado ao evento $A_n^\epsilon = \{|X_n - X| > \epsilon\}$. Se a soma das probabilidades converge, $\mathbb{P}(\limsup A_n^\epsilon) = 0$, o que significa que a probabilidade de $|X_n - X|$ ser maior que $\epsilon$ infinitas vezes é zero, para qualquer $\epsilon$. Isso implica $X_n \to X$ q.c.)** -->
+:::
+
+::: {#exm-conv-qc-minimo name="Exemplo 5.4"}
+Seja $\{X_n\}_{n \ge 1}$ uma sequência de v.a.s iid com $X_n \sim U(0, 1), n=1, 2, \dots$
+Seja $Y_n = \min\{X_1, \dots, X_n\}, n \ge 1$. Mostre que $Y_n \xrightarrow{q.c.} 0$.
+
+Temos que, $\forall n \in \mathbb{N}$ e $\forall \epsilon \in (0, 1)$:
+\begin{align*} \mathbb{P}(|Y_n - 0| > \epsilon) &= \mathbb{P}(Y_n > \epsilon) \quad\quad (\text{pois } Y_n > 0) \\
+&= \mathbb{P}(\min\{X_1, \dots, X_n\} > \epsilon) \\
+&= \mathbb{P}(X_1 > \epsilon, \dots, X_n > \epsilon) \\
+&\stackrel{\text{iid}}{=} [\mathbb{P}(X_1 > \epsilon)]^n = [1 - \mathbb{P}(X_1 \le \epsilon)]^n \\
+&= [1 - F_{X_1}(\epsilon)]^n \\
+&= (1 - \epsilon)^n 
+\end{align*}
+Logo,
+$$ \sum_{n=1}^\infty \mathbb{P}(|Y_n| > \epsilon) = \sum_{n=1}^\infty (1 - \epsilon)^n $$
+Esta é uma série geométrica com razão $r = (1 - \epsilon)$. Como $\epsilon \in (0, 1)$, temos $0 < r < 1$. A série converge.
+Pelo Lema 5.1 (@lema-conv-qc),
+Portanto, $Y_n \xrightarrow{q.c.} 0$.
+:::

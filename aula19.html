@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Módulo Inferência Estatística – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>13&nbsp; Esperança Condicional – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./aula24.html" rel="next">
-<link href="./aula19.html" rel="prev">
+<link href="./020_inferencia.html" rel="next">
+<link href="./aula12.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -71,6 +71,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -83,7 +112,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./020_inferencia.html">Módulo Inferência Estatística</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula19.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -199,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aula19.html" class="sidebar-item-text sidebar-link">
+  <a href="./aula19.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></span></a>
   </div>
 </li>
@@ -207,7 +236,7 @@ ul.task-list li input[type="checkbox"] {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a href="./020_inferencia.html" class="sidebar-item-text sidebar-link active">
+            <a href="./020_inferencia.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Módulo Inferência Estatística</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar seção">
             <i class="bi bi-chevron-right ms-2"></i>
@@ -239,9 +268,9 @@ ul.task-list li input[type="checkbox"] {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula19.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-inf-intro" class="quarto-section-identifier">Módulo Inferência Estatística</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></h1>
 </div>
 
 
@@ -258,7 +287,49 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>TODO: descrever essa parte</p>
+<div id="def-esperanca-condicional" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 13.1 (Definição 4.2)</strong></span> Sejam <span class="math inline">\(X\)</span> e <span class="math inline">\(Y\)</span> v.a.s em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>. A <strong>esperança condicional</strong> de <span class="math inline">\(X\)</span> dado <span class="math inline">\(Y=y\)</span>, se existir, é dada por: <span class="math display">\[\begin{align*} E(X|Y=y) &amp;= \int_{\mathbb{R}} x dF_{X|Y}(x|Y=y) \qquad \text{(integral Riemann-Stieltjes)}\\
+&amp; =
+\begin{cases}
+    \sum_{x \in \mathbb{R}} x \mathbb{P}(X=x|Y=y), &amp; \text{se X e Y discretas} \\
+    \int_{\mathbb{R}} x f_{X|Y}(x|y) dx, &amp; \text{se X e Y contínuas}
+\end{cases}
+\end{align*}\]</span></p>
+</div>
+<p><strong>Comentários:</strong></p>
+<ol type="1">
+<li>Se X é integrável, então <span class="math inline">\(E(X|Y=y)\)</span> existe e é finita quase certamente (com respeito à medida de prob. de Y), isto é, existe boreliano <span class="math inline">\(B_0\)</span> tal que <span class="math inline">\(\mathbb{P}(Y \in B_0) = 1\)</span> e <span class="math inline">\(E(X|Y=y)\)</span> é finita <span class="math inline">\(\forall y \in B_0\)</span>.</li>
+<li>Definindo <span class="math inline">\(\psi(y) = E(X|Y=y)\)</span>, a v.a. <span class="math inline">\(\psi(Y) = E(X|Y)\)</span> chama-se <strong>esperança condicional</strong> de X dado Y. Note que <span class="math inline">\(E(X|Y=y)\)</span> é um número, enquanto <span class="math inline">\(E(X|Y)\)</span> é v.a.</li>
+</ol>
+<div id="thm-esperanca-iterada" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 13.1 (Teorema 4.1 (Esperança Iterada / Lei da Esperança Total))</strong></span> Sendo X e Y v.a.s em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>, temos que <span class="math display">\[ E[E(X|Y)] = E(X) \]</span> desde que as esperanças existam e sejam finitas.</p>
+<p><strong>Demonstração:</strong></p>
+<p>Vamos provar separadamente para os casos discreto e contínuo, assumindo que todas as esperanças existem e são finitas.</p>
+<ul>
+<li><p><strong>Caso 1: X e Y são v.a.s discretas</strong></p>
+<p>Lembremos que <span class="math inline">\(E(X|Y)\)</span> é uma variável aleatória que assume o valor <span class="math inline">\(E(X|Y=y)\)</span> quando <span class="math inline">\(Y=y\)</span>. Portanto, pela definição de esperança de uma função de Y (neste caso, a função <span class="math inline">\(\psi(y) = E(X|Y=y)\)</span>): <span class="math display">\[ E[E(X|Y)] = \sum_y E(X|Y=y) \mathbb{P}(Y=y) \]</span> Agora, substituímos a definição da esperança condicional para v.a.s discretas, <span class="math inline">\(E(X|Y=y) = \sum_x x \mathbb{P}(X=x|Y=y)\)</span>: <span class="math display">\[ E[E(X|Y)] = \sum_y \left( \sum_x x \mathbb{P}(X=x|Y=y) \right) \mathbb{P}(Y=y) \]</span> Usando a definição de probabilidade condicional, <span class="math inline">\(\mathbb{P}(X=x|Y=y) \mathbb{P}(Y=y) = \mathbb{P}(X=x, Y=y)\)</span>: <span class="math display">\[ E[E(X|Y)] = \sum_y \sum_x x \mathbb{P}(X=x, Y=y) \]</span> Podemos trocar a ordem das somas (assumindo convergência absoluta, garantida pela finitude das esperanças): <span class="math display">\[ E[E(X|Y)] = \sum_x x \left( \sum_y \mathbb{P}(X=x, Y=y) \right) \]</span> A soma interna é a probabilidade marginal de X: <span class="math inline">\(\sum_y \mathbb{P}(X=x, Y=y) = \mathbb{P}(X=x)\)</span>. <span class="math display">\[ E[E(X|Y)] = \sum_x x \mathbb{P}(X=x) \]</span> Que é, por definição, a esperança de X: <span class="math display">\[ E[E(X|Y)] = E(X) \]</span></p></li>
+<li><p><strong>Caso 2: X e Y são v.a.s contínuas</strong></p>
+<p>De forma análoga, <span class="math inline">\(E(X|Y)\)</span> é uma v.a. que é função de Y, <span class="math inline">\(\psi(Y)\)</span>, onde <span class="math inline">\(\psi(y) = E(X|Y=y)\)</span>. A esperança de uma função de Y é calculada como: <span class="math display">\[ E[E(X|Y)] = \int_{-\infty}^{\infty} E(X|Y=y) f_Y(y) dy \]</span> Substituímos a definição da esperança condicional para v.a.s contínuas, <span class="math inline">\(E(X|Y=y) = \int_{-\infty}^{\infty} x f_{X|Y}(x|y) dx\)</span>: <span class="math display">\[ E[E(X|Y)] = \int_{-\infty}^{\infty} \left( \int_{-\infty}^{\infty} x f_{X|Y}(x|y) dx \right) f_Y(y) dy \]</span> Usando a relação <span class="math inline">\(f_{X|Y}(x|y) f_Y(y) = f_{X,Y}(x, y)\)</span>: <span class="math display">\[ E[E(X|Y)] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x f_{X,Y}(x, y) dx dy \]</span> Podemos trocar a ordem de integração (pelo Teorema de Fubini-Tonelli, aplicável pois as esperanças são finitas): <span class="math display">\[ E[E(X|Y)] = \int_{-\infty}^{\infty} x \left( \int_{-\infty}^{\infty} f_{X,Y}(x, y) dy \right) dx \]</span> A integral interna é a densidade marginal de X: <span class="math inline">\(\int_{-\infty}^{\infty} f_{X,Y}(x, y) dy = f_X(x)\)</span>. <span class="math display">\[ E[E(X|Y)] = \int_{-\infty}^{\infty} x f_X(x) dx \]</span> Que é, por definição, a esperança de X: <span class="math display">\[ E[E(X|Y)] = E(X) \]</span></p></li>
+</ul>
+</div>
+<div id="exm-esp-cond-continua" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 13.1 (Exemplo 4.4)</strong></span> Sejam X e Y v.a.s com f.d.p. conjunta <span class="math display">\[ f_{X,Y}(x, y) = 2 \cdot I_A(x, y) \]</span> onde <span class="math inline">\(A = \{(x, y) \in \mathbb{R}^2 : x &gt; 0, y &gt; 0, x+y &lt; 1\}\)</span>.</p>
+<ol type="a">
+<li>Obtenha <span class="math inline">\(f_{X|Y}(x|y)\)</span>.</li>
+</ol>
+<p>Primeiro, a marginal de Y: <span class="math display">\[ f_Y(y) = \int_0^{1-y} 2 dx = 2 [x]_0^{1-y} = 2(1-y), \quad \text{para } 0 &lt; y &lt; 1. \]</span></p>
+<p>Agora a condicional: <span class="math display">\[ f_{X|Y}(x|y) = \frac{f_{X,Y}(x, y)}{f_Y(y)} = \frac{2}{2(1-y)} = \frac{1}{1-y}, \quad \text{para } 0 &lt; x &lt; 1-y \text{ (e } 0 &lt; y &lt; 1 \text{)} \]</span> Ou seja, <span class="math inline">\(X|Y=y \sim U(0, 1-y).\)</span></p>
+<ol start="2" type="a">
+<li><p>Obtenha <span class="math inline">\(E(X|Y=y)\)</span>. <span class="math display">\[ E(X|Y=y) = \int_{\mathbb{R}} x f_{X|Y}(x|y) dx = \int_0^{1-y} x \frac{1}{1-y} dx \]</span> <span class="math display">\[ = \frac{1}{1-y} \left[ \frac{x^2}{2} \right]_0^{1-y} = \frac{1}{1-y} \frac{(1-y)^2}{2} = \frac{1-y}{2} \]</span></p></li>
+<li><p>Calcule <span class="math inline">\(E[E(X|Y)]\)</span>. Primeiro, <span class="math inline">\(E(Y)\)</span>: <span class="math display">\[ E(Y) = \int_0^1 y f_Y(y) dy = \int_0^1 y \cdot 2(1-y) dy = 2 \int_0^1 (y - y^2) dy \]</span> <span class="math display">\[ = 2 \left[ \frac{y^2}{2} - \frac{y^3}{3} \right]_0^1 = 2 (\frac{1}{2} - \frac{1}{3}) = 2 (\frac{1}{6}) = \frac{1}{3} \]</span> Agora, <span class="math inline">\(E[E(X|Y)]\)</span>: <span class="math display">\[ E[E(X|Y)] = E\left[ \frac{1-Y}{2} \right] = \frac{1 - E(Y)}{2} = \frac{1 - 1/3}{2} = \frac{2/3}{2} = \frac{1}{3} \]</span> Note que <span class="math inline">\(E(X) = 1/3\)</span> por simetria, confirmando o <a href="#thm-esperanca-iterada" class="quarto-xref">Teorema&nbsp;<span class="quarto-unresolved-ref">thm-esperanca-iterada</span></a></p></li>
+</ol>
+</div>
+<div id="def-var-condicional" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 13.2 (Definição 4.3)</strong></span> Sejam X e Y v.a.s em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>. A <strong>variância condicional</strong> de X, dado que <span class="math inline">\(Y=y\)</span>, é dada por <span class="math display">\[ Var(X|Y=y) = E\{[X - E(X|Y=y)]^2 | Y=y \} \]</span> <span class="math display">\[ = E[X^2 | Y=y] - [E(X|Y=y)]^2 \]</span> supondo que as esperanças existam e sejam finitas.</p>
+</div>
+<div id="def-cov-condicional" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 13.3 (Definição 4.4)</strong></span> Sejam X, Y, Z v.a.s em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>. A <strong>covariância condicional</strong> entre X e Y dado <span class="math inline">\(Z=z\)</span> é <span class="math display">\[ Cov(X, Y | Z=z) = E(XY | Z=z) - E(X|Z=z)E(Y|Z=z) \]</span> desde que as esperanças existam e sejam finitas.</p>
+</div>
 
 
 
@@ -665,13 +736,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./aula19.html" class="pagination-link" aria-label="Esperança Condicional">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></span>
+      <a href="./aula12.html" class="pagination-link" aria-label="Método do Jacobiano e Estatísticas de Ordem">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Método do Jacobiano e Estatísticas de Ordem</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./aula24.html" class="pagination-link" aria-label="24 Introdução: O Dilema do Teste A/B">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./020_inferencia.html" class="pagination-link" aria-label="Módulo Inferência Estatística">
+        <span class="nav-page-text">Módulo Inferência Estatística</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

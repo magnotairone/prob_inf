@@ -1,0 +1,105 @@
+# Outros Tipos de Convergência
+
+::: {#def-conv-dist name="Definição 5.3 (Convergência em Distribuição)"}
+Sejam $\{X_n\}_{n \ge 1}$ e X v.a.s com f.d.a. $F_n$ e F, respectivamente. Dizemos que $X_n$ **converge em distribuição** para X se, para todo ponto $x$ em que F é contínua, tivermos
+$$ \lim_{n \to \infty} F_n(x) = F(x) $$
+Notação: $X_n \xrightarrow{D} X$.
+:::
+
+::: {#exm-conv-dist-maximo name="Exemplo 5.5"}
+Seja $\{X_n\}_{n \ge 1}$ uma sequência de v.a.s independentes (**e identicamente distribuídas**) com distribuição Uniforme em $(0, \theta)$, $\theta > 0$. Mostre que $X_{(n)} \xrightarrow{D} \theta$.
+
+Seja $X_{(n)} = \max\{X_1, \dots, X_n\}$. A f.d.a. de $X_{(n)}$ é:
+$$
+\begin{align*}
+F_{X_{(n)}}(x) &= \mathbb{P}(X_{(n)} \le x) = \mathbb{P}(\max\{X_1, \dots, X_n\} \le x) \\
+&= \mathbb{P}(X_1 \le x, \dots, X_n \le x) \\
+&\stackrel{\text{iid}}{=} \prod_{i=1}^n \mathbb{P}(X_i \le x) = [\mathbb{P}(X_1 \le x)]^n
+\end{align*}
+$$
+Como $X_1 \sim U(0, \theta)$, $F_{X_1}(x) = x/\theta$ para $x \in (0, \theta)$.
+$$ F_{X_{(n)}}(x) = (x/\theta)^n, \quad \forall x \in (0, \theta) $$
+A f.d.a. completa é:
+$$ F_{X_{(n)}}(x) = \begin{cases} 0, & x < 0 \\ (x/\theta)^n, & 0 \le x < \theta \\ 1, & x \ge \theta \end{cases} $$
+A f.d.a. da v.a. constante $X = \theta$ é:
+$$ F_X(x) = \begin{cases} 0, & x < \theta \\ 1, & x \ge \theta \end{cases} $$
+<!-- TODO: analisar o comentario abaixo, se deve ser adicionado -->
+<!-- Analisando o limite de $F_{X_{(n)}}(x)$: -->
+
+<!-- * Se $x < \theta$: $\lim_{n \to \infty} F_{X_{(n)}}(x) = \lim_{n \to \infty} (x/\theta)^n = 0$ (pois $0 \le x/\theta < 1$). -->
+<!-- * Se $x \ge \theta$: $\lim_{n \to \infty} F_{X_{(n)}}(x) = \lim_{n \to \infty} 1 = 1$. -->
+<!-- Logo, $\lim_{n \to \infty} F_{X_{(n)}}(x) = F_X(x)$ para $x \neq \theta$. -->
+<!-- Como $F_X(x)$ é contínua em todos os pontos exceto $x=\theta$, temos $X_{(n)} \xrightarrow{D} \theta$. -->
+Em que $X=\theta, portanto $X_{(n)} \xrightarrow{D} \theta.$
+:::
+
+O requisito de continuidade é necessário para evitar anomalias. Veja o próximo exemplo.
+
+::: {#exm-conv-dist-continuidade name="Exemplo 5.6"}
+Sejam $\{X_n\}_{n \ge 1}$ e X v.a.s com $X_n = 1/n, n \ge 1,$ e $X = 0$.
+Mostre que $X_n \xrightarrow{D} X$.
+
+A f.d.a. de $X_n$ (v.a. degenerada em $1/n$) é:
+$$ F_{X_n}(x) = \begin{cases} 0, & x < 1/n \\ 1, & x \ge 1/n \end{cases} $$
+A f.d.a. de X (v.a. degenerada em 0) é:
+$$ F_X(x) = \begin{cases} 0, & x < 0 \\ 1, & x \ge 0 \end{cases} $$
+Analisando o limite:
+
+* Para $x < 0$: $\lim_{n \to \infty} F_{X_n}(x) = \lim_{n \to \infty} 0 = 0 = F_X(x)$.
+* Para $x > 0$: $\exists N$ tal que $1/N < x$. Para $n \ge N$, $1/n \le 1/N < x$, então $F_{X_n}(x) = 1$.
+  $\lim_{n \to \infty} F_{X_n}(x) = 1 = F_X(x)$.
+
+Notemos que $F_X(x)$ é descontínua em $x=0$.
+$F_{X_n}(0) = 0$ para todo $n$, mas $F_X(0) = 1$.
+Dessa forma, $\lim_{n \to \infty} F_{X_n}(x) = F_X(x)$, para todo ponto $x$ tal que $F_X$ é contínua, isto é, $x \neq 0$.
+Logo, $X_n \xrightarrow{D} X$.
+:::
+
+Sejam $X, X_1, X_2, \dots$ v.a.s com funções características $\varphi, \varphi_1, \varphi_2, \dots$ respectivamente.
+Se $\varphi_{X_n}(t) \rightarrow \varphi(t)$, para todo $t \in \mathbb{R}$, e $\varphi$ é contínua em $t=0$, então $\varphi$ é a função característica de alguma v.a., digamos $\varphi = \varphi_X$, e $X_n \xrightarrow{D} X$.
+
+Em particular, se $\varphi_{X_n}(t) \rightarrow e^{-t^2/2}$ para todo $t$, então $X_n \xrightarrow{D} Z$, onde $Z \sim N(0, 1)$.
+
+Um resultado similar vale para f.g.m.:
+Se $\exists \epsilon > 0$ tal que $\lim_{n \to \infty} M_{X_n}(t) = M_X(t), \forall t \in [-\epsilon, \epsilon]$, então $X_n \xrightarrow{D} X$.
+
+::: {#def-conv-media name="Definição 5.4 (Convergência em Média)"}
+A sequência $\{X_n\}_{n \ge 1}$ tem **convergência em média r**, ou em $L^r$, para X se
+$$ \lim_{n \to \infty} E[|X_n - X|^r] = 0 $$
+Notação: $X_n \xrightarrow{L^r} X$.
+Para $r=2$, temos **convergência em média quadrática**.
+:::
+
+::: {#exm-conv-media name="Exemplo 5.7"}
+Sejam $X_n$ v.a.s com $X_n \sim U(0, 1/n)$. Mostre que $X_n \xrightarrow{L^r} 0$ para qualquer $r \ge 1$.
+
+Temos que $X_n \sim U(0, 1/n)$, $n \ge 1$. A f.d.p. é $f_n(x) = n I_{(0, 1/n)}(x)$. Dessa forma,
+$$
+\begin{align*}
+E(|X_n - 0|^r) &= E(X_n^r) \quad (\text{pois } X_n > 0) \\
+&= \int_0^{1/n} x^r n \, dx \\
+&= n \left[ \frac{x^{r+1}}{r+1} \right]_0^{1/n} \\
+&= n \left( \frac{(1/n)^{r+1}}{r+1} - 0 \right) \\
+&= \frac{n}{r+1} \frac{1}{n^{r+1}} \\
+&= \frac{1}{(r+1)n^r}
+\end{align*}
+$$
+Assim,
+$$ \lim_{n \to \infty} E(|X_n - 0|^r) = \lim_{n \to \infty} \frac{1}{(r+1)n^r} = 0, \quad \text{para qualquer } r \ge 1 $$
+Logo, $X_n \xrightarrow{L^r} 0, \forall r \ge 1$.
+:::
+
+::: {#prp-relacoes-conv name="Proposição 5.1 (Relações entre tipos de convergência)"}
+Sejam $\{X_n\}$ e X v.a.s em $(\Omega, \mathcal{F}, \mathbb{P})$. Então,
+
+1) Se $\{ X_n \xrightarrow{q.c.} X \text{ ou } X_n \xrightarrow{L^r} X \} \implies X_n \xrightarrow{P} X$
+2) Se $X_n \xrightarrow{P} X \implies X_n \xrightarrow{D} X$
+3) Se $X_n \xrightarrow{D} c \text{ (constante)} \implies X_n \xrightarrow{P} c.$
+:::
+
+::: {#prp-conv-dist-casos name="Proposição 5.2 (Conv. em distribuição - casos discreto e contínuo)"}
+1. Se a f.p. de $X_n$ é $p_n(x_k) = \mathbb{P}(X_n = x_k)$ e a de X é $p(x_k)$, e as v.a.s tomam valores $x_1, x_2, \dots$, então
+   $$ p_n(x_k) \rightarrow p(x_k), n \rightarrow \infty \text{ e }\forall k \implies X_n \xrightarrow{D} X $$
+2. Sejam $X, X_1, X_2, \dots$ com f.d.p. $f, f_1, f_2, \dots$, respectivamente. Se $f_n(x) \rightarrow f(x)$ quando $n \rightarrow \infty$ para quase todo $x$ relativamente à medida de Lebesgue, então $X_n \xrightarrow{D} X$.
+   **Nota:** O conjunto $\{x : f_n(x) \not\rightarrow f(x)\}$ deve ter medida de Lebesgue nula (comprimento zero).
+:::

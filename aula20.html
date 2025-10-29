@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>References – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>14&nbsp; Tipos de Convergência – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./aula24.html" rel="prev">
+<link href="./aula21.html" rel="next">
+<link href="./aula19.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -89,6 +71,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -101,7 +112,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula20.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tipos de Convergência</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -223,7 +234,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aula20.html" class="sidebar-item-text sidebar-link">
+  <a href="./aula20.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tipos de Convergência</span></span></a>
   </div>
 </li>
@@ -254,7 +265,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -269,9 +280,9 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula20.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tipos de Convergência</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tipos de Convergência</span></h1>
 </div>
 
 
@@ -288,8 +299,55 @@ div.csl-indent {
 </header>
 
 
-
-
+<p><strong>Contexto:</strong> <span class="math inline">\(X, X_1, X_2, \dots\)</span> v.a.s definidas em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>. Nosso objetivo é estudar formas de convergência de <span class="math inline">\(X_n\)</span> para <span class="math inline">\(X\)</span>.</p>
+<p><strong>Nota:</strong> Convergência de funções. Dizemos que <span class="math inline">\(X_n \rightarrow X\)</span> quando <span class="math inline">\(n \rightarrow \infty\)</span> se, para cada <span class="math inline">\(\epsilon &gt; 0\)</span> e <span class="math inline">\(\omega \in \Omega\)</span>, <span class="math inline">\(\exists n_0 = n(\epsilon, \omega)\)</span> tal que <span class="math display">\[|X_n(\omega) - X(\omega)| &lt; \epsilon, \forall n &gt; n_0.\]</span></p>
+<p>Note que, para cada <span class="math inline">\(\omega \in \Omega\)</span>, <span class="math inline">\(X_n(\omega)\)</span> é uma sequência de números e a definição acima é a definição de convergência de sequências reais. Essa convergência é chamada de <strong>convergência pontual</strong> ou ponto a ponto.</p>
+<p>Na teoria das probabilidades existem outras formas de convergência que são de interesse.</p>
+<div id="def-conv-qc" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 14.1 (Definição 5.1 (Convergência Quase Certa))</strong></span> A sequência <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> tem <strong>convergência quase certa</strong> para X se existir um conjunto <span class="math inline">\(A \in \mathcal{F}\)</span> tal que <span class="math inline">\(\mathbb{P}(A) = 0\)</span> e <span class="math inline">\(X_n(\omega) \rightarrow X(\omega)\)</span> em <span class="math inline">\(A^c\)</span>, quando <span class="math inline">\(n \rightarrow \infty\)</span>. Equivalentemente, se, e somente se, <span class="math display">\[ \mathbb{P}(\lim_{n \to \infty} X_n = X) = 1 \Leftrightarrow \mathbb{P}(\{\omega \in \Omega : \lim_{n \to \infty} X_n(\omega) = X(\omega)\}) = 1 \]</span> Notação: <span class="math inline">\(X_n \xrightarrow{q.c.} X\)</span>.</p>
+<p>Note que a convergência quase certa é a convergência pontual com probabilidade 1. Essa convergência é também chamada de <strong>convergência forte</strong>.</p>
+</div>
+<div id="def-conv-prob" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 14.2 (Definição 5.2 (Convergência em Probabilidade))</strong></span> A sequência <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> tem <strong>convergência em probabilidade</strong> para X se, <span class="math inline">\(\forall \epsilon &gt; 0\)</span>, <span class="math display">\[ \lim_{n \to \infty} \mathbb{P}(|X_n - X| \geq \epsilon) = 0 \Leftrightarrow \lim_{n \to \infty} \mathbb{P}(\{\omega \in \Omega : |X_n(\omega) - X(\omega)| \geq \epsilon\}) = 0 \]</span> Notação: <span class="math inline">\(X_n \xrightarrow{P} X\)</span>.</p>
+<p>A convergência em probabilidade não diz respeito à convergência pontual, apenas afirma que, para <span class="math inline">\(n\)</span> grande, as v.a.s <span class="math inline">\(X_n\)</span> e X são aproximadamente iguais com probabilidade alta. Essa convergência é chamada de <strong>convergência fraca</strong>.</p>
+</div>
+<div id="exm-conv-qc-1" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 14.1 (Exemplo 5.1)</strong></span> Seja <span class="math inline">\(\Omega = (0, 1)\)</span> e defina <span class="math inline">\(X_n(\omega) = \frac{\omega}{n}\)</span>. Para cada <span class="math inline">\(\omega \in \Omega\)</span>, <span class="math inline">\(\lim_{n \to \infty} X_n(\omega) = 0\)</span>. Dessa forma, <span class="math display">\[ \mathbb{P}(\{\omega \in \Omega : \lim_{n \to \infty} X_n(\omega) = 0\}) = \mathbb{P}(\Omega) = 1 \]</span> Logo, <span class="math inline">\(X_n \xrightarrow{q.c.} 0\)</span>. Note que <span class="math inline">\(X_n \rightarrow 0\)</span> (pontualmente).</p>
+</div>
+<div id="exm-conv-prob-1" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 14.2 (Exemplo 5.2)</strong></span> Seja <span class="math inline">\(X_n \sim \text{Bernoulli}(p_n)\)</span>, <span class="math inline">\(p_n = (1/2)^n, n=1, 2, \dots\)</span> Mostre que <span class="math inline">\(X_n \xrightarrow{P} 0\)</span>.</p>
+<p>Para todo <span class="math inline">\(\epsilon &gt; 0\)</span>, <span class="math display">\[ 0 \le \lim_{n \to \infty} \mathbb{P}(|X_n| \ge \epsilon) \le \lim_{n \to \infty} \frac{E(|X_n|)}{\epsilon} \]</span> Como <span class="math inline">\(X_n\)</span> só assume valores 0 e 1, <span class="math inline">\(|X_n| = X_n\)</span>. <span class="math inline">\(E(X_n) = p_n = (1/2)^n\)</span> <span class="math display">\[ \le \lim_{n \to \infty} \frac{(1/2)^n}{\epsilon} = 0 \]</span> Logo, <span class="math inline">\(\lim_{n \to \infty} \mathbb{P}(|X_n - 0| \ge \epsilon) = 0\)</span>, portanto <span class="math inline">\(X_n \xrightarrow{P} 0\)</span>.</p>
+</div>
+<div id="exm-conv-qc-2" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 14.3 (Exemplo 5.3)</strong></span> Seja <span class="math inline">\(([0, 1], \mathcal{B}([0, 1]), \mathbb{P})\)</span> um espaço de probabilidade com <span class="math inline">\(\mathbb{P}(I) = \text{comprimento}(I), I \in \mathcal{B}([0, 1])\)</span>. Seja <span class="math inline">\(X_n\)</span> tal que <span class="math inline">\(X_n(\omega) = n I_{[0, 1/n]}(\omega), n=1, 2, \dots\)</span> Mostre que <span class="math inline">\(X_n \xrightarrow{q.c.} 0\)</span>.</p>
+<p>Note que <span class="math inline">\(X_n(0) = n.\)</span> Mostramos que <span class="math inline">\(\lim_{n \to \infty} X_n(\omega) = 0, \forall \omega \in (0, 1]\)</span>. <strong>(Se <span class="math inline">\(\omega &gt; 0\)</span>, existe <span class="math inline">\(N\)</span> tal que <span class="math inline">\(1/N &lt; \omega\)</span>. Para todo <span class="math inline">\(n \ge N\)</span>, <span class="math inline">\(1/n \le 1/N &lt; \omega\)</span>, então <span class="math inline">\(\omega \notin (0, 1/n]\)</span>, logo <span class="math inline">\(X_n(\omega) = n \cdot 0 = 0\)</span>. Portanto, <span class="math inline">\(\lim_{n \to \infty} X_n(\omega) = 0\)</span>.)</strong> Como <span class="math inline">\(\mathbb{P}((0, 1]) = 1\)</span>, temos que <span class="math inline">\(X_n \xrightarrow{q.c.} 0\)</span>.</p>
+</div>
+<p>A principal ferramenta para provar convergência quase certa é o lema de Borel-Cantelli, enunciado a seguir.</p>
+<div id="thm-borel-cantelli" class="theorem">
+<p><span class="theorem-title"><strong>Teorema 14.1 (Lema de Borel-Cantelli)</strong></span> Sejam <span class="math inline">\(A_1, A_2, \dots\)</span> eventos em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>, em que <span class="math inline">\(\mathbb{P}(A_n) = p_n, n=1, 2, \dots\)</span> Temos que</p>
+<ol type="i">
+<li>Se <span class="math inline">\(\sum_{n=1}^\infty p_n &lt; \infty\)</span>, então <span class="math inline">\(\mathbb{P}(\limsup A_n) = 0\)</span>.</li>
+<li>Se <span class="math inline">\(\sum_{n=1}^\infty p_n = \infty\)</span> e os <span class="math inline">\(A_n\)</span>’s são independentes, então <span class="math inline">\(\mathbb{P}(\limsup A_n) = 1\)</span>.</li>
+</ol>
+<p><strong>Demonstração:</strong> Seja <span class="math inline">\(B_n = \bigcup_{k=n}^\infty A_k\)</span>. Notemos que <span class="math inline">\(\{B_n\}_{n \ge 1}\)</span> é uma sequência não crescente e <span class="math inline">\(\lim_{n \to \infty} B_n = \bigcap_{n=1}^\infty B_n = \bigcap_{n=1}^\infty \bigcup_{k=n}^\infty A_k = \limsup A_n\)</span>.</p>
+<p><strong>(i):</strong> <span class="math display">\[ 0 \le \mathbb{P}(\limsup A_n) = \mathbb{P}(\lim_{n \to \infty} B_n) = \lim_{n \to \infty} \mathbb{P}(B_n) \quad (\text{Continuidade da Prob.}) \]</span> <span class="math display">\[ = \lim_{n \to \infty} \mathbb{P}(\bigcup_{k=n}^\infty A_k) \le \lim_{n \to \infty} \sum_{k=n}^\infty \mathbb{P}(A_k) \quad (\text{Subaditividade}) \]</span> <span class="math display">\[ = \lim_{n \to \infty} \sum_{k=n}^\infty p_k = 0 \quad (\text{Cauda de série convergente}) \]</span> Logo, <span class="math inline">\(\mathbb{P}(\limsup A_n) = 0\)</span>.</p>
+<p><strong>(ii):</strong></p>
+<p>Vamos trabalhar com eventos complementares. Seja <span class="math inline">\((\limsup A_n)^c =\)</span> <!-- \liminf A_n^c = \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k^c =  --> <span class="math inline">\(\bigcup_{n=1}^\infty B_n^c\)</span> com <span class="math inline">\(B_n^c = \bigcap_{k=n}^\infty A_k^c,\)</span> <span class="math inline">\(n=1,2,\dots\)</span>. Consideremos <span class="math inline">\(m\)</span> inteiro positivo com <span class="math inline">\(m &gt; n\)</span>. Então <span class="math display">\[ 0 \le \mathbb{P}(B_n^c) = \mathbb{P}(\bigcap_{k=n}^\infty A_k^c) \le \mathbb{P}(\bigcap_{k=n}^m A_k^c) \]</span> <span class="math display">\[ \stackrel{\text{indep.}}{=} \prod_{k=n}^m \mathbb{P}(A_k^c) = \prod_{k=n}^m (1 - p_k) \]</span> Usando a desigualdade <span class="math inline">\(1 - x \le e^{-x}, \forall x \in [0,1]\)</span>: <span class="math display">\[ \le \prod_{k=n}^m e^{-p_k} = \exp\left\{ -\sum_{k=n}^m p_k \right\} \]</span> Fixado n, temos que <span class="math inline">\(\lim_{m \to \infty} \sum_{k=n}^m p_k = \infty\)</span>, pois a série diverge. <span class="math display">\[ \Rightarrow \lim_{m \to \infty} \exp\left\{ -\sum_{k=n}^m p_k \right\} = 0 \]</span> Logo, <span class="math inline">\(\mathbb{P}(B_n^c) = 0\)</span>. Assim, <span class="math display">\[ \mathbb{P}((\limsup A_n)^c) = \mathbb{P}(\bigcup_{n=1}^\infty B_n^c) \le \sum_{n=1}^\infty \mathbb{P}(B_n^c) = \sum_{n=1}^\infty 0 = 0,\]</span> pois <span class="math inline">\(\mathbb{P}(B_n^c)=0, \forall n=1,2,\dots.\)</span> <span class="math display">\[\Rightarrow \mathbb{P}((\limsup A_n)^c) = 0 \Rightarrow \mathbb{P}(\limsup A_n) = 1.\]</span></p>
+</div>
+<div id="lem-conv-qc" class="lemma theorem">
+<p><span class="theorem-title"><strong>Lema 14.1 (Lema 5.1)</strong></span> Seja <span class="math inline">\(A_{n,m} = \{\omega \in \Omega : |X_n(\omega) - X(\omega)| &gt; 1/m\}\)</span>. Se, para todo <span class="math inline">\(m \in \mathbb{N}\)</span>, <span class="math inline">\(\sum_{n=1}^\infty \mathbb{P}(A_{n,m}^c) &lt; \infty\)</span>, então <span class="math inline">\(X_n \xrightarrow{q.c.} X\)</span>. <strong>(Prova: exercício)</strong></p>
+<p><strong>Comentário:</strong> Equivalentemente, se <span class="math inline">\(\sum_{n=1}^\infty \mathbb{P}(|X_n - X| \geq \epsilon) &lt; \infty, \forall \epsilon &gt; 0\)</span>, então <span class="math inline">\(X_n \xrightarrow{q.c.} X\)</span>. <!-- **(Isto segue do Lema de Borel-Cantelli (i) aplicado ao evento $A_n^\epsilon = \{|X_n - X| > \epsilon\}$. Se a soma das probabilidades converge, $\mathbb{P}(\limsup A_n^\epsilon) = 0$, o que significa que a probabilidade de $|X_n - X|$ ser maior que $\epsilon$ infinitas vezes é zero, para qualquer $\epsilon$. Isso implica $X_n \to X$ q.c.)** --></p>
+</div>
+<div id="exm-conv-qc-minimo" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 14.4 (Exemplo 5.4)</strong></span> Seja <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> uma sequência de v.a.s iid com <span class="math inline">\(X_n \sim U(0, 1), n=1, 2, \dots\)</span> Seja <span class="math inline">\(Y_n = \min\{X_1, \dots, X_n\}, n \ge 1\)</span>. Mostre que <span class="math inline">\(Y_n \xrightarrow{q.c.} 0\)</span>.</p>
+<p>Temos que, <span class="math inline">\(\forall n \in \mathbb{N}\)</span> e <span class="math inline">\(\forall \epsilon \in (0, 1)\)</span>: <span class="math display">\[\begin{align*} \mathbb{P}(|Y_n - 0| &gt; \epsilon) &amp;= \mathbb{P}(Y_n &gt; \epsilon) \quad\quad (\text{pois } Y_n &gt; 0) \\
+&amp;= \mathbb{P}(\min\{X_1, \dots, X_n\} &gt; \epsilon) \\
+&amp;= \mathbb{P}(X_1 &gt; \epsilon, \dots, X_n &gt; \epsilon) \\
+&amp;\stackrel{\text{iid}}{=} [\mathbb{P}(X_1 &gt; \epsilon)]^n = [1 - \mathbb{P}(X_1 \le \epsilon)]^n \\
+&amp;= [1 - F_{X_1}(\epsilon)]^n \\
+&amp;= (1 - \epsilon)^n
+\end{align*}\]</span> Logo, <span class="math display">\[ \sum_{n=1}^\infty \mathbb{P}(|Y_n| &gt; \epsilon) = \sum_{n=1}^\infty (1 - \epsilon)^n \]</span> Esta é uma série geométrica com razão <span class="math inline">\(r = (1 - \epsilon)\)</span>. Como <span class="math inline">\(\epsilon \in (0, 1)\)</span>, temos <span class="math inline">\(0 &lt; r &lt; 1\)</span>. A série converge. Pelo Lema 5.1 (<span class="citation" data-cites="lema-conv-qc">(<a href="references.html#ref-lema-conv-qc" role="doc-biblioref"><strong>lema-conv-qc?</strong></a>)</span>), Portanto, <span class="math inline">\(Y_n \xrightarrow{q.c.} 0\)</span>.</p>
+</div>
 
 
 
@@ -696,11 +754,14 @@ div.csl-indent {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./aula24.html" class="pagination-link" aria-label="24 Introdução: O Dilema do Teste A/B">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span>
+      <a href="./aula19.html" class="pagination-link" aria-label="Esperança Condicional">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Esperança Condicional</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./aula21.html" class="pagination-link" aria-label="Outros Tipos de Convergência">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Outros Tipos de Convergência</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>References – Probabilidade e Inferência Estatística para Ciência de Dados</title>
+<title>15&nbsp; Outros Tipos de Convergência – Probabilidade e Inferência Estatística para Ciência de Dados</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,26 +20,7 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-}
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -49,7 +30,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./aula24.html" rel="prev">
+<link href="./020_inferencia.html" rel="next">
+<link href="./aula20.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
@@ -89,6 +71,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -101,7 +112,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./references.html">References</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula21.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Outros Tipos de Convergência</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Procurar" onclick="window.quartoOpenSearch();">
@@ -229,7 +240,7 @@ div.csl-indent {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./aula21.html" class="sidebar-item-text sidebar-link">
+  <a href="./aula21.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Outros Tipos de Convergência</span></span></a>
   </div>
 </li>
@@ -254,7 +265,7 @@ div.csl-indent {
   </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link active">
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -269,9 +280,9 @@ div.csl-indent {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default">
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./010_probabilidade.html">Módulo Probabilidade</a></li><li class="breadcrumb-item"><a href="./aula21.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Outros Tipos de Convergência</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">References</h1>
+<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Outros Tipos de Convergência</span></h1>
 </div>
 
 
@@ -288,8 +299,68 @@ div.csl-indent {
 </header>
 
 
-
-
+<div id="def-conv-dist" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 15.1 (Definição 5.3 (Convergência em Distribuição))</strong></span> Sejam <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> e X v.a.s com f.d.a. <span class="math inline">\(F_n\)</span> e F, respectivamente. Dizemos que <span class="math inline">\(X_n\)</span> <strong>converge em distribuição</strong> para X se, para todo ponto <span class="math inline">\(x\)</span> em que F é contínua, tivermos <span class="math display">\[ \lim_{n \to \infty} F_n(x) = F(x) \]</span> Notação: <span class="math inline">\(X_n \xrightarrow{D} X\)</span>.</p>
+</div>
+<div id="exm-conv-dist-maximo" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 15.1 (Exemplo 5.5)</strong></span> Seja <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> uma sequência de v.a.s independentes (<strong>e identicamente distribuídas</strong>) com distribuição Uniforme em <span class="math inline">\((0, \theta)\)</span>, <span class="math inline">\(\theta &gt; 0\)</span>. Mostre que <span class="math inline">\(X_{(n)} \xrightarrow{D} \theta\)</span>.</p>
+<p>Seja <span class="math inline">\(X_{(n)} = \max\{X_1, \dots, X_n\}\)</span>. A f.d.a. de <span class="math inline">\(X_{(n)}\)</span> é: <span class="math display">\[
+\begin{align*}
+F_{X_{(n)}}(x) &amp;= \mathbb{P}(X_{(n)} \le x) = \mathbb{P}(\max\{X_1, \dots, X_n\} \le x) \\
+&amp;= \mathbb{P}(X_1 \le x, \dots, X_n \le x) \\
+&amp;\stackrel{\text{iid}}{=} \prod_{i=1}^n \mathbb{P}(X_i \le x) = [\mathbb{P}(X_1 \le x)]^n
+\end{align*}
+\]</span> Como <span class="math inline">\(X_1 \sim U(0, \theta)\)</span>, <span class="math inline">\(F_{X_1}(x) = x/\theta\)</span> para <span class="math inline">\(x \in (0, \theta)\)</span>. <span class="math display">\[ F_{X_{(n)}}(x) = (x/\theta)^n, \quad \forall x \in (0, \theta) \]</span> A f.d.a. completa é: <span class="math display">\[ F_{X_{(n)}}(x) = \begin{cases} 0, &amp; x &lt; 0 \\ (x/\theta)^n, &amp; 0 \le x &lt; \theta \\ 1, &amp; x \ge \theta \end{cases} \]</span> A f.d.a. da v.a. constante <span class="math inline">\(X = \theta\)</span> é: <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; \theta \\ 1, &amp; x \ge \theta \end{cases} \]</span> <!-- TODO: analisar o comentario abaixo, se deve ser adicionado --> <!-- Analisando o limite de $F_{X_{(n)}}(x)$: --></p>
+<!-- * Se $x < \theta$: $\lim_{n \to \infty} F_{X_{(n)}}(x) = \lim_{n \to \infty} (x/\theta)^n = 0$ (pois $0 \le x/\theta < 1$). -->
+<!-- * Se $x \ge \theta$: $\lim_{n \to \infty} F_{X_{(n)}}(x) = \lim_{n \to \infty} 1 = 1$. -->
+<!-- Logo, $\lim_{n \to \infty} F_{X_{(n)}}(x) = F_X(x)$ para $x \neq \theta$. -->
+<!-- Como $F_X(x)$ é contínua em todos os pontos exceto $x=\theta$, temos $X_{(n)} \xrightarrow{D} \theta$. -->
+<p>Em que $X=, portanto <span class="math inline">\(X_{(n)} \xrightarrow{D} \theta.\)</span></p>
+</div>
+<p>O requisito de continuidade é necessário para evitar anomalias. Veja o próximo exemplo.</p>
+<div id="exm-conv-dist-continuidade" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 15.2 (Exemplo 5.6)</strong></span> Sejam <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> e X v.a.s com <span class="math inline">\(X_n = 1/n, n \ge 1,\)</span> e <span class="math inline">\(X = 0\)</span>. Mostre que <span class="math inline">\(X_n \xrightarrow{D} X\)</span>.</p>
+<p>A f.d.a. de <span class="math inline">\(X_n\)</span> (v.a. degenerada em <span class="math inline">\(1/n\)</span>) é: <span class="math display">\[ F_{X_n}(x) = \begin{cases} 0, &amp; x &lt; 1/n \\ 1, &amp; x \ge 1/n \end{cases} \]</span> A f.d.a. de X (v.a. degenerada em 0) é: <span class="math display">\[ F_X(x) = \begin{cases} 0, &amp; x &lt; 0 \\ 1, &amp; x \ge 0 \end{cases} \]</span> Analisando o limite:</p>
+<ul>
+<li>Para <span class="math inline">\(x &lt; 0\)</span>: <span class="math inline">\(\lim_{n \to \infty} F_{X_n}(x) = \lim_{n \to \infty} 0 = 0 = F_X(x)\)</span>.</li>
+<li>Para <span class="math inline">\(x &gt; 0\)</span>: <span class="math inline">\(\exists N\)</span> tal que <span class="math inline">\(1/N &lt; x\)</span>. Para <span class="math inline">\(n \ge N\)</span>, <span class="math inline">\(1/n \le 1/N &lt; x\)</span>, então <span class="math inline">\(F_{X_n}(x) = 1\)</span>. <span class="math inline">\(\lim_{n \to \infty} F_{X_n}(x) = 1 = F_X(x)\)</span>.</li>
+</ul>
+<p>Notemos que <span class="math inline">\(F_X(x)\)</span> é descontínua em <span class="math inline">\(x=0\)</span>. <span class="math inline">\(F_{X_n}(0) = 0\)</span> para todo <span class="math inline">\(n\)</span>, mas <span class="math inline">\(F_X(0) = 1\)</span>. Dessa forma, <span class="math inline">\(\lim_{n \to \infty} F_{X_n}(x) = F_X(x)\)</span>, para todo ponto <span class="math inline">\(x\)</span> tal que <span class="math inline">\(F_X\)</span> é contínua, isto é, <span class="math inline">\(x \neq 0\)</span>. Logo, <span class="math inline">\(X_n \xrightarrow{D} X\)</span>.</p>
+</div>
+<p>Sejam <span class="math inline">\(X, X_1, X_2, \dots\)</span> v.a.s com funções características <span class="math inline">\(\varphi, \varphi_1, \varphi_2, \dots\)</span> respectivamente. Se <span class="math inline">\(\varphi_{X_n}(t) \rightarrow \varphi(t)\)</span>, para todo <span class="math inline">\(t \in \mathbb{R}\)</span>, e <span class="math inline">\(\varphi\)</span> é contínua em <span class="math inline">\(t=0\)</span>, então <span class="math inline">\(\varphi\)</span> é a função característica de alguma v.a., digamos <span class="math inline">\(\varphi = \varphi_X\)</span>, e <span class="math inline">\(X_n \xrightarrow{D} X\)</span>.</p>
+<p>Em particular, se <span class="math inline">\(\varphi_{X_n}(t) \rightarrow e^{-t^2/2}\)</span> para todo <span class="math inline">\(t\)</span>, então <span class="math inline">\(X_n \xrightarrow{D} Z\)</span>, onde <span class="math inline">\(Z \sim N(0, 1)\)</span>.</p>
+<p>Um resultado similar vale para f.g.m.: Se <span class="math inline">\(\exists \epsilon &gt; 0\)</span> tal que <span class="math inline">\(\lim_{n \to \infty} M_{X_n}(t) = M_X(t), \forall t \in [-\epsilon, \epsilon]\)</span>, então <span class="math inline">\(X_n \xrightarrow{D} X\)</span>.</p>
+<div id="def-conv-media" class="theorem definition">
+<p><span class="theorem-title"><strong>Definição 15.2 (Definição 5.4 (Convergência em Média))</strong></span> A sequência <span class="math inline">\(\{X_n\}_{n \ge 1}\)</span> tem <strong>convergência em média r</strong>, ou em <span class="math inline">\(L^r\)</span>, para X se <span class="math display">\[ \lim_{n \to \infty} E[|X_n - X|^r] = 0 \]</span> Notação: <span class="math inline">\(X_n \xrightarrow{L^r} X\)</span>. Para <span class="math inline">\(r=2\)</span>, temos <strong>convergência em média quadrática</strong>.</p>
+</div>
+<div id="exm-conv-media" class="theorem example">
+<p><span class="theorem-title"><strong>Exemplo 15.3 (Exemplo 5.7)</strong></span> Sejam <span class="math inline">\(X_n\)</span> v.a.s com <span class="math inline">\(X_n \sim U(0, 1/n)\)</span>. Mostre que <span class="math inline">\(X_n \xrightarrow{L^r} 0\)</span> para qualquer <span class="math inline">\(r \ge 1\)</span>.</p>
+<p>Temos que <span class="math inline">\(X_n \sim U(0, 1/n)\)</span>, <span class="math inline">\(n \ge 1\)</span>. A f.d.p. é <span class="math inline">\(f_n(x) = n I_{(0, 1/n)}(x)\)</span>. Dessa forma, <span class="math display">\[
+\begin{align*}
+E(|X_n - 0|^r) &amp;= E(X_n^r) \quad (\text{pois } X_n &gt; 0) \\
+&amp;= \int_0^{1/n} x^r n \, dx \\
+&amp;= n \left[ \frac{x^{r+1}}{r+1} \right]_0^{1/n} \\
+&amp;= n \left( \frac{(1/n)^{r+1}}{r+1} - 0 \right) \\
+&amp;= \frac{n}{r+1} \frac{1}{n^{r+1}} \\
+&amp;= \frac{1}{(r+1)n^r}
+\end{align*}
+\]</span> Assim, <span class="math display">\[ \lim_{n \to \infty} E(|X_n - 0|^r) = \lim_{n \to \infty} \frac{1}{(r+1)n^r} = 0, \quad \text{para qualquer } r \ge 1 \]</span> Logo, <span class="math inline">\(X_n \xrightarrow{L^r} 0, \forall r \ge 1\)</span>.</p>
+</div>
+<div id="prp-relacoes-conv" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposição 15.1 (Proposição 5.1 (Relações entre tipos de convergência))</strong></span> Sejam <span class="math inline">\(\{X_n\}\)</span> e X v.a.s em <span class="math inline">\((\Omega, \mathcal{F}, \mathbb{P})\)</span>. Então,</p>
+<ol type="1">
+<li>Se <span class="math inline">\(\{ X_n \xrightarrow{q.c.} X \text{ ou } X_n \xrightarrow{L^r} X \} \implies X_n \xrightarrow{P} X\)</span></li>
+<li>Se <span class="math inline">\(X_n \xrightarrow{P} X \implies X_n \xrightarrow{D} X\)</span></li>
+<li>Se <span class="math inline">\(X_n \xrightarrow{D} c \text{ (constante)} \implies X_n \xrightarrow{P} c.\)</span></li>
+</ol>
+</div>
+<div id="prp-conv-dist-casos" class="theorem proposition">
+<p><span class="theorem-title"><strong>Proposição 15.2 (Proposição 5.2 (Conv. em distribuição - casos discreto e contínuo))</strong></span> &nbsp;</p>
+<ol type="1">
+<li>Se a f.p. de <span class="math inline">\(X_n\)</span> é <span class="math inline">\(p_n(x_k) = \mathbb{P}(X_n = x_k)\)</span> e a de X é <span class="math inline">\(p(x_k)\)</span>, e as v.a.s tomam valores <span class="math inline">\(x_1, x_2, \dots\)</span>, então <span class="math display">\[ p_n(x_k) \rightarrow p(x_k), n \rightarrow \infty \text{ e }\forall k \implies X_n \xrightarrow{D} X \]</span></li>
+<li>Sejam <span class="math inline">\(X, X_1, X_2, \dots\)</span> com f.d.p. <span class="math inline">\(f, f_1, f_2, \dots\)</span>, respectivamente. Se <span class="math inline">\(f_n(x) \rightarrow f(x)\)</span> quando <span class="math inline">\(n \rightarrow \infty\)</span> para quase todo <span class="math inline">\(x\)</span> relativamente à medida de Lebesgue, então <span class="math inline">\(X_n \xrightarrow{D} X\)</span>. <strong>Nota:</strong> O conjunto <span class="math inline">\(\{x : f_n(x) \not\rightarrow f(x)\}\)</span> deve ter medida de Lebesgue nula (comprimento zero).</li>
+</ol>
+</div>
 
 
 
@@ -696,11 +767,14 @@ div.csl-indent {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./aula24.html" class="pagination-link" aria-label="24 Introdução: O Dilema do Teste A/B">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">24 Introdução: O Dilema do Teste A/B</span></span>
+      <a href="./aula20.html" class="pagination-link" aria-label="Tipos de Convergência">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Tipos de Convergência</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="./020_inferencia.html" class="pagination-link" aria-label="Módulo Inferência Estatística">
+        <span class="nav-page-text">Módulo Inferência Estatística</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->

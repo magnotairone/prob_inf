@@ -81,7 +81,7 @@ Logo, $\mathbb{P}(\limsup A_n) = 0$.
 
 Vamos trabalhar com eventos complementares.
 Seja $(\limsup A_n)^c =$ 
-<!-- \liminf A_n^c = \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k^c =  -->
+\liminf A_n^c = \bigcup_{n=1}^\infty \bigcap_{k=n}^\infty A_k^c =
 $\bigcup_{n=1}^\infty B_n^c$
 com $B_n^c = \bigcap_{k=n}^\infty A_k^c,$ $n=1,2,\dots$.
 Consideremos $m$ inteiro positivo com $m > n$. Então
@@ -103,7 +103,8 @@ Se, para todo $m \in \mathbb{N}$, $\sum_{n=1}^\infty \mathbb{P}(A_{n,m}^c) < \in
 **(Prova: exercício)**
 
 **Comentário:** Equivalentemente, se $\sum_{n=1}^\infty \mathbb{P}(|X_n - X| \geq \epsilon) < \infty, \forall \epsilon > 0$, então $X_n \xrightarrow{q.c.} X$.
-<!-- **(Isto segue do Lema de Borel-Cantelli (i) aplicado ao evento $A_n^\epsilon = \{|X_n - X| > \epsilon\}$. Se a soma das probabilidades converge, $\mathbb{P}(\limsup A_n^\epsilon) = 0$, o que significa que a probabilidade de $|X_n - X|$ ser maior que $\epsilon$ infinitas vezes é zero, para qualquer $\epsilon$. Isso implica $X_n \to X$ q.c.)** -->
+<!-- TODO: verificar comentario abaixo -->
+**(Isto segue do Lema de Borel-Cantelli (i) aplicado ao evento $A_n^\epsilon = \{|X_n - X| > \epsilon\}$. Se a soma das probabilidades converge, $\mathbb{P}(\limsup A_n^\epsilon) = 0$, o que significa que a probabilidade de $|X_n - X|$ ser maior que $\epsilon$ infinitas vezes é zero, para qualquer $\epsilon$. Isso implica $X_n \to X$ q.c.)**
 :::
 
 ::: {#exm-conv-qc-minimo name="Exemplo 5.4"}
